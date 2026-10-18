@@ -1,0 +1,16 @@
+# Segredos
+.env
+.env.*
+!.env.example
+
+# Dependências / build
+node_modules/
+.next/
+dist/
+build/
+.vercel/
+*.tsbuildinfo
+.DS_Store
+
+# Site de referência (material de estudo, não faz parte do app)
+saveweb2zip-com-*/
