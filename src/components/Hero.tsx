@@ -48,15 +48,18 @@ export function Hero() {
           </p>
         </div>
         <div className="hero-photo-wrap">
-          <Image
-            className="hero-photo"
-            src="/images/kit-completo.jpg"
-            alt="Capa do kit Pequenos Passos — Alfabetização em Casa, com a lista completa de entregáveis e amostras das atividades impressas"
-            width={1024}
-            height={1076}
-            priority
-            sizes="(max-width: 900px) 100vw, 420px"
-          />
+          <figure className="hero-page">
+            <Image
+              className="hero-photo"
+              src="/images/aprender-amor.jpg"
+              alt="Ilustração de mãe e filha aprendendo juntas em casa: dá para ensinar seu filho no tempo livre e brincando"
+              width={1200}
+              height={1200}
+              priority
+              sizes="(max-width: 900px) 100vw, 460px"
+            />
+            <span className="hero-page-fold" aria-hidden="true" />
+          </figure>
         </div>
       </div>
     </header>

@@ -31,6 +31,10 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap"
         />
+        <script
+          src="https://mcp.figma.com/mcp/html-to-design/capture.js"
+          async
+        />
       </head>
       <body>
         <a className="skip-link" href="#conteudo">

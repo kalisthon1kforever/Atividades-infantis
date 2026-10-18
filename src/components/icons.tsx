@@ -18,6 +18,14 @@ export function CheckIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function XIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} strokeWidth={3.2} {...props}>
+      <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
+    </svg>
+  );
+}
+
 export function ShieldIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>
