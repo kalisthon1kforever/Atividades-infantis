@@ -20,15 +20,15 @@ export function Hero() {
             Material educativo complementar para casa
           </span>
           <h1>
-            <span className="hl">100 atividades prontas para imprimir</span> que
-            transformam 15 minutos do dia em um momento de aprendizagem com seu
-            filho.
+            <span className="c-g">100 atividades prontas para imprimir</span>{" "}
+            <span className="c-o">sem preparar nada do zero</span>{" "}
+            <span className="c-b">para fazer 15 minutos ao lado do seu filho</span>
+            <span className="h1-sub">
+              Pratique letras, palavras, números e atenção com material
+              organizado por habilidade, para usar em casa e no ritmo da
+              criança.
+            </span>
           </h1>
-          <p className="hero-sub">
-            Pratique letras, palavras, números e atenção com atividades
-            organizadas por habilidade, para fazer em casa e no ritmo da
-            criança — sem precisar inventar tudo do zero.
-          </p>
           <ul className="checks hero-checks">
             {checks.map((item) => (
               <li key={item}>
@@ -50,15 +50,13 @@ export function Hero() {
         <div className="hero-photo-wrap">
           <Image
             className="hero-photo"
-            src="/hero-familia.png"
-            alt="Mãe e criança fazendo atividades educativas impressas em uma mesa, com letras, números e cartões ilustrados"
-            width={1536}
-            height={864}
+            src="/images/kit-completo.jpg"
+            alt="Capa do kit Pequenos Passos — Alfabetização em Casa, com a lista completa de entregáveis e amostras das atividades impressas"
+            width={1024}
+            height={1076}
             priority
-            sizes="(max-width: 900px) 100vw, 480px"
+            sizes="(max-width: 900px) 100vw, 420px"
           />
-          <span className="hero-chip hero-chip-1">Sem tela</span>
-          <span className="hero-chip hero-chip-2">Cerca de 15 minutos</span>
         </div>
       </div>
     </header>

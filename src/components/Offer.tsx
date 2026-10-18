@@ -1,37 +1,44 @@
-import { offerConfig, formatBRL } from "@/config/offer";
-import { deliverables, modules } from "@/data/content";
-import { CheckIcon, ShieldIcon } from "./icons";
+import Image from "next/image";
+import { deliverables } from "@/data/content";
+import { formatBRL, offerConfig } from "@/config/offer";
+import { CtaButton } from "./CtaButton";
+import { CheckIcon, MailIcon, ShieldIcon } from "./icons";
+import { Faq } from "./Faq";
 
 export function Offer() {
-  const hasPrice = offerConfig.priceBRL !== null;
-  const hasCheckout = offerConfig.checkoutUrl.trim().length > 0;
+  const price = offerConfig.priceBRL;
 
   return (
-    <section
-      className="section section-alt"
-      id="oferta"
-      aria-labelledby="oferta-titulo"
-    >
+    <section className="section section-alt" id="oferta">
       <div className="container">
         <div className="section-head">
           <span className="kicker">Oferta</span>
-          <h2 id="oferta-titulo">
-            Conheça o kit{" "}
-            <span className="hl">Pequenos Passos</span>
+          <h2 className="title">
+            Garanta <span className="hl">o seu kit</span>
           </h2>
           <p className="lead">
-            Tudo o que você recebe, organizado em um único material digital.
+            Pagamento único, com acesso ao PDF para uso da família — sem
+            mensalidades.
           </p>
         </div>
-
-        <div className="card offer-card">
-          <div className="offer-head">
-            <span className="offer-kicker">Kit completo</span>
-            <h2>Pequenos Passos — Alfabetização em Casa</h2>
-            <p>Material digital em PDF para imprimir em folhas A4</p>
+        <div className="plan">
+          <span className="ribbon">Kit completo</span>
+          <div className="plan-media">
+            <Image
+              src="/images/oferta-capas.jpg"
+              alt="Capa oficial do kit Pequenos Passos — Alfabetização em Casa"
+              width={849}
+              height={1200}
+              loading="lazy"
+            />
           </div>
-          <div className="offer-body">
-            <ul className="offer-list">
+          <div className="plan-body">
+            <h3>Pequenos Passos — Alfabetização em Casa</h3>
+            <p className="plan-sub">
+              Material digital completo em PDF, para crianças de aproximadamente
+              3 a 8 anos, com condução do adulto.
+            </p>
+            <ul className="plan-incl">
               {deliverables.map((item) => (
                 <li key={item.title}>
                   <span className="tick">
@@ -40,78 +47,47 @@ export function Offer() {
                   <span>{item.title}</span>
                 </li>
               ))}
-              <li>
-                <span className="tick">
-                  <CheckIcon />
-                </span>
-                <span>5 módulos: {modules.map((m) => m.title).join(", ")}</span>
-              </li>
-              <li>
-                <span className="tick">
-                  <CheckIcon />
-                </span>
-                <span>20 cartões de palavras para recortar</span>
-              </li>
             </ul>
-
             <div className="offer-price-box">
-              {hasPrice ? (
+              <span className="price-label">Kit completo</span>
+              {price === null ? (
                 <>
-                  <p className="price-label">Oferta</p>
-                  <p className="price-value">
-                    {formatBRL(offerConfig.priceBRL as number)}
+                  <p className="price-pending">Valor a confirmar</p>
+                  <p className="price-hint">
+                    O link de pagamento deste kit está sendo finalizado. Nada é
+                    cobrado até que ele fique disponível.
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="price-pending">Valor em breve</p>
+                  <p className="price-value" style={{ margin: "0" }}>
+                    {formatBRL(price)}
+                  </p>
                   <p className="price-hint">
-                    O preço da oferta ainda será publicado. Nenhum valor é
-                    exibido antes da definição oficial.
+                    Pagamento único, sem mensalidades.
                   </p>
                 </>
               )}
             </div>
-
-            <div className="offer-guarantee">
-              <ShieldIcon />
-              <p>
-                <strong>Garantia de {offerConfig.guaranteeDays} dias.</strong>{" "}
-                Se o material não fizer sentido para a sua família, peça o
-                reembolso total dentro do prazo de garantia.
+            <div className="offer-cta">
+              <CtaButton large>QUERO MEU KIT COMPLETO</CtaButton>
+              <p className="offer-delivery">
+                <MailIcon /> PDF enviado após a confirmação do pagamento
               </p>
             </div>
-
-            <div className="offer-cta">
-              {hasCheckout ? (
-                <a
-                  className="btn btn-lg"
-                  href={offerConfig.checkoutUrl}
-                  rel="noopener noreferrer"
-                >
-                  QUERO MEU KIT COMPLETO
-                </a>
-              ) : (
-                <>
-                  <span
-                    className="btn btn-lg btn-disabled"
-                    role="link"
-                    aria-disabled="true"
-                  >
-                    QUERO MEU KIT COMPLETO
-                  </span>
-                  <p className="note">
-                    O link oficial de compra será ativado assim que o checkout
-                    estiver configurado.
-                  </p>
-                </>
-              )}
+            <div
+              className="offer-guarantee"
+              style={{ marginTop: "1.4rem", marginBottom: "0" }}
+            >
+              <ShieldIcon />
+              <p>
+                <strong>
+                  Garantia incondicional de {offerConfig.guaranteeDays} dias.
+                </strong>{" "}
+                Se o material não fizer sentido para sua rotina, você solicita o
+                reembolso sem burocracia.
+              </p>
             </div>
-
-            <p className="offer-delivery">
-              Entrega em PDF para download após a confirmação do pagamento. Uso
-              pessoal da família, com impressão ilimitada.
-            </p>
           </div>
         </div>
       </div>

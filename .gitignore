@@ -14,3 +14,11 @@ build/
 
 # Site de referência (material de estudo, não faz parte do app)
 saveweb2zip-com-*/
+
+# Imagens-fonte pesadas (as versões otimizadas ficam em public/images)
+imagens/
+comentarios/
+head primeira dobra/
+
+.vercel
+.env*

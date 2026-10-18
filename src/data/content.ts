@@ -261,3 +261,193 @@ export const faq: FaqItem[] = [
       "No papel. O produto é pensado para imprimir e usar em atividades fora das telas. A tela entra apenas para baixar o arquivo após a compra.",
   },
 ];
+
+export type GalleryImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+export const galleryRowA: GalleryImage[] = [
+  {
+    src: "/images/atividades-prontas.jpg",
+    alt: "Atividades prontas para imprimir com letras, números, atenção e rotina",
+    width: 1122,
+    height: 1094,
+  },
+  {
+    src: "/images/atividade-formas-2.jpg",
+    alt: "Capa da atividade da semana: formas iguais, para imprimir, conectar e comemorar",
+    width: 960,
+    height: 1200,
+  },
+  {
+    src: "/images/aprender-amor.jpg",
+    alt: "Mãe e filha fazendo uma atividade educativa juntas na mesa de casa",
+    width: 1200,
+    height: 1200,
+  },
+  {
+    src: "/images/kit-completo.jpg",
+    alt: "Capa do kit completo com a lista de entregáveis e amostras das atividades",
+    width: 1024,
+    height: 1076,
+  },
+];
+
+export const galleryRowB: GalleryImage[] = [
+  {
+    src: "/images/atividades-fazer-hoje.jpg",
+    alt: "Atividades para fazer hoje, sem preparar nada do zero",
+    width: 1122,
+    height: 1066,
+  },
+  {
+    src: "/images/oferta-capas.jpg",
+    alt: "Poster do kit Pequenos Passos — Alfabetização em Casa com módulos e cartões",
+    width: 849,
+    height: 1200,
+  },
+  {
+    src: "/images/atividade-formas.jpg",
+    alt: "Atividade da semana de formas iguais para crianças de 3 a 8 anos",
+    width: 675,
+    height: 1200,
+  },
+  {
+    src: "/images/pequenos-passos-poster.jpg",
+    alt: "Poster do kit Pequenos Passos com os cinco módulos e os cartões de palavras",
+    width: 849,
+    height: 1200,
+  },
+];
+
+export type FeatureIcon =
+  | "pages"
+  | "activities"
+  | "cards"
+  | "guide"
+  | "checklist"
+  | "pdf"
+  | "clock"
+  | "star";
+
+export type Feature = {
+  icon: FeatureIcon;
+  title: string;
+  description: string;
+};
+
+export const features: Feature[] = [
+  {
+    icon: "checklist",
+    title: "Escolha pela habilidade",
+    description:
+      "Atenção, traçado, letras, palavras e números ficam em módulos separados. Você sabe exatamente o que está praticando naquele dia.",
+  },
+  {
+    icon: "clock",
+    title: "Nada de preparar do zero",
+    description:
+      "Abra o PDF, escolha a página e imprima. Em poucos minutos você já está sentado ao lado do seu filho.",
+  },
+  {
+    icon: "star",
+    title: "15 minutos já valem o dia",
+    description:
+      "O material foi pensado para momentos curtos: apresente a atividade, acompanhe e celebre a participação.",
+  },
+  {
+    icon: "pages",
+    title: "Reimprima quantas vezes quiser",
+    description:
+      "Uso pessoal com impressão ilimitada: a página favorita pode ser refeita quantas vezes a criança quiser.",
+  },
+];
+
+export type IdealTile = {
+  icon: FeatureIcon;
+  title: string;
+  description: string;
+};
+
+export const idealTiles: IdealTile[] = [
+  {
+    icon: "pages",
+    title: "Pais e responsáveis presentes",
+    description: "Que querem participar da aprendizagem com material pronto e organizado.",
+  },
+  {
+    icon: "cards",
+    title: "Menos telas, mais papel",
+    description: "Famílias que buscam alternativas com papel, lápis e presença.",
+  },
+  {
+    icon: "clock",
+    title: "Rotinas corridas",
+    description: "Quem tem pouco tempo por dia e mesmo assim quer manter o hábito.",
+  },
+  {
+    icon: "star",
+    title: "Respeito ao ritmo da criança",
+    description: "Quem prefere acompanhar sem transformar a atividade em cobrança.",
+  },
+];
+
+export const demoMessage =
+  "Imagem ilustrativa — mostra como uma avaliação de cliente apareceria neste espaço quando o kit começar a circular. Ainda não temos depoimentos reais para publicar, e não publicamos avaliações inventadas.";
+
+export const reviewsNote =
+  "Estes cartões são exemplos ilustrativos marcados com o selo \u201cExemplo ilustrativo\u201d. Quando as primeiras avaliações reais chegarem, publicamos aqui no lugar delas — nada é inventado.";
+
+export const reviewImages: GalleryImage[] = [
+  {
+    src: "/images/depo-01.jpg",
+    alt: "Cartão ilustrativo de depoimento de Rafael M. com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/depo-02.jpg",
+    alt: "Cartão ilustrativo de depoimento com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/depo-03.jpg",
+    alt: "Cartão ilustrativo de depoimento com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/depo-04.jpg",
+    alt: "Cartão ilustrativo de depoimento com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/depo-05.jpg",
+    alt: "Cartão ilustrativo de depoimento de Carla M. com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/depo-06.jpg",
+    alt: "Cartão ilustrativo de depoimento de Mariana S. com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/depo-07.jpg",
+    alt: "Cartão ilustrativo de depoimento de Patrícia L. com selo de exemplo ilustrativo",
+    width: 1200,
+    height: 800,
+  },
+  {
+    src: "/images/exemplo-ilustrativo.jpg",
+    alt: "Cartão de exemplo ilustrativo de avaliação de cliente",
+    width: 1200,
+    height: 800,
+  },
+];

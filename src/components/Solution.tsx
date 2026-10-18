@@ -1,30 +1,68 @@
-import { solutionBenefits } from "@/data/content";
+import Image from "next/image";
+import type { ComponentType, SVGProps } from "react";
+import type { FeatureIcon } from "@/data/content";
+import { features } from "@/data/content";
+import {
+  CardsIcon,
+  BookIcon,
+  ChecklistIcon,
+  ClockIcon,
+  PagesIcon,
+  PdfIcon,
+  StarIcon,
+} from "./icons";
+
+const iconFor: Record<FeatureIcon, ComponentType<SVGProps<SVGSVGElement>>> = {
+  pages: PagesIcon,
+  activities: BookIcon,
+  cards: CardsIcon,
+  guide: BookIcon,
+  checklist: ChecklistIcon,
+  pdf: PdfIcon,
+  clock: ClockIcon,
+  star: StarIcon,
+};
 
 export function Solution() {
   return (
-    <section className="section section-alt" aria-labelledby="solucao-titulo">
+    <section className="section" id="beneficios">
       <div className="container">
         <div className="section-head">
-          <span className="kicker">A solução</span>
-          <h2 id="solucao-titulo">
-            Pequenos Passos organiza o caminho para você{" "}
-            <span className="hl">escolher e fazer junto</span>
+          <span className="kicker">Benefícios</span>
+          <h2 className="title">
+            O que muda quando você tem{" "}
+            <span className="hl">as atividades certas</span>
           </h2>
           <p className="lead">
-            Um kit de material digital pronto para imprimir, com atividades
-            agrupadas por habilidade e um guia para acompanhar o uso em casa.
+            O kit não acrescenta tarefas: ele organiza o que já existe para que
+            o momento de aprendizada aconteça sem esforço.
           </p>
         </div>
-        <div className="solution-grid">
-          {solutionBenefits.map((item, index) => (
-            <article className="card solution-card" key={item.title}>
-              <span className="solution-num" aria-hidden="true">
-                {index + 1}
-              </span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))}
+        <div className="benefits-grid">
+          <ul className="feats">
+            {features.map((feature) => {
+              const Icon = iconFor[feature.icon];
+              return (
+                <li className="feat" key={feature.title}>
+                  <span className="sico">
+                    <Icon />
+                  </span>
+                  <div>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <Image
+            className="benefits-photo"
+            src="/images/aprender-amor.jpg"
+            alt="Pais e filha fazendo atividades juntas na mesa de casa"
+            width={1200}
+            height={1200}
+            loading="lazy"
+          />
         </div>
       </div>
     </section>
