@@ -39,6 +39,10 @@ type FunnelMessage = {
   answer?: string;
   email?: string;
   name?: string;
+  product?: string;
+  bumps?: string[];
+  combo?: boolean;
+  method?: string;
   height?: number;
 };
 
@@ -181,38 +185,30 @@ export default function QuizFunnelPage() {
         track("quiz_checkout_submit");
         const mail = (data.email || leadRef.current.email).trim();
         const fullName = (data.name || leadRef.current.name).trim();
-        if (!mail) {
-          window.alert("Preencha o e-mail no checkout para receber o acesso.");
+        if (!mail || !fullName) {
+          window.alert("Preencha nome e e-mail para seguir ao pagamento.");
           return;
         }
+        const product = data.product === "acesso-total" ? "acesso-total" : productRef.current;
         void (async () => {
-          const res = await fetch("/api/quiz-purchase", {
+          const res = await fetch("/api/checkout", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               email: mail,
               name: fullName,
-              product: productRef.current,
+              product,
+              bumps: data.bumps || [],
+              combo: Boolean(data.combo),
+              method: data.method || "card",
             }),
           });
-          const json = (await res.json()) as {
-            email?: string;
-            password?: string;
-            emailSent?: boolean;
-          };
-          if (!res.ok || !json.password || !json.email) {
-            window.alert("Não foi possível liberar o acesso. Confira o e-mail e tente de novo.");
+          const json = (await res.json()) as { initPoint?: string; message?: string };
+          if (!res.ok || !json.initPoint) {
+            window.alert(json.message || "Não foi possível abrir o pagamento.");
             return;
           }
-          leadRef.current = { name: fullName, email: json.email };
-          setName(fullName);
-          setEmail(json.email);
-          setAccess({
-            email: json.email,
-            password: json.password,
-            emailSent: Boolean(json.emailSent),
-          });
-          goTo("acesso");
+          window.location.assign(json.initPoint);
         })();
       }
     }
@@ -311,7 +307,11 @@ export default function QuizFunnelPage() {
         <iframe
           key={step}
           className="qz-frame"
-          src={SCREEN_SRC[step]}
+          src={
+          step === "checkout"
+            ? `/funil/checkout.html?produto=${productRef.current}`
+            : SCREEN_SRC[step]
+        }
           title="Funil quiz Pequenos Passos"
           style={
             frameHeight
