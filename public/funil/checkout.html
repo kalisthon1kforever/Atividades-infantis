@@ -1,0 +1,395 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-BR" data-funil-step="checkout"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Checkout Seguro - Pequenos Passos</title>
+<!-- Tailwind CSS CDN com plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts para fontes lúdicas e legíveis -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style data-purpose="custom-typography">
+    body {
+      font-family: 'Nunito', sans-serif;
+    }
+    .font-heading {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+  </style>
+<style data-purpose="custom-decorations">
+    /* Fundo com nuances lúdicas suaves (estrelas, nuvens e formas) */
+    .bg-playful-pattern {
+      background-color: #f3f9ff;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(254, 240, 138, 0.45) 0, rgba(254, 240, 138, 0) 120px),
+        radial-gradient(circle at 92% 35%, rgba(254, 205, 211, 0.5) 0, rgba(254, 205, 211, 0) 100px),
+        radial-gradient(circle at 5% 75%, rgba(187, 247, 208, 0.45) 0, rgba(187, 247, 208, 0) 140px),
+        radial-gradient(circle at 95% 85%, rgba(254, 240, 138, 0.5) 0, rgba(254, 240, 138, 0) 110px);
+      background-attachment: fixed;
+    }
+
+    /* Sombras suaves e bordas nítidas fiéis ao design */
+    .card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(0, 80, 160, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    }
+    .btn-3d {
+      box-shadow: 0 4px 0 #005bb5;
+      transition: all 0.1s ease-in-out;
+    }
+    .btn-3d:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #005bb5;
+    }
+  </style>
+</head>
+<body class="bg-playful-pattern text-gray-800 antialiased min-h-screen py-4 px-2.5 sm:px-4 flex justify-center items-start">
+<!-- Container Geral Mobile -->
+<main class="w-full max-w-[480px] bg-white rounded-3xl card-shadow border border-blue-50/80 overflow-hidden relative pb-8">
+<!-- BEGIN: HeaderIllustration -->
+<!-- Cabeçalho ilustrado com os personagens e logotipo da marca -->
+<header class="w-full relative overflow-hidden bg-gradient-to-b from-[#fff6d6] via-[#e8f6ff] to-white pt-6 pb-2 px-4 text-center">
+<!-- Decorações lúdicas sutis de fundo -->
+<div class="absolute -top-6 -left-6 w-24 h-24 bg-yellow-200/50 rounded-full blur-xl pointer-events-none"></div>
+<div class="absolute top-4 -right-4 w-20 h-20 bg-pink-200/50 rounded-full blur-lg pointer-events-none"></div>
+<!-- Imagem do Banner / Cabeçalho conforme solicitado -->
+<div class="relative z-10 flex flex-col items-center justify-center">
+<div class="w-full max-h-[190px] overflow-hidden rounded-2xl flex items-center justify-center">
+<img alt="Pequenos Passos - Aprender brincando é um grande passo!" class="w-full h-auto object-cover object-top -mt-1 scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLc5J_ZzceAq8W7Vv_mqmwaoOCX-W66yBCahxOTX-wSRINfQMMJvN5cEoMW0D7t4pudzwX0T7GBeZe7CxePZdvOD5WH48fbMonXrynHasR8dnOwzsQwIkKZ2yVZxh7NRxc8QzEybMzb9XYKIyfjoQ_8CqdOnskbM8fH4dylliLgO5SbLiPEHiT_JYLSXR7PPnM9HozyOWm-7PAm9eC233H8sYv0FhXOFbQegyO34wnV8Ix1t4KrN1C_hqKScNS_02VFg" style="max-height: 180px;"/>
+</div>
+</div>
+</header>
+<!-- END: HeaderIllustration -->
+<div class="px-3.5 sm:px-5 space-y-4 pt-1">
+<!-- BEGIN: SecurityNotice -->
+<!-- Banner de Segurança no Topo com Cadeado Verde e Certificado SSL -->
+<section class="flex items-center justify-between gap-2 border-b border-gray-100 pb-3 pt-2" data-purpose="security-header">
+<div class="flex items-start gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm shadow-emerald-200 mt-0.5">
+<i class="fa-solid fa-lock text-lg"></i>
+</div>
+<div>
+<h1 class="text-[17px] font-black text-gray-900 leading-tight">
+              Finalize seu pedido<br/><span class="text-blue-900">com segurança</span>
+</h1>
+<p class="text-[11px] text-gray-500 mt-0.5 font-medium leading-none">Você está a um passo de ter acesso ao seu material!</p>
+</div>
+</div>
+<!-- Badge Selo Seguro SSL -->
+<div class="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 flex items-center gap-1.5 shrink-0 self-center">
+<div class="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center text-white text-[9px]">
+<i class="fa-solid fa-check"></i>
+</div>
+<div class="text-[9px] font-black leading-tight text-gray-700 uppercase tracking-tighter">
+            Site Seguro<br/><span class="text-[8px] font-bold text-gray-500">SSL Certificado</span>
+</div>
+</div>
+</section>
+<!-- END: SecurityNotice -->
+<!-- BEGIN: MainProductCard -->
+<!-- Card do Produto Principal (Kit Inicial) -->
+<section class="bg-white rounded-2xl p-3 border border-blue-100 shadow-sm relative" data-purpose="base-product">
+<div class="flex items-center gap-3">
+<!-- Miniatura do Kit -->
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-blue-50 border border-blue-100 p-0.5">
+<img alt="Capa do Kit Inicial Pequenos Passos" class="w-full h-full object-cover object-[24%_24%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLc5J_ZzceAq8W7Vv_mqmwaoOCX-W66yBCahxOTX-wSRINfQMMJvN5cEoMW0D7t4pudzwX0T7GBeZe7CxePZdvOD5WH48fbMonXrynHasR8dnOwzsQwIkKZ2yVZxh7NRxc8QzEybMzb9XYKIyfjoQ_8CqdOnskbM8fH4dylliLgO5SbLiPEHiT_JYLSXR7PPnM9HozyOWm-7PAm9eC233H8sYv0FhXOFbQegyO34wnV8Ix1t4KrN1C_hqKScNS_02VFg"/>
+</div>
+<!-- Dados do Produto Principal -->
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-[14px] font-extrabold text-gray-900 leading-tight">
+                  Pequenos Passos <span class="text-gray-400">—</span> Kit Inicial
+                </h2>
+<p class="text-[11px] text-gray-500 font-semibold mb-1.5">Atividades educativas para imprimir</p>
+</div>
+<span class="text-[17px] font-black text-[#0066d6] whitespace-nowrap ml-1 tracking-tight">
+                R$ 37,90
+              </span>
+</div>
+<!-- Bullet points informativos -->
+<ul class="space-y-0.5 text-[11px] font-bold text-gray-600">
+<li class="flex items-center gap-1.5">
+<i class="fa-solid fa-circle-check text-emerald-500 text-[12px]"></i>
+<span>Atenção visual, pré-alfabetização e matemática visual</span>
+</li>
+<li class="flex items-center gap-1.5">
+<i class="fa-solid fa-circle-check text-emerald-500 text-[12px]"></i>
+<span>Coordenação motora, emoções e rotinas visuais</span>
+</li>
+<li class="flex items-center gap-1.5">
+<i class="fa-solid fa-circle-check text-emerald-500 text-[12px]"></i>
+<span>Bônus: certificado, quadro de conquistas e versão P&amp;B</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- END: MainProductCard -->
+<!-- BEGIN: OrderBumpsSection -->
+<!-- Seção 'Aproveite também' com Complementos Opcionais -->
+<section class="space-y-2 pt-1" data-purpose="order-bumps">
+<!-- Título da Seção -->
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-[#0077e6] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+<i class="fa-solid fa-plus text-[11px]"></i>
+</div>
+<div>
+<h3 class="text-[15px] font-black text-gray-900 leading-tight">Aproveite também</h3>
+<p class="text-[11px] text-gray-500 font-medium">Complementos opcionais para seu kit</p>
+</div>
+</div>
+<!-- Lista de Bumps -->
+<div class="space-y-2">
+<!-- Bump 1: Rotina Visual -->
+<label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="9.90" type="checkbox"/>
+<div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 shrink-0 border border-orange-200 text-lg">
+<i class="fa-solid fa-table-cells-large"></i>
+</div>
+<div class="min-w-0">
+<p class="text-[12.5px] font-extrabold text-gray-900 leading-tight truncate">Rotina Visual em Figuras</p>
+<p class="text-[10px] text-gray-500 font-medium leading-snug">Quadros e rotinas para o dia a dia em casa ou na escola.</p>
+</div>
+</div>
+<span class="text-[13.5px] font-black text-[#0066d6] shrink-0 ml-2">R$ 9,90</span>
+</label>
+<!-- Bump 2: Guia 30 Dias -->
+<label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="7.90" type="checkbox"/>
+<div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700 shrink-0 border border-amber-200 font-extrabold text-sm">
+                30
+              </div>
+<div class="min-w-0">
+<p class="text-[12.5px] font-extrabold text-gray-900 leading-tight truncate">Guia de 30 Dias</p>
+<p class="text-[10px] text-gray-500 font-medium leading-snug">Sequência prática com atividades dia a dia.</p>
+</div>
+</div>
+<span class="text-[13.5px] font-black text-[#0066d6] shrink-0 ml-2">R$ 7,90</span>
+</label>
+<!-- Bump 3: Mini Kit Pré-Alfabetização -->
+<label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="4.90" type="checkbox"/>
+<div class="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600 shrink-0 border border-pink-200 font-black text-xs tracking-tighter">
+                ABC
+              </div>
+<div class="min-w-0">
+<p class="text-[12.5px] font-extrabold text-gray-900 leading-tight truncate">Mini Kit “Atividades de 5 Minutos”</p>
+<p class="text-[10px] text-gray-500 font-medium leading-snug">Fichas curtas para encaixar na rotina corrida.</p>
+</div>
+</div>
+<span class="text-[13.5px] font-black text-[#0066d6] shrink-0 ml-2">R$ 4,90</span>
+</label>
+<!-- Bump 4: Cartões de Vocabulário -->
+<label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="13.90" type="checkbox"/>
+<div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 border border-emerald-200 text-base">
+<i class="fa-solid fa-chalkboard-user"></i>
+</div>
+<div class="min-w-0">
+<p class="text-[12.5px] font-extrabold text-gray-900 leading-tight truncate">Cartões de Vocabulário Ilustrados</p>
+<p class="text-[10px] text-gray-500 font-medium leading-snug">Cartões visuais para ampliar vocabulário brincando.</p>
+</div>
+</div>
+<span class="text-[13.5px] font-black text-[#0066d6] shrink-0 ml-2">R$ 13,90</span>
+</label>
+<!-- Bump 5: COMBO PROMOCIONAL (Caixa Dourada com Presente) -->
+<div class="relative overflow-hidden rounded-xl border-2 border-amber-300 bg-gradient-to-r from-amber-50/70 via-yellow-50 to-amber-100/60 p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5 min-w-0">
+<input class="w-4 h-4 text-amber-600 rounded border-amber-400 focus:ring-amber-500" data-combo="true" id="combo-checkbox" type="checkbox"/>
+<div class="w-10 h-10 rounded-lg bg-red-500 text-white flex items-center justify-center shrink-0 shadow-sm shadow-red-200 text-lg">
+<i class="fa-solid fa-gift"></i>
+</div>
+<div class="min-w-0">
+<p class="text-[12px] font-extrabold text-blue-950 leading-tight">
+                  Leve todos os complementos<br/>
+<span class="text-[13.5px] font-black text-blue-900">por apenas R$ 29,90</span>
+</p>
+</div>
+</div>
+<div class="bg-amber-400 text-amber-950 font-black text-[9px] uppercase px-2.5 py-1.5 rounded-lg text-center leading-tight tracking-tight shadow-sm shrink-0 border border-amber-500/20">
+              Economize mais<br/><span class="text-[7.5px] font-extrabold text-amber-900">e tenha o kit completo!</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: OrderBumpsSection -->
+<!-- BEGIN: PurchaseSummary -->
+<!-- Card de Resumo Financeiro da Compra -->
+<section class="bg-[#ebf7f1] rounded-2xl p-3 border border-emerald-100" data-purpose="order-summary">
+<div class="flex items-center gap-2 mb-2 pb-1.5 border-b border-emerald-200/60">
+<div class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs">
+<i class="fa-solid fa-cart-shopping"></i>
+</div>
+<h3 class="text-[14px] font-extrabold text-emerald-950">Resumo da compra</h3>
+</div>
+<div class="space-y-1 text-[12px] font-bold text-gray-600">
+<div class="flex justify-between items-center">
+<span>Kit Inicial</span>
+<span class="font-extrabold text-gray-800">R$ 37,90</span>
+</div>
+<div class="flex justify-between items-center text-gray-500">
+<span>Complementos</span>
+<span class="font-bold text-gray-700" id="summary-bumps-price">R$ 0,00</span>
+</div>
+</div>
+<div class="border-t border-emerald-200/80 mt-2.5 pt-2 flex justify-between items-center">
+<span class="text-[15px] font-black text-gray-900">Total</span>
+<span class="text-[20px] font-black text-emerald-700" id="summary-total-price">R$ 37,90</span>
+</div>
+</section>
+<!-- END: PurchaseSummary -->
+<!-- BEGIN: PaymentSection -->
+<!-- Métodos de Pagamento e Formulário de Dados -->
+<section class="space-y-3 pt-1" data-purpose="payment-form">
+<!-- Título Pagamento -->
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs">
+<i class="fa-solid fa-bag-shopping"></i>
+</div>
+<h3 class="text-[14px] font-extrabold text-gray-900">Escolha a forma de pagamento</h3>
+</div>
+<!-- Botões de Métodos de Pagamento -->
+<div class="grid grid-cols-3 gap-1.5" data-purpose="payment-tabs">
+<!-- PIX Tab -->
+<button class="pay-tab py-2 px-1 rounded-xl border border-gray-200 bg-white text-gray-700 flex flex-col items-center justify-center gap-0.5 hover:border-emerald-500 active:scale-95 transition-all" type="button">
+<div class="flex items-center gap-1">
+<i class="fa-brands fa-pix text-emerald-500 text-base"></i>
+<span class="text-[11.5px] font-black text-gray-800">PIX</span>
+</div>
+</button>
+<!-- Cartão Tab (Ativo por padrão) -->
+<button class="pay-tab py-2 px-1 rounded-xl border-2 border-blue-500 bg-blue-50/50 text-blue-900 flex flex-col items-center justify-center gap-0.5 shadow-xs font-black" type="button">
+<div class="flex items-center gap-1">
+<i class="fa-solid fa-credit-card text-blue-600 text-xs"></i>
+<span class="text-[11px] font-extrabold">Cartão de Crédito</span>
+</div>
+</button>
+<!-- Boleto Tab -->
+<button class="pay-tab py-2 px-1 rounded-xl border border-gray-200 bg-white text-gray-700 flex flex-col items-center justify-center gap-0.5 hover:border-gray-400 active:scale-95 transition-all" type="button">
+<div class="flex items-center gap-1">
+<i class="fa-solid fa-barcode text-gray-600 text-sm"></i>
+<span class="text-[10px] font-black text-gray-800">Boleto Bancário</span>
+</div>
+</button>
+</div>
+<!-- Inputs do Comprador -->
+<div class="space-y-2 pt-0.5">
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 text-xs">
+<i class="fa-regular fa-envelope"></i>
+</div>
+<input id="checkout-email" class="w-full pl-8 pr-3 py-2.5 text-xs bg-gray-50/60 border border-gray-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 font-medium placeholder-gray-400" placeholder="Seu e-mail" type="email"/>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 text-xs">
+<i class="fa-regular fa-user"></i>
+</div>
+<input id="checkout-name" class="w-full pl-8 pr-3 py-2.5 text-xs bg-gray-50/60 border border-gray-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 font-medium placeholder-gray-400" placeholder="Seu nome completo" type="text"/>
+</div>
+</div>
+<!-- Botão Principal de Finalização com Efeito 3D Suave -->
+<button class="w-full py-3.5 bg-[#0077e6] hover:bg-[#006bd1] text-white rounded-xl font-black text-sm tracking-wide uppercase flex items-center justify-center gap-2 btn-3d shadow-md transition-all cursor-pointer mt-1" id="btn-submit" type="button">
+<i class="fa-solid fa-lock text-sm"></i>
+<span>FINALIZAR COMPRA</span>
+</button>
+</section>
+<!-- END: PaymentSection -->
+<!-- BEGIN: TrustBadges -->
+<!-- Rodapé com os 3 Selos de Garantia e Confiança -->
+<footer class="pt-4 border-t border-gray-100 grid grid-cols-3 gap-2 text-center" data-purpose="trust-seals">
+<!-- Selo 1: Segurança -->
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-xs mb-1">
+<i class="fa-solid fa-lock"></i>
+</div>
+<p class="text-[9.5px] font-bold text-gray-600 leading-tight">
+            Pagamento processado com segurança
+          </p>
+</div>
+<!-- Selo 2: Entrega Digital Imediata -->
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-xs mb-1">
+<i class="fa-solid fa-rocket"></i>
+</div>
+<p class="text-[9.5px] font-bold text-gray-600 leading-tight">
+            Acesso digital após confirmação
+          </p>
+</div>
+<!-- Selo 3: Políticas e Reembolso -->
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-blue-100/70 text-blue-600 flex items-center justify-center text-xs mb-1">
+<i class="fa-solid fa-file-lines"></i>
+</div>
+<p class="text-[9.5px] font-bold text-gray-600 leading-tight">
+            Consulte os termos e reembolso
+          </p>
+</div>
+</footer>
+<!-- END: TrustBadges -->
+</div>
+</main>
+<!-- BEGIN: LogicScript -->
+<!-- Cálculo Dinâmico em tempo real do Total e Seleção de Bumps -->
+<script data-purpose="price-calculation">
+    document.addEventListener('DOMContentLoaded', () => {
+      const BASE_PRICE = 37.90;
+      const COMBO_PRICE = 29.90;
+
+      const bumpCheckboxes = document.querySelectorAll('.bump-checkbox');
+      const comboCheckbox = document.getElementById('combo-checkbox');
+      const bumpsPriceEl = document.getElementById('summary-bumps-price');
+      const totalPriceEl = document.getElementById('summary-total-price');
+
+      function formatBRL(value) {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      }
+
+      function recalculateTotal() {
+        let bumpsTotal = 0;
+
+        if (comboCheckbox && comboCheckbox.checked) {
+          bumpsTotal = COMBO_PRICE;
+        } else {
+          bumpCheckboxes.forEach(cb => {
+            if (cb.checked) {
+              bumpsTotal += parseFloat(cb.dataset.price || 0);
+            }
+          });
+        }
+
+        const grandTotal = BASE_PRICE + bumpsTotal;
+
+        bumpsPriceEl.textContent = formatBRL(bumpsTotal);
+        totalPriceEl.textContent = formatBRL(grandTotal);
+      }
+
+      // Se o combo for marcado, desmarca os itens individuais para não duplicar cobrança
+      comboCheckbox.addEventListener('change', () => {
+        if (comboCheckbox.checked) {
+          bumpCheckboxes.forEach(cb => cb.checked = false);
+        }
+        recalculateTotal();
+      });
+
+      // Se qualquer item individual for marcado, desmarca o combo
+      bumpCheckboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          if (cb.checked && comboCheckbox.checked) {
+            comboCheckbox.checked = false;
+          }
+          recalculateTotal();
+        });
+      });
+    });
+  </script>
+<!-- END: LogicScript -->
+<script src="/funil/bridge.js"></script>
+</body></html>

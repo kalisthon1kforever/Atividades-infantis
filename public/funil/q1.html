@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html><html lang="pt-BR" data-funil-step="q1"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Quiz Pequenos Passos em Família</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Quicksand & Nunito for friendly rounded typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              navy: '#002661',
+              blue: '#0284c7',
+              cyan: '#38bdf8',
+              orange: '#f97316',
+              amber: '#f59e0b',
+            }
+          },
+          boxShadow: {
+            'card': '0 4px 14px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
+            'card-hover': '0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03)',
+            'glow-sun': '0 0 35px rgba(251, 191, 36, 0.45)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Visual Styles -->
+<style data-purpose="custom-typography">
+    body {
+      font-family: 'Nunito', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .font-brand-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+  </style>
+<style data-purpose="decorations-and-effects">
+    /* Subtle 3D volumetric effects for cards */
+    .quiz-card {
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+    .quiz-card:active {
+      transform: scale(0.975);
+    }
+
+    /* Illustrated background elements */
+    .bg-clouds {
+      background: radial-gradient(circle at 50% 18%, #ffffff 0%, rgba(255,255,255,0) 70%);
+    }
+
+    /* Soft inner borders */
+    .border-soft-blue { border-color: rgba(186, 230, 253, 0.7); }
+    .border-soft-orange { border-color: rgba(254, 215, 170, 0.6); }
+    .border-soft-green { border-color: rgba(187, 247, 208, 0.7); }
+    .border-soft-pink { border-color: rgba(251, 207, 232, 0.7); }
+
+    /* Custom drop shadow for playful logo letters */
+    .text-shadow-fun {
+      text-shadow: 0 3px 0 rgba(0,0,0,0.12);
+    }
+  </style>
+<!-- END: Custom Visual Styles -->
+</head>
+<body class="bg-slate-100 flex justify-center items-center min-h-screen p-0 sm:p-4 antialiased selection:bg-sky-200">
+<!-- BEGIN: Mobile Device Frame Container -->
+<div class="relative w-full max-w-[430px] min-h-screen sm:min-h-[900px] bg-gradient-to-b from-[#bfe9fc] via-[#e8f6fd] to-[#fbf7f4] sm:rounded-[40px] shadow-2xl overflow-hidden flex flex-col justify-between" data-purpose="mobile-quiz-viewport">
+<!-- BEGIN: Header & Progress Section -->
+<header class="relative pt-6 px-6 z-20" data-purpose="header-section">
+<!-- Top Decorative Sun & Clouds Illustration (Vector Elements) -->
+<div class="absolute -top-3 -right-3 w-28 h-28 pointer-events-none opacity-90 z-0">
+<!-- Sun with 3D look rays -->
+<svg class="w-full h-full drop-shadow-md animate-spin-slow" viewBox="0 0 100 100">
+<circle class="filter drop-shadow" cx="50" cy="50" fill="#fbbf24" r="23"></circle>
+<circle cx="50" cy="50" fill="#f59e0b" r="19"></circle>
+<!-- Sun eyes and cheerful smile -->
+<circle cx="43" cy="46" fill="#78350f" r="2.2"></circle>
+<circle cx="57" cy="46" fill="#78350f" r="2.2"></circle>
+<path d="M44 54 Q50 60 56 54" fill="none" stroke="#78350f" stroke-linecap="round" stroke-width="2.2"></path>
+<circle cx="40" cy="53" fill="#ef4444" opacity="0.6" r="2"></circle>
+<circle cx="60" cy="53" fill="#ef4444" opacity="0.6" r="2"></circle>
+<!-- Ray Petals -->
+<path d="M50 15 L50 21 M50 79 L50 85 M15 50 L21 50 M79 50 L85 50 M25 25 L30 30 M70 70 L75 75 M25 75 L30 70 M70 25 L75 30" stroke="#f59e0b" stroke-linecap="round" stroke-width="4.5"></path>
+</svg>
+</div>
+<!-- Cloud Decor Left -->
+<div class="absolute top-4 -left-6 w-24 h-12 bg-white/70 rounded-full blur-[0.6px] pointer-events-none"></div>
+<!-- Mascot Characters & Brand Logo -->
+<div class="relative flex flex-col items-center justify-center z-10" data-purpose="brand-logo-area">
+<!-- Pequenos Passos 3D Logo Header -->
+<div class="flex flex-col items-center mb-4">
+<!-- Two Cute Character Avatars (Boy & Girl) -->
+<div class="flex items-end justify-center -space-x-3 mb-1">
+<!-- Boy Character Avatar -->
+<div class="relative w-14 h-14 rounded-full border-2 border-white bg-amber-100 shadow-md flex items-center justify-center overflow-hidden transform -rotate-3">
+<svg class="w-full h-full" viewBox="0 0 100 100">
+<!-- Hair -->
+<path d="M15,45 C15,20 30,8 52,10 C75,12 85,25 85,45 C85,45 88,52 82,54 C78,42 75,32 50,30 C30,30 22,42 18,54 C13,52 15,45 15,45 Z" fill="#6d3c16"></path>
+<!-- Face -->
+<ellipse cx="50" cy="56" fill="#ffd1b3" rx="30" ry="28"></ellipse>
+<!-- Boy Bangs -->
+<path d="M22,35 Q35,20 52,28 Q70,22 80,38 Q65,30 50,34 Q32,32 22,35 Z" fill="#582f0e"></path>
+<!-- Eyes -->
+<circle cx="38" cy="54" fill="#321a08" r="5"></circle>
+<circle cx="36" cy="52" fill="#ffffff" r="1.8"></circle>
+<circle cx="62" cy="54" fill="#321a08" r="5"></circle>
+<circle cx="60" cy="52" fill="#ffffff" r="1.8"></circle>
+<!-- Smile -->
+<path d="M40 68 Q50 78 60 68" fill="#c2410c" stroke="#9a3412" stroke-linecap="round" stroke-width="1.5"></path>
+<!-- Cheeks -->
+<ellipse cx="32" cy="62" fill="#f87171" opacity="0.6" rx="4" ry="2.5"></ellipse>
+<ellipse cx="68" cy="62" fill="#f87171" opacity="0.6" rx="4" ry="2.5"></ellipse>
+<!-- Shirt -->
+<path d="M20,86 Q50,75 80,86 L85,100 L15,100 Z" fill="#0284c7"></path>
+</svg>
+</div>
+<!-- Girl Character Avatar -->
+<div class="relative w-14 h-14 rounded-full border-2 border-white bg-amber-100 shadow-md flex items-center justify-center overflow-hidden transform rotate-3 z-10">
+<svg class="w-full h-full" viewBox="0 0 100 100">
+<!-- Hair (Brown with pigtails) -->
+<path d="M12,45 C12,18 35,8 50,8 C68,8 88,18 88,48 C88,68 78,75 78,75 C70,36 30,36 22,75 C22,75 12,65 12,45 Z" fill="#78350f"></path>
+<!-- Hair Bow -->
+<path d="M72 16 L84 22 L76 28 Z M74 24 L86 18 L82 30 Z" fill="#ec4899"></path>
+<circle cx="77" cy="22" fill="#f43f5e" r="3"></circle>
+<!-- Face -->
+<ellipse cx="50" cy="56" fill="#ffe0cc" rx="29" ry="27"></ellipse>
+<!-- Bangs -->
+<path d="M24,36 Q50,26 76,36 Q60,30 50,33 Q40,30 24,36 Z" fill="#582f0e"></path>
+<!-- Eyes with little lashes -->
+<circle cx="39" cy="54" fill="#321a08" r="5"></circle>
+<circle cx="37" cy="52" fill="#ffffff" r="1.8"></circle>
+<circle cx="61" cy="54" fill="#321a08" r="5"></circle>
+<circle cx="59" cy="52" fill="#ffffff" r="1.8"></circle>
+<!-- Big Happy Smile -->
+<path d="M41 68 Q50 78 59 68" fill="#db2777" stroke="#be185d" stroke-linecap="round" stroke-width="1.2"></path>
+<!-- Cheeks -->
+<ellipse cx="33" cy="62" fill="#fb7185" opacity="0.7" rx="4" ry="2.5"></ellipse>
+<ellipse cx="67" cy="62" fill="#fb7185" opacity="0.7" rx="4" ry="2.5"></ellipse>
+<!-- Shirt -->
+<path d="M22,86 Q50,76 78,86 L85,100 L15,100 Z" fill="#f472b6"></path>
+</svg>
+</div>
+</div>
+<!-- Logo Typography Badge -->
+<div class="text-center transform -mt-1.5 z-20">
+<div class="inline-flex flex-col items-center">
+<span class="text-[26px] font-black tracking-tight leading-none text-[#0284c7] drop-shadow-[0_2px_0_#ffffff]">
+                Pequenos
+              </span>
+<div class="flex items-center space-x-1.5 -mt-0.5">
+<!-- Left Footprint Icon -->
+<svg class="w-4 h-4 text-[#38bdf8] fill-current transform -rotate-12" viewBox="0 0 24 24">
+<path d="M12 2C10.5 2 9 4 9 7c0 2 1 3.5 2.5 4.5.5.3 1 .8 1 1.5 0 .8-.7 1.5-1.5 1.5-.6 0-1-.2-1.5-.5L8 16c1 1 2.5 1.5 4 1.5 3 0 5-2 5-5 0-3-2-5.5-3.5-7C12.5 4 12 3 12 2zM6 5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm3-1a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+<span class="text-[25px] font-black tracking-tight leading-none bg-gradient-to-r from-[#fb923c] via-[#f59e0b] to-[#22c55e] bg-clip-text text-transparent drop-shadow-sm">
+                  Passos
+                </span>
+<!-- Right Footprint Icon -->
+<svg class="w-4 h-4 text-[#ec4899] fill-current transform rotate-12" viewBox="0 0 24 24">
+<path d="M12 2C10.5 2 9 4 9 7c0 2 1 3.5 2.5 4.5.5.3 1 .8 1 1.5 0 .8-.7 1.5-1.5 1.5-.6 0-1-.2-1.5-.5L8 16c1 1 2.5 1.5 4 1.5 3 0 5-2 5-5 0-3-2-5.5-3.5-7C12.5 4 12 3 12 2zM6 5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm3-1a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress Bar and Counter (1/6) -->
+<div class="w-full flex items-center justify-between gap-3 pt-1" data-purpose="quiz-progress-bar">
+<!-- Rounded Track -->
+<div class="flex-1 bg-white/70 h-3 rounded-full p-0.5 shadow-inner backdrop-blur-sm overflow-hidden">
+<!-- Fill: Step 1 of 6 (~16.6%) -->
+<div class="bg-gradient-to-r from-[#38bdf8] to-[#0284c7] h-full rounded-full w-[16.66%] transition-all duration-500 shadow-sm"></div>
+</div>
+<!-- Numeric Step Indicator -->
+<span class="text-sm font-extrabold text-[#0284c7] tracking-wider pl-1">
+            1/6
+          </span>
+</div>
+</div>
+</header><div class="absolute inset-0 pointer-events-none z-10 overflow-hidden" aria-hidden="true"><div class="absolute top-36 -left-3 w-8 h-8 rounded-xl bg-gradient-to-tr from-[#38bdf8] to-[#0284c7] shadow-lg transform -rotate-12 opacity-80 blur-[0.3px]"></div><div class="absolute top-44 -right-2 w-7 h-7 rounded-lg bg-gradient-to-br from-[#fb923c] to-[#f59e0b] shadow-md transform rotate-12 opacity-75 blur-[0.4px]"></div><div class="absolute top-72 -left-4 w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#ec4899] to-[#f43f5e] shadow-lg transform rotate-45 opacity-70 blur-[0.5px]"></div><div class="absolute bottom-36 -right-3 w-8 h-8 rounded-xl bg-gradient-to-tl from-[#22c55e] to-[#4ade80] shadow-md transform -rotate-6 opacity-75 blur-[0.3px]"></div><div class="absolute top-[420px] -left-2 text-amber-400 drop-shadow-md text-xl transform rotate-12 opacity-80 select-none">★</div><div class="absolute bottom-20 -right-1 text-amber-400 drop-shadow-md text-2xl transform -rotate-12 opacity-80 select-none">★</div></div>
+<!-- END: Header & Progress Section -->
+<!-- BEGIN: Main Content Area -->
+<main class="flex-1 flex flex-col justify-start px-5 pt-3 pb-6 z-10" data-purpose="quiz-main-content">
+<!-- Question Title Container with decorative marks -->
+<div class="relative flex items-start gap-2.5 mb-2 mt-1" data-purpose="question-header">
+<!-- Two playful orange marks on left -->
+<div aria-hidden="true" class="flex flex-col space-y-1.5 mt-1.5 flex-shrink-0">
+<span class="w-4 h-1.5 bg-[#f97316] rounded-full transform -rotate-12 block shadow-sm"></span>
+<span class="w-3.5 h-1.5 bg-[#f97316] rounded-full transform -rotate-6 block shadow-sm"></span>
+</div>
+<!-- Editable Question Text -->
+<h1 class="font-brand-title text-[21px] sm:text-[22px] text-[#002b66] leading-snug">
+          O que você mais gostaria de melhorar nos momentos com seu filho?
+          <!-- Decorative subtle text cursor indicator line -->
+<span class="inline-block w-[2px] h-5 ml-0.5 bg-[#38bdf8] align-middle animate-pulse"></span>
+</h1>
+</div>
+<!-- Central Visual: Mom and Child Activity Scene -->
+<div class="relative w-full my-2.5 rounded-2xl overflow-hidden shadow-sm" data-purpose="interactive-family-scene">
+<div class="relative w-full aspect-[16/10] sm:aspect-[16/10.5] rounded-2xl overflow-hidden border border-white/60 bg-gradient-to-b from-[#e0f2fe] via-[#fef3c7]/30 to-[#fed7aa]/20 flex items-center justify-center">
+<!-- Background Scene Lighting & Nursery Elements -->
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDWkB2ctOyaaoftazy5D_0Od-d6Vj2EXhvuAoXColHxdWf9I4TSGnx4Cdfioeb1SfVZSnpug74d09Y8wcxmlsI1NHyvdkOtCzqh9oSKtSBj6yHd_mhIIeePSWWPcx5p0SzxQEsMi31EHiotTWdA-4G70sGiftxOf3F0QltQ_OteIXJo2l-rXuiMmAOd-q5sykdlvSYLPHxLGApuLt80fB9gJAYImNoQoEn3VCN9t7DahojVbbxo0vmNzp-En7J8loKrAQ'); background-position: center 30%; background-size: 110%;">
+<!-- Soft gradient overlay to blend smoothly -->
+<div class="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent"></div>
+</div>
+</div>
+</div>
+<!-- BEGIN: Answer Options List -->
+<div class="w-full space-y-2.5 mt-2" data-purpose="quiz-options-list">
+<!-- Card Option 1: Ideias de atividades (Blue Accent) -->
+<button class="quiz-card w-full flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-[#eff8ff] border border-soft-blue shadow-card hover:shadow-card-hover hover:border-[#38bdf8] active:bg-[#e0f2fe] text-left transition-all group" data-purpose="option-activity-ideas" data-answer="ideias" type="button">
+<div class="flex items-center space-x-3.5 pr-2">
+<!-- 3D Bulb Icon Container -->
+<div class="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-2xl bg-white shadow-sm border border-sky-100 p-0.5 overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXbsEVVGAq5aKyDG9FhfQ3M-pztE-cwqa5ioO61Aw4rjx6I-btdaAbUyqosGuDqdNhaD4ZIyYeZgEMcEnkBGmjIHWSg7hvQUuaXtLwbN3kDFjm6DgTZb9sY_E3a4xxo1evCBOl33tBR39lFxszPYImws7krGyM7uDg5wFihXsMqd3pueLlgSQbsPyGoEo-yNkL_VIerQIMfd8n04B9mlxqXJRguQ2TMnR5SUkU6zovwS1jFSRJRb9I" alt="Lâmpada 3D" class="w-full h-full object-contain transform hover:scale-105 transition-transform"></div>
+<!-- Option Label -->
+<p class="font-bold text-[14.5px] sm:text-[15px] leading-snug text-[#002b66]">
+              Ter mais ideias de atividades educativas.
+            </p>
+</div>
+<!-- Right Chevron Icon -->
+<div class="text-[#38bdf8] group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+<svg class="w-5 h-5 stroke-[2.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Card Option 2: Aprender brincando (Warm Cream/Coral Accent) -->
+<button class="quiz-card w-full flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-[#fff9f4] border border-soft-orange shadow-card hover:shadow-card-hover hover:border-[#fb923c] active:bg-[#ffedd5] text-left transition-all group" data-purpose="option-play-together" data-answer="juntos" type="button">
+<div class="flex items-center space-x-3.5 pr-2">
+<!-- 3D Heart Icon Container -->
+<div class="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-2xl bg-white shadow-sm border border-orange-100 p-0.5 overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXrcYuwhMkGBl-w6z26sWO2E_qUUmbllrG_N_94Y6iY9sKShVRwdMjnnLmK50IweZvpKCzL_naOvTIEgfqWsiztdPUyCZOvpk0vBlRgIGKI533YektPqDughNBi3g3FZ5h3Wb4dFrjmYg035K0gEPWfL6WcFqMK0unfiWhMEqojLpE4m2ntQUjrzt7gPGXYkAMSJ48LOjImQ150HO2jvxZulQq_ToOFfYIpHxXtxocRk2sGyoKgVHW" alt="Coração 3D" class="w-full h-full object-contain transform hover:scale-105 transition-transform"></div>
+<!-- Option Label -->
+<p class="font-bold text-[14.5px] sm:text-[15px] leading-snug text-[#002b66]">
+              Aprender brincando e passar mais tempo juntos.
+            </p>
+</div>
+<!-- Right Chevron Icon -->
+<div class="text-[#fb923c] group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+<svg class="w-5 h-5 stroke-[2.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Card Option 3: Novas habilidades (Light Mint Green Accent) -->
+<button class="quiz-card w-full flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-[#f0fbf4] border border-soft-green shadow-card hover:shadow-card-hover hover:border-[#4ade80] active:bg-[#dcfce7] text-left transition-all group" data-purpose="option-new-skills" data-answer="habilidades" type="button">
+<div class="flex items-center space-x-3.5 pr-2">
+<!-- 3D Bar Chart Icon Container -->
+<div class="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-2xl bg-white shadow-sm border border-emerald-100 p-0.5 overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8BiWyBuqF4BETN4oKrUWm7t5XwbILv8TTwM83ocEGV71jm7hgRai7oCOSHjSalxjpdC5BdwB2gHa0NfCtpWEpI7AijUrmdm9bF9KSFjuXjVz8792jm-Izyq8o9lUImlMdxkwMITXaG9eXClSS2k4Mw9kbn6U8YrlHIwXcw_SLwp8qPmLkeqJ_SP2ozroxCvaqlQbOcedDWUQHn3vB6lHb-YemS074pDeeyv4AolAq-X8PIn_UudlF" alt="Gráfico 3D" class="w-full h-full object-contain transform hover:scale-105 transition-transform"></div>
+<!-- Option Label -->
+<p class="font-bold text-[14.5px] sm:text-[15px] leading-snug text-[#002b66]">
+              Estimular novas habilidades.
+            </p>
+</div>
+<!-- Right Chevron Icon -->
+<div class="text-[#22c55e] group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+<svg class="w-5 h-5 stroke-[2.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Card Option 4: Rotina organizada (Soft Pink Accent) -->
+<button class="quiz-card w-full flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-[#fff1f5] border border-soft-pink shadow-card hover:shadow-card-hover hover:border-[#f472b6] active:bg-[#fce7f3] text-left transition-all group" data-purpose="option-routine-organization" data-answer="rotina" type="button">
+<div class="flex items-center space-x-3.5 pr-2">
+<!-- 3D Calendar with Clock Badge Icon Container -->
+<div class="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-2xl bg-white shadow-sm border border-pink-100 p-0.5 overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqy_nuS_LvFIXwgZboFLt08_EXzpGDbD3K9mpRbQ2fBwYDIkGXcQaMrFhfMQml9qI0LMjQT6SEi0zN2maaY6xCHhDdgAu9XcM1vX9yV-xXJazFQTScv4NnAHwjTwtrpaV-3sw7sk8f5bRlwV9Qr3fQ36nBWDkNO1gfdDGLJUV_q1VgGbgaQCE_wERKuuzJpYj_r5KVhO_TOkT9X_XuoRQjARhB4HioKtu43zMMBGyl1sUIxApkR9G8" alt="Calendário com relógio 3D" class="w-full h-full object-contain transform hover:scale-105 transition-transform"></div>
+<!-- Option Label -->
+<p class="font-bold text-[14.5px] sm:text-[15px] leading-snug text-[#002b66]">
+              Ter uma rotina mais organizada.
+            </p>
+</div>
+<!-- Right Chevron Icon -->
+<div class="text-[#f43f5e] group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+<svg class="w-5 h-5 stroke-[2.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+</div>
+<!-- END: Answer Options List -->
+</main>
+<!-- END: Main Content Area -->
+<!-- Safe area padding for mobile navigation bar -->
+<div class="h-3 sm:h-5 w-full"></div>
+</div>
+<!-- END: Mobile Device Frame Container -->
+<!-- BEGIN: Interactive Feedback Script -->
+<script data-purpose="option-selection-interaction">
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.quiz-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Add a brief tactile pulse animation
+          card.classList.add('ring-2', 'ring-brand-blue', 'scale-[0.98]');
+          setTimeout(() => {
+            card.classList.remove('ring-2', 'ring-brand-blue', 'scale-[0.98]');
+            // Ready for integration with next quiz slide or router step
+          }, 180);
+        });
+      });
+    });
+  </script>
+<!-- END: Interactive Feedback Script -->
+
+
+<script src="/funil/bridge.js"></script>
+</body></html>

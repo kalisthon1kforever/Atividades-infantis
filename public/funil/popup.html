@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="pt-BR" data-funil-step="popup"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Oferta Especial - Pequenos Passos</title>
+<!-- Tailwind CSS v3 with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for playful and clean typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            brandBlue: '#0284c7',
+            brandGreen: '#16a34a',
+            brandYellow: '#facc15',
+            brandCoral: '#f43f5e',
+          },
+          boxShadow: {
+            'custom-card': '0 25px 50px -12px rgba(0, 0, 0, 0.45)',
+            'cta': '0 6px 0px #15803d, 0 10px 15px -3px rgba(22, 163, 74, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    body {
+      font-family: 'Nunito', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-heading {
+      font-family: 'Fredoka', sans-serif;
+    }
+    /* Wave ribbon effect for main blue offer banner */
+    .offer-banner {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-radius: 1.5rem;
+      position: relative;
+    }
+  </style>
+</head>
+<body class="bg-slate-900/70 min-h-screen flex items-center justify-center p-2 sm:p-4 backdrop-blur-sm">
+<!-- BEGIN: ExitIntentModal -->
+<div class="relative w-full max-w-[480px] bg-white rounded-3xl shadow-custom-card overflow-hidden border border-white/40 my-auto" data-purpose="exit-modal-card">
+<!-- BEGIN: CloseButton -->
+<!-- Botão de fechar (X) no topo direito com fundo circular e sombra sutil -->
+<button aria-label="Fechar modal" class="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-white/95 text-slate-600 hover:text-slate-900 shadow-md flex items-center justify-center transition-transform active:scale-90 border border-slate-100" data-purpose="modal-close-trigger" type="button">
+<svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- END: CloseButton -->
+<!-- BEGIN: ModalContent -->
+<div class="px-3.5 pt-3.5 pb-4 text-center">
+<!-- BEGIN: HeaderSection -->
+<div class="relative -mx-3.5 -mt-3.5 mb-2 overflow-hidden rounded-t-3xl">
+  <div class="relative w-full h-[210px] sm:h-[230px] overflow-hidden bg-amber-50">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr7dzqXjJWG4ySFAx2JalaPNcEEQAEaUGdxuz4Dh4PawPUHG-VUXJpp5Xb9pPwcFxeX2yeB4lvNRht2OOetK9v4WA8Y2Ub12Ihp2ovsWpOslKOyANgLepp4isDWt0_lVwvDME9NyrZVIetZgJ3iTWP2GmvSIgJkiFyDPpWOpPXVjslRFaC2y76H3nrNa75e6_9H0lYftRZ9i8WL0nlaaJAPE9bU861DEXMLuXVYzqyyDb_IJcrNA_PSqjA0A5hbKv5AQ" alt="Pequenos Passos - Oferta Especial" class="w-full h-full object-cover object-top">
+    <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-90"></div>
+  </div>
+  <div class="absolute bottom-2 inset-x-0 flex flex-col items-center px-4 text-center z-10">
+    <p class="text-xs sm:text-sm font-extrabold text-slate-800 leading-snug drop-shadow-sm max-w-[340px]">
+      Espera! Não vá embora sem a sua <span class="inline-block bg-[#f43f5e] text-white font-black px-2 py-0.5 rounded-full text-[11px] sm:text-xs shadow-sm mt-0.5">amostra 😉</span>
+    </p>
+  </div>
+</div>
+<!-- END: HeaderSection -->
+<!-- BEGIN: HeroOfferBanner -->
+<!-- Faixa azul com badges e oferta principal -->
+<div class="relative mt-2 mb-3" data-purpose="offer-banner-container">
+<!-- Selo flutuante de Oferta Especial Amarelo -->
+<div class="absolute -top-3.5 -right-1 z-20 bg-[#ffd600] text-slate-900 border-2 border-white rounded-2xl px-2.5 py-1.5 shadow-lg transform rotate-6 flex flex-col items-center">
+<span class="text-[9px] font-black uppercase tracking-tight leading-none text-red-600">OFERTA</span>
+<span class="text-[10px] font-black uppercase tracking-tight leading-none text-slate-900">ESPECIAL</span>
+<span class="text-[8px] font-bold text-slate-700 leading-tight">por tempo limitado!</span>
+<svg class="w-3.5 h-3.5 text-slate-800 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" stroke-width="2.5"></circle>
+<polyline points="12 6 12 12 16 14" stroke-width="2.5"></polyline>
+</svg>
+</div>
+<!-- Bloco Azul de Conteúdo da Oferta -->
+<div class="offer-banner text-white p-3.5 pt-4 text-center shadow-md">
+<h2 class="font-heading font-black text-lg sm:text-xl text-white leading-tight">
+            Leve o Acesso Total
+          </h2>
+<div class="font-heading font-black text-2xl sm:text-3xl text-[#ffe600] tracking-tight drop-shadow-sm">
+            por apenas R$ 19,90!
+          </div>
+<p class="text-[11px] sm:text-xs font-semibold text-sky-100 mt-1 max-w-[320px] mx-auto leading-tight">
+            Que tal começar GRÁTIS? Baixe 10 atividades de amostra agora — e se gostar, o Acesso Total completo fica por R$ 19,90 (de R$ 97,00) só nesta tela.
+          </p>
+</div>
+</div>
+<!-- END: HeroOfferBanner -->
+<!-- BEGIN: VisualArtworkAndFeatures -->
+<!-- Imagem das Crianças e Tablet lado a lado com os Benefícios -->
+<div class="mt-2 mb-3" data-purpose="features-and-visual-row">
+<!-- Visual Snapshot central provido -->
+<div class="relative w-full overflow-hidden rounded-2xl bg-gradient-to-b from-sky-50 to-orange-50/40 p-1 border border-slate-100 shadow-inner">
+<img alt="Pequenos Passos Material e Atividades Digitais" class="w-full h-auto max-h-[175px] object-cover rounded-xl" loading="eager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_0BO-bTf85KTOiC5fkEW9xVhuA0t8czzgYiC-k76Rl9r5lkfJUbqZn5qBsy8h9QXPMyyaUuOO7FLiMgQMJS8lL0GOJZiSIOaAAJxNtfazs6SfIVhEZ5gvr9UiARYqzRVgj7_YScL5laOf-wuzSy1NpoGcBGXyR_MDZoOyD0N8Eb10rEAvZ_0tvDneCd8g0c1hFwYcM8AwoBhQQcM4VZ0Po7UpAJqUaWu4U4y8kim63954F98OgO-Qk59BA3ct2ZkKvw">
+</div>
+<!-- Lista de Benefícios com ícones de checado verde -->
+<div class="mt-2.5 space-y-1.5 text-left px-1" data-purpose="benefits-checklist">
+<div class="flex items-center gap-2">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</span>
+<span class="text-[11px] sm:text-xs font-bold text-slate-700">Todas as atividades do Pequenos Passos</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</span>
+<span class="text-[11px] sm:text-xs font-bold text-slate-700">Acesso pelo app ou navegador</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</span>
+<span class="text-[11px] sm:text-xs font-bold text-slate-700">Materiais sempre atualizados</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</span>
+<span class="text-[11px] sm:text-xs font-bold text-slate-700">Rotinas visuais e organização</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</span>
+<span class="text-[11px] sm:text-xs font-bold text-slate-700">Recursos extras para professores</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</span>
+<span class="text-[11px] sm:text-xs font-bold text-slate-700 leading-snug">Pré-alfabetização, matemática, emoções e muito mais!</span>
+</div>
+</div>
+</div>
+<!-- END: VisualArtworkAndFeatures -->
+<!-- BEGIN: PricingAndTimerSection -->
+<div class="grid grid-cols-2 gap-2 bg-gradient-to-r from-red-50/70 via-amber-50/50 to-orange-50/70 border border-red-100 rounded-2xl p-2.5 items-center" data-purpose="pricing-and-countdown">
+<!-- Bloco de Preço -->
+<div class="flex items-center gap-2 text-left pl-1">
+<!-- Ícone Presente estilo 3D -->
+<div class="text-3xl flex-shrink-0">
+            🎁
+          </div>
+<div>
+<div class="text-[10px] font-bold text-slate-500 leading-tight">
+              De <span class="line-through text-red-500">R$ 97,00</span> por apenas:
+            </div>
+<div class="flex items-baseline">
+<span class="text-sm font-extrabold text-emerald-600 mr-0.5">R$</span>
+<span class="text-2xl font-heading font-black text-emerald-600 leading-none">19,90</span>
+</div>
+<div class="mt-0.5">
+<span class="inline-block bg-amber-400 text-slate-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tight">
+                79% DE DESCONTO
+              </span>
+</div>
+</div>
+</div>
+<!-- Bloco Cronômetro Regressivo Coral/Vermelho -->
+<div class="bg-gradient-to-br from-[#ff4d6d] to-[#e63946] text-white rounded-xl p-2 text-center shadow-sm flex flex-col justify-center items-center">
+<div class="text-[9px] font-bold tracking-tight text-white/90 uppercase leading-none mb-1">
+            Oferta válida apenas por:
+          </div>
+<div class="flex items-center justify-center gap-1.5">
+<svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" stroke-width="2.2"></circle>
+<polyline points="12 6 12 12 16 14" stroke-width="2.2"></polyline>
+</svg>
+<span class="font-heading font-black text-2xl tracking-wider leading-none" id="countdown-timer">06:20</span>
+</div>
+</div>
+</div>
+<!-- END: PricingAndTimerSection -->
+<!-- BEGIN: CTAAction -->
+<!-- Botão Verde de Alta Conversão -->
+<div class="mt-3 space-y-2" data-purpose="cta-button-container">
+<button class="w-full inline-flex items-center justify-center gap-2 bg-[#fff8eb] hover:bg-[#fff1d1] text-slate-800 font-heading font-black text-sm sm:text-base py-3 px-4 rounded-full border border-amber-200 shadow-sm transition-all" data-purpose="sample-cta" type="button">
+<span class="tracking-wide">Quero a amostra grátis</span>
+</button>
+<a class="w-full inline-flex items-center justify-center gap-2 bg-[#16a34a] hover:bg-[#15803d] active:translate-y-1 text-white font-heading font-black text-sm sm:text-base py-3.5 px-4 rounded-full shadow-cta transition-all" data-purpose="submit-cta-button" href="#checkout">
+<svg class="w-5 h-5 text-white/95" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<rect height="11" rx="2" ry="2" stroke-width="2.5" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0110 0v4" stroke-width="2.5"></path>
+</svg>
+<span class="tracking-wide">Quero o Acesso Total por R$ 19,90</span>
+</a>
+</div>
+<!-- END: CTAAction -->
+<!-- BEGIN: TrustBadgesRow -->
+<!-- Selos de confiança informativos -->
+<div class="mt-3 grid grid-cols-4 gap-1 border-t border-slate-100 pt-2.5 text-center text-slate-600" data-purpose="trust-badges">
+<div class="flex flex-col items-center">
+<svg class="w-4 h-4 text-sky-600 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<rect height="20" rx="2" ry="2" stroke-width="2" width="14" x="5" y="2"></rect>
+<line stroke-width="2" x1="12" x2="12.01" y1="18" y2="18"></line>
+</svg>
+<span class="text-[9px] font-bold leading-tight text-slate-600">App ou navegador</span>
+</div>
+<div class="flex flex-col items-center">
+<svg class="w-4 h-4 text-indigo-600 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[9px] font-bold leading-tight text-slate-600">Acesso imediato</span>
+</div>
+<div class="flex flex-col items-center">
+<svg class="w-4 h-4 text-emerald-600 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[9px] font-bold leading-tight text-slate-600">Pagamento seguro</span>
+</div>
+<div class="flex flex-col items-center">
+<svg class="w-4 h-4 text-amber-500 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[9px] font-bold leading-tight text-slate-600">7 dias garantia</span>
+</div>
+</div>
+<!-- END: TrustBadgesRow -->
+<!-- BEGIN: FooterSecurityNote -->
+<footer class="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-center gap-1.5 text-slate-500 text-[10px]" data-purpose="security-footer">
+<svg class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path>
+</svg>
+<span class="leading-tight">Seus dados estão seguros. Esta é uma oferta especial para você aproveitar agora.</span>
+</footer>
+<!-- END: FooterSecurityNote -->
+</div>
+<!-- END: ModalContent -->
+</div>
+<!-- END: ExitIntentModal -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="countdown-timer">
+    // Simulação do cronômetro regressivo de 9 minutos e 57 segundos
+    let totalSeconds = 15 * 60;
+    const timerElement = document.getElementById('countdown-timer');
+
+    function updateTimer() {
+      if (totalSeconds <= 0) {
+        clearInterval(timerInterval);
+        if (timerElement) timerElement.textContent = "00:00";
+        return;
+      }
+      totalSeconds--;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      if (timerElement) {
+        timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+  </script>
+<!-- END: InteractiveScripts -->
+
+
+<script src="/funil/bridge.js"></script>
+</body></html>

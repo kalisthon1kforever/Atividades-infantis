@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-BR" data-funil-step="q5"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Quiz Pequenos Passos - Pergunta 5 de 6</title>
+<!-- Tailwind CSS v3 with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#0288D1',
+              darkBlue: '#153376',
+              lightBlue: '#E1F5FE',
+              yellow: '#FFCA28',
+              orange: '#FF9800',
+              badgeGreen: '#00C853'
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 4px 14px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04)',
+            'card-hover': '0 8px 20px -3px rgba(0, 0, 0, 0.1)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="custom-scroll-and-layout">
+    /* iOS smooth tap highlight disable & smooth appearance */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .mobile-container {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased font-sans">
+<!-- BEGIN: MobileDeviceWrapper -->
+<main class="mobile-container bg-white shadow-2xl relative flex flex-col justify-between" data-purpose="quiz-screen-wrapper">
+<!-- Top Character & Header Illustration with Original Visual Composition -->
+<!-- BEGIN: HeaderIllustration -->
+<header class="relative w-full overflow-hidden bg-sky-50" data-purpose="header-banner">
+<!-- Reference image containing the official Pequenos Passos logo, children with tablet & sun/room background -->
+<div class="relative w-full aspect-[941/700] overflow-hidden">
+<img alt="Pequenos Passos Cabeçalho com Personagens e Tablet" class="w-full h-[155%] object-cover object-top select-none pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPkxbMygZ8o0fMjmXLmMDpJj7kyZmQI0gWIsXGSKRZGX8EVZotu7NTy6Ki5Z1_SJlY86lQH5qM7nagpvS-T090vEDbYwkKq_67Xgr7Pk_Qie6CP7wc5zRQFqjLtmKhifHmkjFZJjWjowsvsZFycNXSJ1ll-tXfsaWFw-xupBcjD528n1ZyDDvby8F2RsZvtmU-B7VbcFAbp05JnUNrS--sRAj1AXg4KL4aKgW38B35_j2KY4jX5AhnN-l0msYBtgMyfQ"/>
+<!-- Subtle bottom gradient to blend perfectly into question container -->
+<div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
+</div>
+</header>
+<!-- END: HeaderIllustration -->
+<!-- BEGIN: QuizContent -->
+<section class="px-5 pt-2 pb-6 flex-1 flex flex-col bg-white -mt-2 z-10" data-purpose="quiz-interactive-area">
+<!-- Progress Bar Section (5/6) -->
+<!-- BEGIN: ProgressBar -->
+<div class="w-full mb-4 flex items-center justify-between gap-3" data-purpose="quiz-progress-tracker">
+<div class="flex-1 bg-gray-200/80 rounded-full h-3 overflow-hidden p-[2px] shadow-inner">
+<!-- 5/6 = 83.33% progress -->
+<div class="bg-gradient-to-r from-sky-400 to-blue-600 h-full rounded-full transition-all duration-500 ease-out" style="width: 83.33%;"></div>
+</div>
+<span class="text-sm font-black text-blue-600 tracking-wider">5/6</span>
+</div>
+<!-- END: ProgressBar -->
+<!-- Question Title Area -->
+<!-- BEGIN: QuestionTitle -->
+<div class="relative mb-5" data-purpose="question-header">
+<!-- Decorative accents mimicking playful style -->
+<span class="absolute -left-3 top-0 text-amber-500 font-bold text-lg select-none">››</span>
+<h1 class="text-xl sm:text-2xl font-extrabold text-[#113168] leading-tight text-center px-4 tracking-tight" contenteditable="true">
+          O que mais ajudaria você a começar com tranquilidade?
+        </h1>
+</div>
+<!-- END: QuestionTitle -->
+<!-- Quiz Options List -->
+<!-- BEGIN: QuizOptionCards -->
+<div class="flex flex-col gap-3 w-full" data-purpose="options-list">
+<!-- Option 1: Atividades prontas para imprimir e usar -->
+<button class="group w-full flex items-center justify-between p-3.5 bg-[#FFF9ED] border-2 border-[#FFE8B5] hover:border-amber-400 active:scale-[0.98] rounded-2xl shadow-card transition-all text-left cursor-pointer" data-purpose="quiz-option-button" data-answer="imprimir" type="button">
+<div class="flex items-center gap-3.5 flex-1 pr-2">
+<!-- Icon 1: Printer Graphic -->
+<div class="w-12 h-12 flex-shrink-0 bg-white/90 rounded-xl shadow-sm flex items-center justify-center p-2 border border-amber-100">
+<svg class="w-8 h-8 text-sky-500" fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path>
+</svg>
+</div>
+<!-- Text Content -->
+<span class="text-[15px] font-bold text-[#143265] leading-snug">
+              Atividades prontas para imprimir e usar.
+            </span>
+</div>
+<!-- Arrow Indicator -->
+<div class="text-amber-500 group-hover:translate-x-1 transition-transform pr-1">
+<svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 2: Um passo a passo simples -->
+<button class="group w-full flex items-center justify-between p-3.5 bg-[#F0F7FF] border-2 border-[#D0E5FF] hover:border-blue-400 active:scale-[0.98] rounded-2xl shadow-card transition-all text-left cursor-pointer" data-purpose="quiz-option-button" data-answer="passo" type="button">
+<div class="flex items-center gap-3.5 flex-1 pr-2">
+<!-- Icon 2: Clipboard Checklist -->
+<div class="w-12 h-12 flex-shrink-0 bg-white/90 rounded-xl shadow-sm flex items-center justify-center p-2 border border-blue-100">
+<svg class="w-8 h-8 text-amber-500" fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"></path>
+</svg>
+</div>
+<!-- Text Content -->
+<span class="text-[15px] font-bold text-[#143265] leading-snug">
+              Um passo a passo simples.
+            </span>
+</div>
+<!-- Arrow Indicator -->
+<div class="text-sky-500 group-hover:translate-x-1 transition-transform pr-1">
+<svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 3: Uma sequência de atividades para seguir -->
+<button class="group w-full flex items-center justify-between p-3.5 bg-[#F2FBF5] border-2 border-[#D1F2DE] hover:border-emerald-400 active:scale-[0.98] rounded-2xl shadow-card transition-all text-left cursor-pointer" data-purpose="quiz-option-button" data-answer="sequencia" type="button">
+<div class="flex items-center gap-3.5 flex-1 pr-2">
+<!-- Icon 3: 1-2-3 Numeric Sequence Blocks -->
+<div class="w-12 h-12 flex-shrink-0 bg-white/90 rounded-xl shadow-sm flex items-center justify-center p-1.5 border border-emerald-100">
+<div class="flex items-center space-x-0.5 text-xs font-black">
+<span class="w-4 h-4 bg-blue-500 text-white rounded flex items-center justify-center">1</span>
+<span class="w-4 h-4 bg-amber-400 text-white rounded flex items-center justify-center -translate-y-1">2</span>
+<span class="w-4 h-4 bg-rose-500 text-white rounded flex items-center justify-center">3</span>
+</div>
+</div>
+<!-- Text Content -->
+<span class="text-[15px] font-bold text-[#143265] leading-snug">
+              Uma sequência de atividades para seguir.
+            </span>
+</div>
+<!-- Arrow Indicator -->
+<div class="text-emerald-500 group-hover:translate-x-1 transition-transform pr-1">
+<svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 4: Mais variedade de materiais -->
+<button class="group w-full flex items-center justify-between p-3.5 bg-[#FFF4F2] border-2 border-[#FFE2DC] hover:border-rose-400 active:scale-[0.98] rounded-2xl shadow-card transition-all text-left cursor-pointer" data-purpose="quiz-option-button" data-answer="variedade" type="button">
+<div class="flex items-center gap-3.5 flex-1 pr-2">
+<!-- Icon 4: Material Toy Basket -->
+<div class="w-12 h-12 flex-shrink-0 bg-white/90 rounded-xl shadow-sm flex items-center justify-center p-2 border border-rose-100">
+<svg class="w-8 h-8 text-purple-500" fill="currentColor" viewbox="0 0 24 24">
+<path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"></path>
+</svg>
+</div>
+<!-- Text Content -->
+<span class="text-[15px] font-bold text-[#143265] leading-snug">
+              Mais variedade de materiais.
+            </span>
+</div>
+<!-- Arrow Indicator -->
+<div class="text-rose-400 group-hover:translate-x-1 transition-transform pr-1">
+<svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 5: Tudo em um só lugar (Highlighted App/Web card) -->
+<button class="group w-full flex items-center justify-between p-3.5 bg-[#F8F3FF] border-2 border-[#E7D6FF] hover:border-purple-400 active:scale-[0.98] rounded-2xl shadow-card transition-all text-left cursor-pointer" data-purpose="quiz-option-button-app-highlight" data-answer="tudo" type="button">
+<div class="flex items-start gap-3.5 flex-1 pr-2">
+<!-- Icon 5: Tablet/Phone App Mockup -->
+<div class="w-12 h-14 flex-shrink-0 bg-indigo-900 rounded-xl shadow-sm flex flex-col items-center justify-center p-1 text-white relative overflow-hidden border border-indigo-700 mt-0.5">
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-sky-400 rounded-full flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+</span>
+<span class="text-[8px] font-extrabold text-amber-300 leading-none">Pequenos</span>
+<span class="text-[7px] font-bold text-sky-200 leading-none">Passos</span>
+<div class="w-5 h-0.5 bg-white/40 rounded-full mt-2"></div>
+</div>
+<!-- Detailed Content -->
+<div class="flex flex-col">
+<!-- Highlight Badge -->
+<div class="inline-block mb-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase bg-[#00C853] text-white shadow-sm">
+                  APP / ACESSO WEB
+                </span>
+</div>
+<h2 class="text-[15px] font-extrabold text-[#143265] leading-snug">
+                Tudo em um só lugar.
+              </h2>
+<p class="text-[12px] font-medium text-slate-500 leading-tight mt-0.5">
+                Acesso pelo app ou navegador, com todas as atividades, sempre disponíveis.
+              </p>
+</div>
+</div>
+<!-- Arrow Indicator -->
+<div class="text-purple-500 group-hover:translate-x-1 transition-transform self-center pr-1">
+<svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+</div>
+<!-- END: QuizOptionCards -->
+</section>
+<!-- END: QuizContent -->
+</main>
+<!-- END: MobileDeviceWrapper -->
+<!-- BEGIN: Interactive Feedback Script -->
+<script data-purpose="option-selection-interaction">
+    document.addEventListener('DOMContentLoaded', () => {
+      const optionButtons = document.querySelectorAll('[data-purpose^="quiz-option-button"]');
+      
+      optionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Visual select feedback
+          optionButtons.forEach(b => b.classList.remove('ring-4', 'ring-blue-400/50'));
+          button.classList.add('ring-4', 'ring-blue-400/50');
+        });
+      });
+    });
+  </script>
+<!-- END: Interactive Feedback Script -->
+<script src="/funil/bridge.js"></script>
+</body></html>

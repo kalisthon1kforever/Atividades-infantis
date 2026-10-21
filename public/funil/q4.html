@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-BR" data-funil-step="q4"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Quiz Pequenos Passos - Pergunta 4</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0d3269',
+              blue: '#1990ff',
+              track: '#e5e9f2',
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 4px 14px 0 rgba(0, 0, 0, 0.05)',
+            'card-hover': '0 6px 18px 0 rgba(0, 0, 0, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Fonts & Refinements -->
+<style data-purpose="custom-styling">
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+    
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* iOS safe areas and smooth transition */
+    .option-card {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-card:active {
+      transform: scale(0.985);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 flex justify-center items-start min-h-screen text-slate-800 antialiased p-0 sm:py-6">
+<!-- BEGIN: QuizContainer -->
+<!-- Container mobile com proporção original baseada em tela iOS 941x1672 -->
+<main class="w-full max-w-[430px] min-h-screen sm:min-h-0 sm:rounded-[36px] bg-white shadow-2xl flex flex-col relative overflow-hidden" data-purpose="quiz-screen">
+<!-- BEGIN: HeaderArtworkSection -->
+<!-- Arte superior com as crianças e o logotipo "Pequenos Passos" -->
+<header class="relative w-full aspect-[430/360] overflow-hidden select-none" data-purpose="quiz-header-image">
+<img alt="Ilustração de duas crianças brincando no topo do Quiz Pequenos Passos" class="w-full h-full object-cover object-top pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsFvTtl8uEvFnTMolcWEU5cIZtnP85X8E6QSisCsheDaRQpmUv_eiJW9Uw1mbLDMm1b6GmkMfNYBQVpj9mPtdyDF2D-F3r_-wRVngIcu1nfYmq9myhBy9W906pt-rdz5OKZYsYORP4xOTwVK8zD2MjqLFz7jGD77sc33PiL-1rJfQfFFMA_xoUUWjnAfRxe-wNAjgVc2Alsg7EY6q77-ReH7IRCr6SA2htUhfQU3zPj5X8GJjf9MqjUPhhfTbfpSeOkA"/>
+<!-- Gradiente suave inferior para fundir a ilustração ao card de perguntas -->
+<div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-white via-white/40 to-transparent"></div>
+</header>
+<!-- END: HeaderArtworkSection -->
+<!-- BEGIN: QuizContentBody -->
+<div class="flex-1 px-5 pt-1 pb-8 flex flex-col relative z-10 -mt-2">
+<!-- BEGIN: ProgressBar -->
+<!-- Barra de progresso indicando questão 4 de 6 (aprox. 66.6%) -->
+<div class="w-full flex items-center gap-3 mb-4" data-purpose="progress-container">
+<div class="flex-1 bg-[#e4eaf2] h-2.5 rounded-full overflow-hidden p-0.5">
+<div aria-valuemax="6" aria-valuemin="1" aria-valuenow="4" class="bg-[#188bf6] h-full rounded-full transition-all duration-500 ease-out" role="progressbar" style="width: 66.66%;"></div>
+</div>
+<span class="text-sm font-extrabold text-[#1a5b8f] tracking-wide shrink-0">4/6</span>
+</div>
+<!-- END: ProgressBar -->
+<!-- BEGIN: QuestionTitle -->
+<!-- Texto da pergunta com detalhes ilustrativos em acento laranja -->
+<div class="relative pl-6 mb-5" data-purpose="question-header">
+<!-- Ícones de destaque visual (raios laranjas) -->
+<div aria-hidden="true" class="absolute left-0 top-0.5 flex flex-col gap-1.5">
+<span class="w-3.5 h-1.5 bg-[#f68924] rounded-full transform -rotate-12 block"></span>
+<span class="w-3 h-1.5 bg-[#f68924] rounded-full transform -rotate-6 block"></span>
+</div>
+<h1 class="text-[#0d2f62] text-[19px] sm:text-[20px] font-black leading-snug tracking-tight">
+          Que tipo de atividade costuma despertar mais interesse na criança?
+        </h1>
+</div>
+<!-- END: QuestionTitle -->
+<!-- BEGIN: QuizOptionsList -->
+<!-- 5 Opções com paletas suaves/pastéis e cantos generosamente arredondados -->
+<div aria-label="Opções de atividades" class="flex flex-col gap-2.5" role="radiogroup">
+<!-- Opção 1: Figuras, cores e jogos de associação -->
+<button aria-checked="false" class="option-card w-full min-h-[66px] px-4 py-2.5 rounded-2xl bg-[#fff8eb] border border-[#fbe8cc] hover:bg-[#fffaee] flex items-center justify-between text-left shadow-card group" data-purpose="option-figures" data-answer="figuras" role="radio" type="button">
+<div class="flex items-center gap-3.5">
+<!-- Ícones geométricos 3D (Círculo, Cubo, Estrela) -->
+<div aria-hidden="true" class="w-10 h-10 flex items-center justify-center shrink-0 text-2xl select-none">
+<span class="drop-shadow-sm leading-none">🧩</span>
+</div>
+<span class="text-[#0d2f62] text-[15px] font-extrabold leading-snug">
+              Figuras, cores e<br/>jogos de associação.
+            </span>
+</div>
+<!-- Chevron Direito -->
+<svg class="w-5 h-5 text-[#f59e0b] group-hover:translate-x-0.5 transition-transform shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</button>
+<!-- Opção 2: Letras, palavras e histórias -->
+<button aria-checked="false" class="option-card w-full min-h-[66px] px-4 py-2.5 rounded-2xl bg-[#eff7ff] border border-[#d6ecff] hover:bg-[#f5faff] flex items-center justify-between text-left shadow-card group" data-purpose="option-letters" data-answer="letras" role="radio" type="button">
+<div class="flex items-center gap-3.5">
+<!-- Ícone Livro/Letras -->
+<div aria-hidden="true" class="w-10 h-10 flex items-center justify-center shrink-0 text-2xl select-none">
+<span class="drop-shadow-sm leading-none">📖</span>
+</div>
+<span class="text-[#0d2f62] text-[15px] font-extrabold leading-snug">
+              Letras, palavras<br/>e histórias.
+            </span>
+</div>
+<!-- Chevron Direito -->
+<svg class="w-5 h-5 text-[#38bdf8] group-hover:translate-x-0.5 transition-transform shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</button>
+<!-- Opção 3: Números, quantidades e formas -->
+<button aria-checked="false" class="option-card w-full min-h-[66px] px-4 py-2.5 rounded-2xl bg-[#ecfaee] border border-[#d1f3d6] hover:bg-[#f3fcf4] flex items-center justify-between text-left shadow-card group" data-purpose="option-numbers" data-answer="numeros" role="radio" type="button">
+<div class="flex items-center gap-3.5">
+<!-- Ícone Blocos Numéricos -->
+<div aria-hidden="true" class="w-10 h-10 flex items-center justify-center shrink-0 text-2xl select-none">
+<span class="drop-shadow-sm leading-none">🔢</span>
+</div>
+<span class="text-[#0d2f62] text-[15px] font-extrabold leading-snug">
+              Números, quantidades<br/>e formas.
+            </span>
+</div>
+<!-- Chevron Direito -->
+<svg class="w-5 h-5 text-[#4ade80] group-hover:translate-x-0.5 transition-transform shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</button>
+<!-- Opção 4: Desenhar, encaixar e usar as mãos -->
+<button aria-checked="false" class="option-card w-full min-h-[66px] px-4 py-2.5 rounded-2xl bg-[#fff0f0] border border-[#fed7d7] hover:bg-[#fff6f6] flex items-center justify-between text-left shadow-card group" data-purpose="option-arts" data-answer="maos" role="radio" type="button">
+<div class="flex items-center gap-3.5">
+<!-- Ícone Paleta de Pintura -->
+<div aria-hidden="true" class="w-10 h-10 flex items-center justify-center shrink-0 text-2xl select-none">
+<span class="drop-shadow-sm leading-none">🎨</span>
+</div>
+<span class="text-[#0d2f62] text-[15px] font-extrabold leading-snug">
+              Desenhar, encaixar<br/>e usar as mãos.
+            </span>
+</div>
+<!-- Chevron Direito -->
+<svg class="w-5 h-5 text-[#fb7185] group-hover:translate-x-0.5 transition-transform shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</button>
+<!-- Opção 5: Ainda estou descobrindo -->
+<button aria-checked="false" class="option-card w-full min-h-[66px] px-4 py-2.5 rounded-2xl bg-[#f5edff] border border-[#e8d5fc] hover:bg-[#faf4ff] flex items-center justify-between text-left shadow-card group" data-purpose="option-discovering" data-answer="descobrindo" role="radio" type="button">
+<div class="flex items-center gap-3.5">
+<!-- Ícone Lupa -->
+<div aria-hidden="true" class="w-10 h-10 flex items-center justify-center shrink-0 text-2xl select-none">
+<span class="drop-shadow-sm leading-none">🔍</span>
+</div>
+<span class="text-[#0d2f62] text-[15px] font-extrabold leading-snug">
+              Ainda estou<br/>descobrindo.
+            </span>
+</div>
+<!-- Chevron Direito -->
+<svg class="w-5 h-5 text-[#c084fc] group-hover:translate-x-0.5 transition-transform shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</button>
+</div>
+<!-- END: QuizOptionsList -->
+</div>
+<!-- END: QuizContentBody -->
+</main>
+<!-- END: QuizContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="option-selection">
+    // Pequeno feedback de clique e acessibilidade para simular a seleção da pergunta
+    document.querySelectorAll('.option-card').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.option-card').forEach(b => {
+          b.setAttribute('aria-checked', 'false');
+          b.classList.remove('ring-2', 'ring-blue-400');
+        });
+        button.setAttribute('aria-checked', 'true');
+        button.classList.add('ring-2', 'ring-blue-400');
+      });
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+<script src="/funil/bridge.js"></script>
+</body></html>

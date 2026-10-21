@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-BR" data-funil-step="q2"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Quiz Educativo - Pequenos Passos</title>
+<!-- Tailwind CSS v3 CDN with forms and container-queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Poppins / Quicksand for playful child-education aesthetic -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700;800&amp;family=Nunito:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Nunito', 'Quicksand', 'sans-serif'],
+          },
+          colors: {
+            brandDarkBlue: '#0c2e68',
+            brandOrange: '#f97316',
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="custom-layout">
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    /* Dynamic aspect ratio container for mobile preview fidelity */
+    .mobile-frame {
+      max-width: 440px;
+      margin: 0 auto;
+      min-height: 100vh;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+  </style>
+<style data-purpose="card-effects">
+    /* Subtle push and shine effect for option buttons */
+    .quiz-card {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .quiz-card:active {
+      transform: scale(0.98);
+      filter: brightness(0.96);
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="bg-amber-50/40 text-[#0c2e68] min-h-screen flex justify-center items-start">
+<!-- BEGIN: Mobile Container -->
+<div class="mobile-frame w-full bg-[#fdfbf7] flex flex-col overflow-hidden relative" data-purpose="mobile-wrapper">
+<!-- BEGIN: HeaderIllustration -->
+<!-- Contains the original top artwork showcasing the Pequenos Passos logo, mother, child and warm atmosphere -->
+<header class="relative w-full aspect-[941/910] overflow-hidden" data-purpose="header-artwork">
+<img alt="Quiz Educativo Pequenos Passos" class="w-full h-full object-cover object-top select-none pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG8zDxmX4-M8yB9IBLXSWyXMfPCePrtYsgUJlYJE5sUfVyEABOyWQCs0GHOufUin8ghbUFNpLWfBWqMhv7EKYVO9h0gO_PaUfcwR2tsr5da-io1eT-EjqknSVsHkve0Yn8Owd-MPP2At_CempaihQwqbhjaId0Mwp62v_UObqEWmQ-4IKDGx_vWA1dMD5VwZrx-0xgb2j-wRg8Z_70tnCSODjo9_CO5250RcWvEv5mUlGFYAcpMzreEJPO_3_qrufD0w"/>
+<!-- Soft gradient fading bottom of artwork into the interactive question sheet -->
+<div class="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-[#fdfbf7] to-transparent pointer-events-none"></div>
+</header>
+<!-- END: HeaderIllustration -->
+<!-- BEGIN: QuizContentArea -->
+<!-- Interactive section containing progress, question title, and selectable option cards -->
+<main class="flex-1 px-5 pt-0 pb-7 -mt-4 relative z-10 flex flex-col justify-between" data-purpose="quiz-content">
+<!-- Question Meta and Title -->
+<div class="w-full mb-4" data-purpose="question-header">
+<!-- Progress Bar and Step Indicator -->
+<div class="flex items-center gap-3 mb-4" data-purpose="progress-container">
+<div class="flex-1 bg-slate-200/80 rounded-full h-3 overflow-hidden shadow-inner p-[2px]">
+<!-- Progress indicator 2 of 6 (33.33%) -->
+<div aria-valuemax="6" aria-valuemin="1" aria-valuenow="2" class="h-full bg-gradient-to-r from-sky-400 to-blue-500 rounded-full transition-all duration-500 shadow-sm" style="width: 33.33%"></div>
+</div>
+<span class="text-sm font-extrabold text-[#19407e] tracking-wide shrink-0">2/6</span>
+</div>
+<!-- Question Headline with Decorative Accents -->
+<div class="relative pl-7 mt-3" data-purpose="question-title">
+<!-- Decorative orange highlight marks -->
+<div aria-hidden="true" class="absolute left-0 top-1 flex flex-col gap-1.5">
+<span class="w-4 h-1.5 bg-[#f59e0b] rounded-full rotate-[-25deg] shadow-sm inline-block"></span>
+<span class="w-4 h-1.5 bg-[#f97316] rounded-full rotate-[-15deg] shadow-sm inline-block"></span>
+</div>
+<h1 class="text-[1.28rem] leading-[1.3] font-black text-[#0d2a5c] tracking-tight">
+            O que mais dificulta fazer atividades educativas em casa?
+          </h1>
+</div>
+</div>
+<!-- BEGIN: OptionCardsList -->
+<!-- Interactive cards with rounded borders, distinct soft pastel backgrounds, emojis, and right chevrons -->
+<div aria-label="Opções de resposta" class="flex flex-col gap-2.5 w-full mt-1" role="radiogroup">
+<!-- Option 1: Ideias -->
+<button aria-checked="false" class="quiz-card group flex items-center justify-between w-full px-4 py-3 bg-[#fff9ea] hover:bg-[#fff5dc] border border-[#fef0cd] rounded-2xl shadow-[0_2px_8px_rgba(245,158,11,0.08)] text-left focus:outline-none focus:ring-2 focus:ring-amber-400" data-purpose="option-card" data-answer="ideias" onclick="selectOption(this)" role="radio" type="button">
+<div class="flex items-center gap-3.5 pr-2">
+<span aria-hidden="true" class="text-2xl shrink-0 filter drop-shadow-sm select-none">💡</span>
+<span class="text-[0.98rem] font-extrabold text-[#0d2a5c] leading-snug">
+              Fico sem ideias do que fazer.
+            </span>
+</div>
+<!-- Right Chevron Icon -->
+<div class="shrink-0 text-[#f59e0b] ml-1">
+<svg class="h-6 w-6 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 2: Rotina corrida -->
+<button aria-checked="false" class="quiz-card group flex items-center justify-between w-full px-4 py-3 bg-[#eff8fe] hover:bg-[#e4f3fd] border border-[#d6ecfb] rounded-2xl shadow-[0_2px_8px_rgba(14,165,233,0.08)] text-left focus:outline-none focus:ring-2 focus:ring-sky-400" data-purpose="option-card" data-answer="corrida" onclick="selectOption(this)" role="radio" type="button">
+<div class="flex items-center gap-3.5 pr-2">
+<span aria-hidden="true" class="text-2xl shrink-0 filter drop-shadow-sm select-none">⏰</span>
+<span class="text-[0.98rem] font-extrabold text-[#0d2a5c] leading-snug">
+              Minha rotina é muito corrida.
+            </span>
+</div>
+<div class="shrink-0 text-[#38bdf8] ml-1">
+<svg class="h-6 w-6 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 3: Escolha das atividades -->
+<button aria-checked="false" class="quiz-card group flex items-center justify-between w-full px-4 py-3 bg-[#effbf4] hover:bg-[#e2f8eb] border border-[#d2f3df] rounded-2xl shadow-[0_2px_8px_rgba(34,197,94,0.08)] text-left focus:outline-none focus:ring-2 focus:ring-emerald-400" data-purpose="option-card" data-answer="escolher" onclick="selectOption(this)" role="radio" type="button">
+<div class="flex items-center gap-3.5 pr-2">
+<span aria-hidden="true" class="text-2xl shrink-0 filter drop-shadow-sm select-none">🧱</span>
+<span class="text-[0.98rem] font-extrabold text-[#0d2a5c] leading-snug">
+              Não sei quais atividades escolher.
+            </span>
+</div>
+<div class="shrink-0 text-[#4ade80] ml-1">
+<svg class="h-6 w-6 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 4: Perde interesse -->
+<button aria-checked="false" class="quiz-card group flex items-center justify-between w-full px-4 py-3 bg-[#fdf2f2] hover:bg-[#fde8e8] border border-[#fcdada] rounded-2xl shadow-[0_2px_8px_rgba(244,63,94,0.08)] text-left focus:outline-none focus:ring-2 focus:ring-rose-400" data-purpose="option-card" data-answer="interesse" onclick="selectOption(this)" role="radio" type="button">
+<div class="flex items-center gap-3.5 pr-2">
+<span aria-hidden="true" class="text-2xl shrink-0 filter drop-shadow-sm select-none">🙁</span>
+<span class="text-[0.98rem] font-extrabold text-[#0d2a5c] leading-snug">
+              Meu filho perde o interesse rapidamente.
+            </span>
+</div>
+<div class="shrink-0 text-[#fb7185] ml-1">
+<svg class="h-6 w-6 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+<!-- Option 5: Materiais organizados -->
+<button aria-checked="false" class="quiz-card group flex items-center justify-between w-full px-4 py-3 bg-[#f6f2fd] hover:bg-[#eee6fc] border border-[#e5d8f9] rounded-2xl shadow-[0_2px_8px_rgba(168,85,247,0.08)] text-left focus:outline-none focus:ring-2 focus:ring-purple-400" data-purpose="option-card" data-answer="organizado" onclick="selectOption(this)" role="radio" type="button">
+<div class="flex items-center gap-3.5 pr-2">
+<span aria-hidden="true" class="text-2xl shrink-0 filter drop-shadow-sm select-none">🗃️</span>
+<span class="text-[0.98rem] font-extrabold text-[#0d2a5c] leading-snug">
+              Preciso de materiais mais organizados.
+            </span>
+</div>
+<div class="shrink-0 text-[#c084fc] ml-1">
+<svg class="h-6 w-6 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</button>
+</div>
+<!-- END: OptionCardsList -->
+</main>
+<!-- END: QuizContentArea -->
+</div>
+<!-- END: Mobile Container -->
+<!-- BEGIN: QuizInteractivityScript -->
+<script data-purpose="option-selection">
+    /**
+     * Handles card selection feedback
+     * Provides visual feedback when user clicks an answer
+     */
+    function selectOption(buttonElement) {
+      const allButtons = document.querySelectorAll('[data-purpose="option-card"]');
+      
+      allButtons.forEach(btn => {
+        btn.setAttribute('aria-checked', 'false');
+        btn.classList.remove('ring-4', 'ring-blue-400/50', 'scale-[0.98]');
+      });
+
+      buttonElement.setAttribute('aria-checked', 'true');
+      buttonElement.classList.add('ring-4', 'ring-blue-400/50', 'scale-[0.98]');
+    }
+  </script>
+<!-- END: QuizInteractivityScript -->
+<script src="/funil/bridge.js"></script>
+</body></html>

@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+.cursor/mcp.json
 
 # Dependências / build
 node_modules/
@@ -22,3 +23,8 @@ head primeira dobra/
 
 .vercel
 .env*
+
+# Dumps temporários do Stitch (as telas do funil ficam em public/funil)
+stitch-funnel/
+.tmp-stitch-*
+.tmp-*
