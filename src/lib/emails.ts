@@ -169,9 +169,41 @@ export function paidEmailHtml(opts: {
   `);
 }
 
+const SENDER_NAME = "Pequenos Passos";
+const DEFAULT_REPLY_TO = "atividadesinfantis84@gmail.com";
+
+async function sendViaGmail(opts: { to: string; subject: string; html: string }, user: string, pass: string) {
+  const nodemailer = await import("nodemailer");
+  const transport = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+  });
+  try {
+    await transport.sendMail({
+      from: `${SENDER_NAME} <${user}>`,
+      to: opts.to,
+      subject: opts.subject,
+      html: opts.html,
+    });
+    return { sent: true as const };
+  } catch (err) {
+    console.error("[email] falha Gmail", err instanceof Error ? err.message : err);
+    return { sent: false, reason: "provider" as const };
+  }
+}
+
 export async function sendEmail(opts: { to: string; subject: string; html: string }) {
+  const gmailUser = process.env.GMAIL_USER?.trim();
+  const gmailPass = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "");
+  if (gmailUser && gmailPass) {
+    return sendViaGmail(opts, gmailUser, gmailPass);
+  }
+
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.QUIZ_FROM_EMAIL || "Pequenos Passos <onboarding@resend.dev>";
+  const from = process.env.QUIZ_FROM_EMAIL || `${SENDER_NAME} <onboarding@resend.dev>`;
+  const replyTo = process.env.QUIZ_REPLY_TO?.trim() || DEFAULT_REPLY_TO;
   if (!key) {
     console.info("[email] RESEND_API_KEY ausente — e-mail não enviado para", opts.to, opts.subject);
     return { sent: false, reason: "missing_key" as const };
@@ -184,6 +216,7 @@ export async function sendEmail(opts: { to: string; subject: string; html: strin
     },
     body: JSON.stringify({
       from,
+      reply_to: replyTo,
       to: [opts.to],
       subject: opts.subject,
       html: opts.html,
