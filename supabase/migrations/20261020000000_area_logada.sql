@@ -9,6 +9,24 @@
 -- TABELAS
 -- -------------------------------------------------------------
 
+-- Coluna gerada só aceita expressão imutável; array_to_string não é.
+create or replace function public.app_activity_search(
+  p_title text,
+  p_category text,
+  p_tags text[],
+  p_summary text
+)
+returns tsvector
+language sql
+immutable
+as $$
+  select
+    setweight(to_tsvector('portuguese'::regconfig, coalesce(p_title, '')), 'A') ||
+    setweight(to_tsvector('portuguese'::regconfig, coalesce(p_category, '')), 'B') ||
+    setweight(to_tsvector('portuguese'::regconfig, array_to_string(coalesce(p_tags, '{}'::text[]), ' ')), 'B') ||
+    setweight(to_tsvector('portuguese'::regconfig, coalesce(p_summary, '')), 'C')
+$$;
+
 -- Catálogo de atividades (imprimíveis/tela)
 create table if not exists public.activities (
   id            text primary key,
@@ -27,13 +45,9 @@ create table if not exists public.activities (
   is_published  boolean not null default true,
   created_at    timestamptz not null default now(),
   search        tsvector generated always as (
-     setweight(to_tsvector('portuguese', coalesce(title, '')), 'A') ||
-     setweight(to_tsvector('portuguese', coalesce(category, '')), 'B') ||
-     setweight(to_tsvector('portuguese', array_to_string(coalesce(tags, '{}'), ' ')), 'B') ||
-     setweight(to_tsvector('portuguese', coalesce(summary, '')), 'C')
+     public.app_activity_search(title, category, tags, summary)
   ) stored
 );
-go
 do $$ begin
   if not exists (
     select 1 from pg_indexes where schemaname = 'public' and indexname = 'activities_search_idx'
@@ -158,7 +172,7 @@ language sql stable security definer set search_path = public, auth as $$
   select exists (
     select 1 from auth.users u
     where u.id = auth.uid()
-      and coalesce(u.app_metadata ->> 'role', 'familia') = 'admin'
+      and coalesce(u.raw_app_meta_data ->> 'role', 'familia') = 'admin'
   );
 $$;
 
@@ -272,7 +286,7 @@ begin
   select public.app_find_user_id(p_email) into v_uid;
   if v_uid is null then return; end if;
   update auth.users
-     set app_metadata = coalesce(app_metadata, '{}'::jsonb) || jsonb_build_object('must_change_password', p_value)
+     set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || jsonb_build_object('must_change_password', p_value)
    where id = v_uid;
 end;
 $$;

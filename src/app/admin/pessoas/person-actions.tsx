@@ -7,10 +7,9 @@ import {
   markMustChangeAction,
   resendAccessAction,
   revokeProductAction,
-  simulatePurchaseAction,
   type AdminActionResult,
 } from "../actions";
-import { BUMP_KEYS } from "@/lib/catalog-prices";
+import { SimulatePurchase } from "../simulate-purchase";
 import { PRODUCTS, type ProductKey } from "@/lib/products";
 
 const initialState: AdminActionResult = {};
@@ -27,9 +26,6 @@ export function PersonActions({
   owned: string[];
 }) {
   const [product, setProduct] = useState<ProductKey>("kit-inicial");
-  const [simProduct, setSimProduct] = useState<"kit-inicial" | "acesso-total">("kit-inicial");
-  const [bumps, setBumps] = useState<string[]>([]);
-  const [combo, setCombo] = useState(false);
   const [state, setState] = useState<AdminActionResult>({});
   const [pending, setPending] = useState(false);
   const [note, setNote] = useState("");
@@ -87,55 +83,7 @@ export function PersonActions({
         ) : null}
       </section>
 
-      <section className="admin-card">
-        <h2>Simular compra completa</h2>
-        <p className="admin-hint">Não cobra no Mercado Pago. Cria o pedido, libera os produtos e manda a senha só por e-mail.</p>
-        <div className="admin-inline">
-          <select value={simProduct} onChange={(e) => setSimProduct(e.target.value as "kit-inicial" | "acesso-total")}>
-            <option value="kit-inicial">{PRODUCTS["kit-inicial"].label}</option>
-            <option value="acesso-total">{PRODUCTS["acesso-total"].label}</option>
-          </select>
-          <label>
-            <input type="checkbox" checked={combo} onChange={(e) => setCombo(e.target.checked)} /> combo
-          </label>
-        </div>
-        {combo ? null : (
-          <div className="admin-inline">
-            {BUMP_KEYS.map((key) => (
-              <label key={key}>
-                <input
-                  type="checkbox"
-                  checked={bumps.includes(key)}
-                  onChange={(e) => {
-                    setBumps((current) =>
-                      e.target.checked ? [...current, key] : current.filter((item) => item !== key)
-                    );
-                  }}
-                />{" "}
-                {PRODUCTS[key].label}
-              </label>
-            ))}
-          </div>
-        )}
-        <button
-          type="button"
-          className="btn"
-          disabled={pending}
-          onClick={() =>
-            run(() =>
-              simulatePurchaseAction({
-                email,
-                name,
-                product: simProduct,
-                bumps,
-                combo,
-              })
-            )
-          }
-        >
-          {pending ? "Simulando..." : "Simular compra completa"}
-        </button>
-      </section>
+      <SimulatePurchase email={email} name={name} />
 
       <section className="admin-card">
         <h2>Acesso e senha</h2>

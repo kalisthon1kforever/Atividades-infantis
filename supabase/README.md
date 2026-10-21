@@ -32,7 +32,7 @@ então o migration precisa ser aplicado pelo painel — leva menos de 2 minutos:
 ### Verificação rápida (SQL Editor)
 
 ```sql
-select count(*) as fichas from public.activities;        -- esperado: 29
+select count(*) as fichas from public.activities;        -- esperado: 31
 select count(*) from public.activities where product_key = 'amostra';  -- esperado: 10
 ```
 
@@ -49,7 +49,8 @@ Mas o caminho normal é pelo CRM: **/admin → Pessoas → abrir ficha → Produ
 
 1. No mesmo SQL Editor, cole `supabase/migrations/20261021000000_checkout_orders.sql` e dê Run.
 2. A tabela `checkout_orders` nasce com RLS ligado e sem política para visitante.
-3. Para testar sem cobrar: entre como admin, abra a ficha da pessoa e use **Simular compra completa**.
+3. Para testar sem cobrar: entre como admin e use **Simular compra completa** na aba Compras
+   (qualquer e-mail) ou na ficha da pessoa.
    O botão grava o pedido com origem `simulado`, libera os produtos e manda a senha só por e-mail.
 4. O mesmo `payment_id` não gera segundo e-mail. Cada clique em simular usa um id novo.
 5. Token `TEST-` do Mercado Pago também serve para uma preferência de teste. Em localhost o retorno

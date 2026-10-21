@@ -1,5 +1,24 @@
--- Pedidos do checkout. Rode DEPOIS de 20261020000000_area_logada.sql.
+-- Pedidos do checkout. Pode rodar de novo: a tabela e as funções são idempotentes.
+-- Recria app_is_admin porque o SQL Editor às vezes confirma o script das tabelas
+-- sem deixar essa função visível para o próximo arquivo.
 -- Sem política para anon/authenticated: só service_role (e app_list_orders para admin).
+
+create or replace function public.app_is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public, auth
+as $$
+  select exists (
+    select 1
+    from auth.users u
+    where u.id = auth.uid()
+      and coalesce(u.raw_app_meta_data ->> 'role', 'familia') = 'admin'
+  );
+$$;
+
+grant execute on function public.app_is_admin() to authenticated;
 
 create table if not exists public.checkout_orders (
   id          uuid primary key default gen_random_uuid(),

@@ -1,5 +1,6 @@
 import { serviceFetch } from "@/lib/supabase/service";
 import { productLabel } from "@/lib/products";
+import { SimulatePurchase } from "../simulate-purchase";
 
 export const metadata = { title: "Compras — Admin" };
 
@@ -39,6 +40,8 @@ export default async function ComprasPage() {
 
   const rows = res.data ?? [];
   return (
+    <>
+    <SimulatePurchase />
     <section className="admin-card">
       <h1>Compras</h1>
       <p className="admin-hint">{rows.length} pedido(s). A senha não aparece aqui.</p>
@@ -74,5 +77,6 @@ export default async function ComprasPage() {
         </table>
       ) : null}
     </section>
+    </>
   );
 }

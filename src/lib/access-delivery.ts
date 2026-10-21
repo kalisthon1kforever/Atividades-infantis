@@ -55,8 +55,8 @@ async function grantProducts(email: string, products: string[], source: string) 
       p_product: product,
       p_source: source,
     });
+    await serviceRpc("app_lead_converted", { p_email: email, p_product: product });
   }
-  await serviceRpc("app_lead_converted", { p_email: email });
 }
 
 export async function deliverPurchase(input: DeliveryInput): Promise<DeliveryResult> {
