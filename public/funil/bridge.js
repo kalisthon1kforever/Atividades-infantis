@@ -67,9 +67,22 @@
         event.preventDefault();
         var emailEl = document.getElementById("checkout-email");
         var nameEl = document.getElementById("checkout-name");
+        var methodEl = document.getElementById("checkout-method");
+        var comboEl = document.getElementById("combo-checkbox");
+        var bumps = [];
+        document.querySelectorAll(".bump-checkbox").forEach(function (box) {
+          if (box instanceof HTMLInputElement && box.checked && box.getAttribute("data-bump")) {
+            bumps.push(box.getAttribute("data-bump"));
+          }
+        });
+        var produto = new URLSearchParams(location.search).get("produto") || "kit-inicial";
         send("submit-checkout", {
           email: emailEl && "value" in emailEl ? String(emailEl.value || "") : "",
           name: nameEl && "value" in nameEl ? String(nameEl.value || "") : "",
+          product: produto,
+          bumps: bumps,
+          combo: comboEl instanceof HTMLInputElement && comboEl.checked,
+          method: methodEl && "value" in methodEl ? String(methodEl.value || "card") : "card",
         });
         return;
       }

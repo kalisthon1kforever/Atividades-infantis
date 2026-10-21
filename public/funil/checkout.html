@@ -101,12 +101,12 @@
 <div class="flex-1 min-w-0">
 <div class="flex justify-between items-start">
 <div>
-<h2 class="text-[14px] font-extrabold text-gray-900 leading-tight">
+<h2 id="product-title" class="text-[14px] font-extrabold text-gray-900 leading-tight">
                   Pequenos Passos <span class="text-gray-400">—</span> Kit Inicial
                 </h2>
 <p class="text-[11px] text-gray-500 font-semibold mb-1.5">Atividades educativas para imprimir</p>
 </div>
-<span class="text-[17px] font-black text-[#0066d6] whitespace-nowrap ml-1 tracking-tight">
+<span id="product-price" class="text-[17px] font-black text-[#0066d6] whitespace-nowrap ml-1 tracking-tight">
                 R$ 37,90
               </span>
 </div>
@@ -147,7 +147,7 @@
 <!-- Bump 1: Rotina Visual -->
 <label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
 <div class="flex items-center gap-2.5 min-w-0">
-<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="9.90" type="checkbox"/>
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-bump="rotina-visual" data-price="9.90" type="checkbox"/>
 <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 shrink-0 border border-orange-200 text-lg">
 <i class="fa-solid fa-table-cells-large"></i>
 </div>
@@ -161,7 +161,7 @@
 <!-- Bump 2: Guia 30 Dias -->
 <label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
 <div class="flex items-center gap-2.5 min-w-0">
-<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="7.90" type="checkbox"/>
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-bump="guia-30-dias" data-price="7.90" type="checkbox"/>
 <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700 shrink-0 border border-amber-200 font-extrabold text-sm">
                 30
               </div>
@@ -175,7 +175,7 @@
 <!-- Bump 3: Mini Kit Pré-Alfabetização -->
 <label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
 <div class="flex items-center gap-2.5 min-w-0">
-<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="4.90" type="checkbox"/>
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-bump="mini-kit-5-min" data-price="4.90" type="checkbox"/>
 <div class="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600 shrink-0 border border-pink-200 font-black text-xs tracking-tighter">
                 ABC
               </div>
@@ -189,7 +189,7 @@
 <!-- Bump 4: Cartões de Vocabulário -->
 <label class="bump-item flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-blue-400 cursor-pointer transition-all">
 <div class="flex items-center gap-2.5 min-w-0">
-<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-price="13.90" type="checkbox"/>
+<input class="bump-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" data-bump="cartoes-vocabulario" data-price="13.90" type="checkbox"/>
 <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 border border-emerald-200 text-base">
 <i class="fa-solid fa-chalkboard-user"></i>
 </div>
@@ -232,8 +232,8 @@
 </div>
 <div class="space-y-1 text-[12px] font-bold text-gray-600">
 <div class="flex justify-between items-center">
-<span>Kit Inicial</span>
-<span class="font-extrabold text-gray-800">R$ 37,90</span>
+<span id="summary-product-name">Kit Inicial</span>
+<span id="summary-base-price" class="font-extrabold text-gray-800">R$ 37,90</span>
 </div>
 <div class="flex justify-between items-center text-gray-500">
 <span>Complementos</span>
@@ -259,27 +259,28 @@
 <!-- Botões de Métodos de Pagamento -->
 <div class="grid grid-cols-3 gap-1.5" data-purpose="payment-tabs">
 <!-- PIX Tab -->
-<button class="pay-tab py-2 px-1 rounded-xl border border-gray-200 bg-white text-gray-700 flex flex-col items-center justify-center gap-0.5 hover:border-emerald-500 active:scale-95 transition-all" type="button">
+<button class="pay-tab py-2 px-1 rounded-xl border border-gray-200 bg-white text-gray-700 flex flex-col items-center justify-center gap-0.5 hover:border-emerald-500 active:scale-95 transition-all" data-method="pix" type="button">
 <div class="flex items-center gap-1">
 <i class="fa-brands fa-pix text-emerald-500 text-base"></i>
 <span class="text-[11.5px] font-black text-gray-800">PIX</span>
 </div>
 </button>
 <!-- Cartão Tab (Ativo por padrão) -->
-<button class="pay-tab py-2 px-1 rounded-xl border-2 border-blue-500 bg-blue-50/50 text-blue-900 flex flex-col items-center justify-center gap-0.5 shadow-xs font-black" type="button">
+<button class="pay-tab py-2 px-1 rounded-xl border-2 border-blue-500 bg-blue-50/50 text-blue-900 flex flex-col items-center justify-center gap-0.5 shadow-xs font-black" data-method="card" type="button">
 <div class="flex items-center gap-1">
 <i class="fa-solid fa-credit-card text-blue-600 text-xs"></i>
 <span class="text-[11px] font-extrabold">Cartão de Crédito</span>
 </div>
 </button>
 <!-- Boleto Tab -->
-<button class="pay-tab py-2 px-1 rounded-xl border border-gray-200 bg-white text-gray-700 flex flex-col items-center justify-center gap-0.5 hover:border-gray-400 active:scale-95 transition-all" type="button">
+<button class="pay-tab py-2 px-1 rounded-xl border border-gray-200 bg-white text-gray-700 flex flex-col items-center justify-center gap-0.5 hover:border-gray-400 active:scale-95 transition-all" data-method="boleto" type="button">
 <div class="flex items-center gap-1">
 <i class="fa-solid fa-barcode text-gray-600 text-sm"></i>
 <span class="text-[10px] font-black text-gray-800">Boleto Bancário</span>
 </div>
 </button>
 </div>
+<input id="checkout-method" type="hidden" value="card"/>
 <!-- Inputs do Comprador -->
 <div class="space-y-2 pt-0.5">
 <div class="relative">
@@ -340,8 +341,33 @@
 <!-- Cálculo Dinâmico em tempo real do Total e Seleção de Bumps -->
 <script data-purpose="price-calculation">
     document.addEventListener('DOMContentLoaded', () => {
-      const BASE_PRICE = 37.90;
+      const isTotal = new URLSearchParams(location.search).get("produto") === "acesso-total";
+      const BASE_PRICE = isTotal ? 19.90 : 37.90;
       const COMBO_PRICE = 29.90;
+      if (isTotal) {
+        const title = document.getElementById("product-title");
+        const price = document.getElementById("product-price");
+        const summaryName = document.getElementById("summary-product-name");
+        const summaryBase = document.getElementById("summary-base-price");
+        const total = document.getElementById("summary-total-price");
+        if (title) title.innerHTML = 'Pequenos Passos <span class="text-gray-400">—</span> Acesso Total';
+        if (price) price.textContent = "R$ 19,90";
+        if (summaryName) summaryName.textContent = "Acesso Total";
+        if (summaryBase) summaryBase.textContent = "R$ 19,90";
+        if (total) total.textContent = "R$ 19,90";
+      }
+      document.querySelectorAll(".pay-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".pay-tab").forEach((el) => {
+            el.classList.remove("border-2", "border-blue-500", "bg-blue-50/50", "text-blue-900");
+            el.classList.add("border", "border-gray-200", "bg-white", "text-gray-700");
+          });
+          tab.classList.remove("border", "border-gray-200", "bg-white", "text-gray-700");
+          tab.classList.add("border-2", "border-blue-500", "bg-blue-50/50", "text-blue-900");
+          const method = document.getElementById("checkout-method");
+          if (method) method.value = tab.getAttribute("data-method") || "card";
+        });
+      });
 
       const bumpCheckboxes = document.querySelectorAll('.bump-checkbox');
       const comboCheckbox = document.getElementById('combo-checkbox');
