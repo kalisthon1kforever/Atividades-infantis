@@ -7,6 +7,7 @@ import { KIT_CATEGORIES } from "@/app/qz/funil-data";
 import { HOME_FAQ, HOME_MODULES } from "@/data/home";
 import { ActivityMarquee } from "@/components/home/ActivityMarquee";
 import { AppShowcase } from "@/components/home/AppShowcase";
+import { HomeExitPopup } from "@/components/home/HomeExitPopup";
 import { CheckIcon, ShieldIcon } from "@/components/icons";
 
 const QUIZ_URL = "/qz";
@@ -280,6 +281,7 @@ export default function Home() {
           </p>
         </div>
       </footer>
+      <HomeExitPopup />
     </main>
   );
 }

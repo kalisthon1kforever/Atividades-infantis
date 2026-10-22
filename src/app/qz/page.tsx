@@ -4,8 +4,6 @@ import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "re
 import {
   Answers,
   diagnosisParagraphs,
-  EXIT_POPUP_DAYS,
-  EXIT_POPUP_KEY,
   feedbackFor,
   FunnelStep,
   inferAnswerKey,
@@ -16,6 +14,7 @@ import {
 import { AcessoLiberado } from "./AcessoLiberado";
 import { AmostraGratis } from "./AmostraGratis";
 import { TypedFeedback } from "./TypedFeedback";
+import { useExitIntent } from "./exit-intent";
 import { track } from "./track";
 
 const QUIZ_ORDER = ["q1", "q2", "q3", "q4", "q5", "q6"] as const;
@@ -49,28 +48,6 @@ type FunnelMessage = {
 
 type FeedbackState = { body: string; extra?: string };
 
-function hasSeenExitPopup() {
-  try {
-    const raw = localStorage.getItem(EXIT_POPUP_KEY);
-    if (!raw) return false;
-    const ts = Number(raw);
-    if (!Number.isFinite(ts)) return false;
-    return Date.now() - ts < EXIT_POPUP_DAYS * 24 * 60 * 60 * 1000;
-  } catch {
-    return false;
-  }
-}
-
-function markExitPopup() {
-  try {
-    const now = String(Date.now());
-    localStorage.setItem(EXIT_POPUP_KEY, now);
-    document.cookie = `${EXIT_POPUP_KEY}=1; max-age=${EXIT_POPUP_DAYS * 86400}; path=/; SameSite=Lax`;
-  } catch {
-    /* ignore */
-  }
-}
-
 export default function QuizFunnelPage() {
   const [step, setStep] = useState<FunnelStep>("q1");
   const [popupOpen, setPopupOpen] = useState(false);
@@ -89,7 +66,6 @@ export default function QuizFunnelPage() {
   const answersRef = useRef<Answers>({});
   const leadRef = useRef({ name: "", email: "" });
   const productRef = useRef<"kit-inicial" | "acesso-total">("kit-inicial");
-  const popupLockRef = useRef(false);
   const nextStepRef = useRef<FunnelStep | null>(null);
 
   const diagnosis = useMemo(() => diagnosisParagraphs(answers), [answers]);
@@ -219,74 +195,26 @@ export default function QuizFunnelPage() {
     if (next) goTo(next);
   }, [goTo]);
 
-  useEffect(() => {
-    if (step !== "oferta" && step !== "checkout") return;
-    const forced = new URLSearchParams(window.location.search).get("popup") === "1";
-    if (!forced && (hasSeenExitPopup() || popupLockRef.current)) return;
+  const stepRef = useRef(step);
+  stepRef.current = step;
 
-    function maybeOpenPopup(reason: string) {
-      if (popupLockRef.current) return;
-      if (!forced && hasSeenExitPopup()) return;
-      popupLockRef.current = true;
-      markExitPopup();
+  useExitIntent(
+    step !== "acesso",
+    (reason) => {
       setPopupOpen(true);
-      track("quiz_popup_open", { step, reason });
+      track("quiz_popup_open", { step: stepRef.current, reason });
+    },
+    "qz"
+  );
+
+  useEffect(() => {
+    const etapa = new URLSearchParams(window.location.search).get("etapa");
+    if (etapa === "captura") goTo("captura");
+    if (etapa === "checkout" || etapa === "checkout-total") {
+      productRef.current = etapa === "checkout-total" ? "acesso-total" : "kit-inicial";
+      goTo("checkout");
     }
-
-    function onMouseLeave(event: MouseEvent) {
-      if (event.clientY <= 0) maybeOpenPopup("mouse");
-    }
-
-    function onFrameExit() {
-      maybeOpenPopup("mouse");
-    }
-
-    function onPopState() {
-      maybeOpenPopup("voltar");
-    }
-
-    let hiddenAt = 0;
-    function onVisibility() {
-      if (document.visibilityState === "hidden") {
-        hiddenAt = Date.now();
-        return;
-      }
-      if (hiddenAt && Date.now() - hiddenAt > 1500) maybeOpenPopup("aba");
-    }
-
-    let lastY = window.scrollY;
-    let lastT = performance.now();
-    let deepest = lastY;
-    function onScroll() {
-      const now = performance.now();
-      const y = window.scrollY;
-      deepest = Math.max(deepest, y);
-      const speed = (lastY - y) / Math.max(1, now - lastT);
-      if (window.matchMedia("(pointer: coarse)").matches && deepest > 500 && y < deepest - 300 && speed > 1.6) {
-        maybeOpenPopup("rolagem");
-      }
-      lastY = y;
-      lastT = now;
-    }
-
-    window.history.pushState({ funil: step }, "");
-    document.addEventListener("mouseleave", onMouseLeave);
-    window.addEventListener("pp-exit-intent", onFrameExit);
-    window.addEventListener("popstate", onPopState);
-    document.addEventListener("visibilitychange", onVisibility);
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    const timer = forced ? window.setTimeout(() => maybeOpenPopup("teste"), 1200) : 0;
-
-    return () => {
-      document.removeEventListener("mouseleave", onMouseLeave);
-      window.removeEventListener("pp-exit-intent", onFrameExit);
-      window.removeEventListener("popstate", onPopState);
-      document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("scroll", onScroll);
-      if (timer) window.clearTimeout(timer);
-    };
-  }, [step]);
+  }, [goTo]);
 
   async function submitLead(event: FormEvent) {
     event.preventDefault();
@@ -357,7 +285,25 @@ export default function QuizFunnelPage() {
       ) : null}
 
       {step === "oferta" ? (
-        <p className="qz-result-proof-bar">{SOCIAL_PROOF}</p>
+        <>
+          <p className="qz-result-proof-bar">{SOCIAL_PROOF}</p>
+          <div className="qz-sticky-cta">
+            <div className="qz-sticky-price">
+              <s>R$ 97,00</s>
+              <b>R$ 37,90</b>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                productRef.current = "kit-inicial";
+                track("quiz_offer_click", { from: "oferta-barra" });
+                goTo("checkout");
+              }}
+            >
+              Quero o meu kit agora
+            </button>
+          </div>
+        </>
       ) : null}
 
       {feedback ? <TypedFeedback body={feedback.body} extra={feedback.extra} onDone={finishFeedback} /> : null}
@@ -384,7 +330,7 @@ export default function QuizFunnelPage() {
       {step === "captura" ? (
         <div className="qz-capture">
           <div className="qz-capture-card">
-            <h1>Seu resultado está pronto! 🎉</h1>
+            <h1>{answers.q1 ? "Seu resultado está pronto! 🎉" : "Suas 10 atividades grátis estão a um passo! 🎁"}</h1>
             <p className="qz-capture-sub">
               Para qual e-mail enviamos a sua demonstração gratuita + 10 atividades de amostra para testar hoje?
             </p>

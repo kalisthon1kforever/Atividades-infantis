@@ -111,12 +111,25 @@
     if (event.clientY <= 0) send("exit-intent");
   });
 
+  function contentHeight() {
+    if (!document.body) return 0;
+    var bottom = 0;
+    Array.prototype.forEach.call(document.body.children, function (el) {
+      if (el.tagName === "SCRIPT") return;
+      var rect = el.getBoundingClientRect();
+      bottom = Math.max(bottom, rect.bottom + window.scrollY);
+    });
+    return bottom;
+  }
+
   function reportHeight() {
-    var h = Math.max(
-      document.body ? document.body.scrollHeight : 0,
-      document.documentElement ? document.documentElement.scrollHeight : 0
-    );
-    send("frame-height", { height: h });
+    var h = step === "oferta"
+      ? contentHeight()
+      : Math.max(
+          document.body ? document.body.scrollHeight : 0,
+          document.documentElement ? document.documentElement.scrollHeight : 0
+        );
+    if (h > 0) send("frame-height", { height: h });
   }
 
   if (document.readyState === "complete") {

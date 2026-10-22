@@ -13,7 +13,11 @@ export type FunnelEvent =
   | "quiz_popup_paid"
   | "quiz_popup_close"
   | "quiz_checkout_view"
-  | "quiz_checkout_submit";
+  | "quiz_checkout_submit"
+  | "home_popup_open"
+  | "home_popup_close"
+  | "home_popup_sample"
+  | "home_popup_paid";
 
 declare global {
   interface Window {
