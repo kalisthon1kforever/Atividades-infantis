@@ -15,6 +15,7 @@ import {
 } from "./funil-data";
 import { AcessoLiberado } from "./AcessoLiberado";
 import { AmostraGratis } from "./AmostraGratis";
+import { TypedFeedback } from "./TypedFeedback";
 import { track } from "./track";
 
 const QUIZ_ORDER = ["q1", "q2", "q3", "q4", "q5", "q6"] as const;
@@ -89,7 +90,7 @@ export default function QuizFunnelPage() {
   const leadRef = useRef({ name: "", email: "" });
   const productRef = useRef<"kit-inicial" | "acesso-total">("kit-inicial");
   const popupLockRef = useRef(false);
-  const feedbackTimer = useRef<number | null>(null);
+  const nextStepRef = useRef<FunnelStep | null>(null);
 
   const diagnosis = useMemo(() => diagnosisParagraphs(answers), [answers]);
   const category = useMemo(() => startCategory(answers.q4?.key), [answers.q4]);
@@ -129,21 +130,10 @@ export default function QuizFunnelPage() {
         track("quiz_answer", { step: quizStep, key, label: data.label });
 
         const copy = feedbackFor(quizStep, key);
+        const index = QUIZ_ORDER.indexOf(quizStep);
+        nextStepRef.current = index >= 0 && index < QUIZ_ORDER.length - 1 ? QUIZ_ORDER[index + 1] : "captura";
         setFeedback(copy);
         track("quiz_feedback_shown", { step: quizStep, key });
-
-        if (feedbackTimer.current) window.clearTimeout(feedbackTimer.current);
-        const words = `${copy.body} ${copy.extra || ""}`.trim().split(/\s+/).length;
-        const wait = Math.min(7000, Math.max(4200, 2800 + words * 110));
-        feedbackTimer.current = window.setTimeout(() => {
-          setFeedback(null);
-          const index = QUIZ_ORDER.indexOf(quizStep);
-          if (index >= 0 && index < QUIZ_ORDER.length - 1) {
-            goTo(QUIZ_ORDER[index + 1]);
-            return;
-          }
-          goTo("captura");
-        }, wait);
         return;
       }
 
@@ -166,7 +156,12 @@ export default function QuizFunnelPage() {
       if (data.action === "popup-sample") {
         setPopupOpen(false);
         track("quiz_popup_sample");
-        goTo("captura");
+        goTo(leadRef.current.email ? "amostra" : "captura");
+        return;
+      }
+
+      if (data.action === "exit-intent") {
+        window.dispatchEvent(new Event("pp-exit-intent"));
         return;
       }
 
@@ -217,39 +212,79 @@ export default function QuizFunnelPage() {
     return () => window.removeEventListener("message", onMessage);
   }, [goTo, persistAnswers, step]);
 
-  useEffect(() => {
-    return () => {
-      if (feedbackTimer.current) window.clearTimeout(feedbackTimer.current);
-    };
-  }, []);
+  const finishFeedback = useCallback(() => {
+    const next = nextStepRef.current;
+    nextStepRef.current = null;
+    setFeedback(null);
+    if (next) goTo(next);
+  }, [goTo]);
 
   useEffect(() => {
     if (step !== "oferta" && step !== "checkout") return;
-    if (hasSeenExitPopup() || popupLockRef.current) return;
+    const forced = new URLSearchParams(window.location.search).get("popup") === "1";
+    if (!forced && (hasSeenExitPopup() || popupLockRef.current)) return;
 
-    function maybeOpenPopup() {
-      if (popupLockRef.current || hasSeenExitPopup()) return;
+    function maybeOpenPopup(reason: string) {
+      if (popupLockRef.current) return;
+      if (!forced && hasSeenExitPopup()) return;
       popupLockRef.current = true;
       markExitPopup();
       setPopupOpen(true);
-      track("quiz_popup_open", { step });
+      track("quiz_popup_open", { step, reason });
     }
 
     function onMouseLeave(event: MouseEvent) {
-      if (event.clientY <= 0) maybeOpenPopup();
+      if (event.clientY <= 0) maybeOpenPopup("mouse");
+    }
+
+    function onFrameExit() {
+      maybeOpenPopup("mouse");
     }
 
     function onPopState() {
-      maybeOpenPopup();
+      maybeOpenPopup("voltar");
+    }
+
+    let hiddenAt = 0;
+    function onVisibility() {
+      if (document.visibilityState === "hidden") {
+        hiddenAt = Date.now();
+        return;
+      }
+      if (hiddenAt && Date.now() - hiddenAt > 1500) maybeOpenPopup("aba");
+    }
+
+    let lastY = window.scrollY;
+    let lastT = performance.now();
+    let deepest = lastY;
+    function onScroll() {
+      const now = performance.now();
+      const y = window.scrollY;
+      deepest = Math.max(deepest, y);
+      const speed = (lastY - y) / Math.max(1, now - lastT);
+      if (window.matchMedia("(pointer: coarse)").matches && deepest > 500 && y < deepest - 300 && speed > 1.6) {
+        maybeOpenPopup("rolagem");
+      }
+      lastY = y;
+      lastT = now;
     }
 
     window.history.pushState({ funil: step }, "");
     document.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("pp-exit-intent", onFrameExit);
     window.addEventListener("popstate", onPopState);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const timer = forced ? window.setTimeout(() => maybeOpenPopup("teste"), 1200) : 0;
 
     return () => {
       document.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("pp-exit-intent", onFrameExit);
       window.removeEventListener("popstate", onPopState);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("scroll", onScroll);
+      if (timer) window.clearTimeout(timer);
     };
   }, [step]);
 
@@ -305,7 +340,7 @@ export default function QuizFunnelPage() {
 
       {showFrame ? (
         <iframe
-          key={step}
+          key={step === "checkout" ? `checkout-${productRef.current}` : step}
           className="qz-frame"
           src={
           step === "checkout"
@@ -325,14 +360,7 @@ export default function QuizFunnelPage() {
         <p className="qz-result-proof-bar">{SOCIAL_PROOF}</p>
       ) : null}
 
-      {feedback ? (
-        <div className="qz-feedback" role="status">
-          <div className="qz-feedback-card">
-            <p>{feedback.body}</p>
-            {feedback.extra ? <p className="qz-feedback-extra">{feedback.extra}</p> : null}
-          </div>
-        </div>
-      ) : null}
+      {feedback ? <TypedFeedback body={feedback.body} extra={feedback.extra} onDone={finishFeedback} /> : null}
 
       {step === "amostra" ? (
         <AmostraGratis

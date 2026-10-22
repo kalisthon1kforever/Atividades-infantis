@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pequenos Passos — Alfabetização em Casa | 100 atividades imprimíveis",
+  title: "Pequenos Passos — Atividades para aprender junto com seu filho",
   description:
-    "100 atividades prontas para imprimir para transformar 15 minutos do dia em um momento de aprendizagem com seu filho. Letras, palavras, números e atenção, no ritmo da criança.",
+    "Atividades prontas para imprimir ou fazer no app, separadas por módulo: atenção, letras, números, coordenação, emoções e rotina. Faça o quiz grátis e receba 10 atividades.",
   openGraph: {
-    title: "Pequenos Passos — Alfabetização em Casa",
+    title: "Pequenos Passos — Atividades para aprender junto com seu filho",
     description:
-      "100 atividades imprimíveis para praticar letras, palavras, números e atenção com seu filho, em casa e sem telas.",
-    images: ["/hero-familia.png"],
+      "15 minutos por dia aprendendo junto, sem preparar nada do zero. Quiz grátis de 1 minuto e 10 atividades de presente.",
+    images: ["/brand/hero-familia.jpg"],
     locale: "pt_BR",
     type: "website",
   },

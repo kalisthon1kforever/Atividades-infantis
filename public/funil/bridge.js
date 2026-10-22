@@ -107,6 +107,10 @@
     true
   );
 
+  document.addEventListener("mouseleave", function (event) {
+    if (event.clientY <= 0) send("exit-intent");
+  });
+
   function reportHeight() {
     var h = Math.max(
       document.body ? document.body.scrollHeight : 0,
