@@ -202,30 +202,40 @@ export async function sendEmail(opts: { to: string; subject: string; html: strin
   }
 
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.QUIZ_FROM_EMAIL || `${SENDER_NAME} <onboarding@resend.dev>`;
+  const testFrom = `${SENDER_NAME} <onboarding@resend.dev>`;
+  const from = process.env.QUIZ_FROM_EMAIL || testFrom;
   const replyTo = process.env.QUIZ_REPLY_TO?.trim() || DEFAULT_REPLY_TO;
   if (!key) {
     console.info("[email] RESEND_API_KEY ausente — e-mail não enviado para", opts.to, opts.subject);
     return { sent: false, reason: "missing_key" as const };
   }
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      reply_to: replyTo,
-      to: [opts.to],
-      subject: opts.subject,
-      html: opts.html,
-    }),
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("[email] falha Resend", res.status, text);
-    const restricted = /only send testing emails|verify a domain|not verified/i.test(text);
+
+  async function post(sender: string) {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: sender,
+        reply_to: replyTo,
+        to: [opts.to],
+        subject: opts.subject,
+        html: opts.html,
+      }),
+    });
+    return { ok: res.ok, status: res.status, text: res.ok ? "" : await res.text() };
+  }
+
+  let result = await post(from);
+  if (!result.ok && from !== testFrom && /domain is not verified|not verified/i.test(result.text)) {
+    console.warn("[email] dominio ainda nao verificado no Resend; tentando o remetente de teste");
+    result = await post(testFrom);
+  }
+  if (!result.ok) {
+    console.error("[email] falha Resend", result.status, result.text);
+    const restricted = /only send testing emails|verify a domain|not verified/i.test(result.text);
     return { sent: false, reason: restricted ? ("restricted" as const) : ("provider" as const) };
   }
   return { sent: true as const };
