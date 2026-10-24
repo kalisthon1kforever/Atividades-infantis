@@ -290,6 +290,14 @@
 </button>
 </div>
 <input id="checkout-method" type="hidden" value="card"/>
+<div id="paymentBrick_container"></div>
+<div id="pix-box" hidden class="rounded-2xl border-2 border-emerald-400 bg-emerald-50 p-3 space-y-2">
+<p class="text-[13px] font-black text-emerald-950">PIX gerado. Pague no banco para liberar o acesso.</p>
+<img id="pix-qr" alt="QR Code do PIX" class="mx-auto w-52 h-52 bg-white rounded-xl"/>
+<textarea id="pix-code" readonly class="w-full text-[11px] rounded-xl border border-emerald-200 p-2"></textarea>
+<button id="pix-copy" class="w-full py-2 rounded-xl bg-emerald-600 text-white font-black text-xs" type="button">COPIAR CÓDIGO PIX</button>
+<p id="pix-wait" class="text-[12px] font-bold text-emerald-900">Assim que o banco confirmar, esta tela abre a Área Família.</p>
+</div>
 <!-- Inputs do Comprador -->
 <div class="space-y-2 pt-0.5">
 <div class="relative">
@@ -443,6 +451,8 @@
 
         bumpsPriceEl.textContent = formatBRL(bumpsTotal);
         totalPriceEl.textContent = formatBRL(grandTotal);
+        window.ppCheckoutAmount = grandTotal;
+        if (window.ppSyncBrick) window.ppSyncBrick(grandTotal);
       }
 
       function ativarUltimaHora() {
@@ -486,8 +496,152 @@
           recalculateTotal();
         });
       });
+      recalculateTotal();
     });
   </script>
 <!-- END: LogicScript -->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const box = document.getElementById("paymentBrick_container");
+    if (!box || !window.MercadoPago) return;
+    let config;
+    try {
+      config = await fetch("/api/checkout/config").then((res) => res.json());
+    } catch {
+      return;
+    }
+    if (!config || !config.publicKey) return;
+    const mp = new window.MercadoPago(config.publicKey, { locale: "pt-BR" });
+    let controller = null;
+    let currentAmount = 0;
+
+    function orderPayload(formData) {
+      const bumps = [];
+      document.querySelectorAll(".bump-checkbox").forEach((item) => {
+        if (item instanceof HTMLInputElement && item.checked && item.getAttribute("data-bump")) {
+          bumps.push(item.getAttribute("data-bump"));
+        }
+      });
+      const combo = document.getElementById("combo-checkbox");
+      const email = document.getElementById("checkout-email");
+      const name = document.getElementById("checkout-name");
+      const ultima = document.getElementById("checkout-ultima-hora");
+      return {
+        formData,
+        email: email ? email.value : "",
+        name: name ? name.value : "",
+        product: new URLSearchParams(location.search).get("produto") || "kit-inicial",
+        bumps,
+        combo: combo instanceof HTMLInputElement && combo.checked,
+        ultimaHora: Boolean(ultima && ultima.value === "1"),
+      };
+    }
+
+    function showPix(json) {
+      const panel = document.getElementById("pix-box");
+      const image = document.getElementById("pix-qr");
+      const code = document.getElementById("pix-code");
+      if (panel) panel.hidden = false;
+      if (image && json.qrCodeBase64) image.src = "data:image/jpeg;base64," + json.qrCodeBase64;
+      if (code) code.value = json.qrCode || "";
+      box.hidden = true;
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ source: "pp-funil", action: "payment-lock" }, "*");
+      }
+      const copy = document.getElementById("pix-copy");
+      if (copy) {
+        copy.onclick = async () => {
+          try { await navigator.clipboard.writeText(json.qrCode || ""); copy.textContent = "CÓDIGO COPIADO"; } catch { copy.textContent = "SELECIONE E COPIE O CÓDIGO"; }
+        };
+      }
+      let tries = 0;
+      const timer = window.setInterval(async () => {
+        tries += 1;
+        if (tries > 90) window.clearInterval(timer);
+        try {
+          const res = await fetch("/api/checkout/confirm?payment_id=" + encodeURIComponent(json.paymentId) + "&k=" + encodeURIComponent(json.returnKey || ""));
+          const data = await res.json();
+          if (data.status === "approved" && data.signed !== false) {
+            window.clearInterval(timer);
+            window.top.location.assign(json.returnUrl);
+          }
+        } catch {}
+      }, 4000);
+    }
+
+    async function mount(amount) {
+      const value = Math.round(Number(amount || window.ppCheckoutAmount || 0) * 100) / 100;
+      if (!value) return;
+      if (controller && value === currentAmount) return;
+      currentAmount = value;
+      if (controller) {
+        try { controller.unmount(); } catch {}
+        controller = null;
+      }
+      const email = document.getElementById("checkout-email");
+      controller = await mp.bricks().create("payment", "paymentBrick_container", {
+        initialization: {
+          amount: value,
+          payer: { email: email && email.value ? email.value : undefined },
+        },
+        customization: {
+          paymentMethods: {
+            creditCard: "all",
+            debitCard: "all",
+            ticket: "all",
+            bankTransfer: "all",
+            maxInstallments: 12,
+          },
+        },
+        callbacks: {
+          onReady: () => {
+            const tabs = document.querySelector("[data-purpose='payment-tabs']");
+            const button = document.getElementById("btn-submit");
+            if (tabs) tabs.hidden = true;
+            if (button) button.hidden = true;
+          },
+          onSubmit: ({ formData }) => {
+            const payload = orderPayload(formData);
+            if (!String(payload.name || "").trim()) {
+              return Promise.reject(new Error("Preencha seu nome completo."));
+            }
+            return fetch("/api/checkout/pay", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            }).then(async (res) => {
+              const json = await res.json();
+              if (!res.ok) throw new Error(json.message || "Não foi possível pagar.");
+              if (json.qrCode || json.qrCodeBase64) {
+                showPix(json);
+                return;
+              }
+              if (json.ticketUrl) {
+                window.top.location.assign(json.ticketUrl);
+                return;
+              }
+              if (json.status === "approved" && json.returnUrl) {
+                window.top.location.assign(json.returnUrl);
+                return;
+              }
+              if (json.status === "in_process" || json.status === "pending") {
+                if (json.returnUrl) window.top.location.assign(json.returnUrl);
+                return;
+              }
+              throw new Error(json.message || "O pagamento não foi concluído.");
+            });
+          },
+          onError: () => {},
+        },
+      });
+    }
+
+    window.ppSyncBrick = (amount) => {
+      mount(amount).catch(() => {});
+    };
+    await mount(window.ppCheckoutAmount || 0);
+  });
+</script>
 <script src="/funil/bridge.js"></script>
 </body></html>

@@ -11,7 +11,9 @@ export async function fulfillApprovedPayment(payment: MpPayment, origin: string)
 
   const product: CheckoutProduct = order.product === "acesso-total" ? "acesso-total" : "kit-inicial";
   const expected = orderTotal(pricedOrder(product, order.bumps, order.combo, order.ultimaHora === true));
-  if (Math.abs(Number(payment.transaction_amount) - expected) > 0.009) {
+  const paid = Number(payment.transaction_amount);
+  const withinInterest = paid + 0.009 >= expected && paid <= expected * 1.35 + 0.05;
+  if (!withinInterest) {
     return { ok: false as const, reason: "amount_mismatch" as const };
   }
 
@@ -22,7 +24,7 @@ export async function fulfillApprovedPayment(payment: MpPayment, origin: string)
     product,
     bumps: order.bumps,
     combo: order.combo,
-    total: expected,
+    total: paid,
     origem: "mercado-pago",
     source: `checkout-mp:${payment.id}`,
     origin,

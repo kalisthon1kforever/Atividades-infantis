@@ -58,22 +58,8 @@ export function openOrder(reference: string): SignedOrder | null {
   }
 }
 
-function paymentMethods(method: PayMethod) {
-  if (method === "pix") {
-    return {
-      default_payment_method_id: "pix",
-      excluded_payment_types: [{ id: "credit_card" }, { id: "debit_card" }, { id: "ticket" }],
-    };
-  }
-  if (method === "boleto") {
-    return {
-      excluded_payment_types: [{ id: "credit_card" }, { id: "debit_card" }, { id: "bank_transfer" }],
-    };
-  }
-  return {
-    installments: 12,
-    excluded_payment_types: [{ id: "ticket" }, { id: "bank_transfer" }],
-  };
+function paymentMethods(_method: PayMethod) {
+  return { installments: 12 };
 }
 
 export async function createPreference(input: {
@@ -134,6 +120,74 @@ export type MpPayment = {
   transaction_amount: number;
   external_reference?: string;
 };
+
+export type DirectPaymentInput = {
+  amount: number;
+  description: string;
+  paymentMethodId: string;
+  token?: string;
+  issuerId?: string;
+  installments?: number;
+  payer: Record<string, unknown>;
+  externalReference: string;
+  notificationUrl?: string;
+};
+
+export type DirectPaymentResult = {
+  id: string;
+  status: string;
+  statusDetail: string;
+  qrCode?: string;
+  qrCodeBase64?: string;
+  ticketUrl?: string;
+  message?: string;
+};
+
+export async function createDirectPayment(input: DirectPaymentInput): Promise<DirectPaymentResult> {
+  const payload: Record<string, unknown> = {
+    transaction_amount: input.amount,
+    description: input.description,
+    payment_method_id: input.paymentMethodId,
+    installments: input.installments || 1,
+    payer: input.payer,
+    external_reference: input.externalReference,
+  };
+  if (input.token) payload.token = input.token;
+  if (input.issuerId) payload.issuer_id = input.issuerId;
+  if (input.notificationUrl) payload.notification_url = input.notificationUrl;
+
+  const res = await fetch("https://api.mercadopago.com/v1/payments", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token()}`,
+      "Content-Type": "application/json",
+      "X-Idempotency-Key": crypto.randomUUID(),
+    },
+    body: JSON.stringify(payload),
+  });
+  const data = (await res.json()) as {
+    id?: number | string;
+    status?: string;
+    status_detail?: string;
+    message?: string;
+    error?: string;
+    cause?: Array<{ description?: string; code?: string }>;
+    point_of_interaction?: { transaction_data?: { qr_code?: string; qr_code_base64?: string; ticket_url?: string } };
+  };
+  const tx = data.point_of_interaction?.transaction_data;
+  if (!res.ok || !data.id) {
+    const cause = Array.isArray(data.cause) ? data.cause.map((item) => item.description || item.code).filter(Boolean).join(" ") : "";
+    throw new Error(cause || data.message || data.error || "payment_failed");
+  }
+  return {
+    id: String(data.id),
+    status: data.status || "",
+    statusDetail: data.status_detail || "",
+    qrCode: tx?.qr_code,
+    qrCodeBase64: tx?.qr_code_base64,
+    ticketUrl: tx?.ticket_url,
+  };
+}
 
 export async function fetchPayment(id: string): Promise<MpPayment | null> {
   const res = await fetch(`https://api.mercadopago.com/v1/payments/${encodeURIComponent(id)}`, {

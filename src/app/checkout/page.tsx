@@ -49,13 +49,13 @@ export default function CheckoutPage() {
       abrirSaida();
     }
 
-    function onVis() {
-      if (document.visibilityState === "hidden") abrirSaida();
-    }
-
     async function onMessage(event: MessageEvent<CheckoutMessage>) {
       const data = event.data;
       if (!data || data.source !== "pp-funil") return;
+      if (data.action === "payment-lock") {
+        busyRef.current = true;
+        return;
+      }
       if (data.action === "exit-intent") {
         abrirSaida();
         return;
@@ -114,11 +114,9 @@ export default function CheckoutPage() {
     }
 
     window.addEventListener("message", onMessage);
-    document.addEventListener("visibilitychange", onVis);
     window.addEventListener("popstate", onPop);
     return () => {
       window.removeEventListener("message", onMessage);
-      document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("popstate", onPop);
     };
   }, []);

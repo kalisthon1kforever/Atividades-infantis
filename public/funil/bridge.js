@@ -116,10 +116,6 @@
     if (event.clientY <= 0) send("exit-intent");
   });
 
-  document.addEventListener("visibilitychange", function () {
-    if (step === "checkout" && document.visibilityState === "hidden") send("exit-intent");
-  });
-
   if (step === "popup" && new URLSearchParams(location.search).get("obrigatorio") === "1") {
     var fecharObrigatorio = document.querySelector("[data-purpose='modal-close-trigger']");
     if (fecharObrigatorio instanceof HTMLElement) fecharObrigatorio.style.display = "none";
