@@ -3985,7 +3985,10 @@ mark { background: #ffe9a8; color: inherit; border-radius: 4px; padding: 0 2px; 
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 .hm-marquee-track { display: flex; width: max-content; animation: hm-scroll 70s linear infinite; }
-.hm-marquee-rev { animation-direction: reverse; animation-duration: 64s; }
+.hm-marquee-rev { animation-direction: reverse; }
+.hm-marquee-vitrine { animation-duration: 110s; }
+.hm-marquee-rev.hm-marquee-vitrine { animation-duration: 128s; }
+.hm-marquee-proof { animation-duration: 72s; }
 .hm-marquee:hover .hm-marquee-track { animation-play-state: paused; }
 .hm-marquee-group { display: flex; gap: 1rem; padding: .6rem .5rem 1rem; }
 @keyframes hm-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -4032,6 +4035,32 @@ mark { background: #ffe9a8; color: inherit; border-radius: 4px; padding: 0 2px; 
 .hm-act-module-num { font-size: .75rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--tone); }
 .hm-act-module-icon { font-size: 2.4rem; line-height: 1; }
 .hm-act-module h3 { color: var(--tone); font-size: 1.2rem; }
+
+.hm-shot {
+  flex: 0 0 auto;
+  width: min(92vw, 680px);
+  margin: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #fff;
+  border: 5px solid #fff;
+  box-shadow: 0 18px 40px rgba(20, 48, 107, .14);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+.hm-shot img { display: block; width: 100%; height: auto; }
+.hm-shot:hover { transform: translateY(-8px) scale(1.015); box-shadow: 0 26px 50px rgba(20, 48, 107, .2); }
+
+.hm-proof {
+  flex: 0 0 auto;
+  width: min(72vw, 280px);
+  margin: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #fff;
+  border: 4px solid #fff;
+  box-shadow: 0 16px 34px rgba(20, 48, 107, .14);
+}
+.hm-proof img { display: block; width: 100%; height: auto; }
 
 /* Pains */
 .hm-pains { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
@@ -4189,6 +4218,9 @@ mark { background: #ffe9a8; color: inherit; border-radius: 4px; padding: 0 2px; 
   .hm-marquee-track, .hm-float { animation: none; }
   .hm-marquee { overflow-x: auto; }
 }
+
+.fn-oferta { min-height: 100dvh; background: #fefaf2; }
+.fn-oferta-frame { display: block; width: 100%; height: 100dvh; border: 0; background: #fefaf2; }
 
 .fn-root {
   min-height: 100dvh;

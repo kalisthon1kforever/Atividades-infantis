@@ -45,14 +45,16 @@
         target.closest('a[href="#checkout"]');
       if (step === "popup" && buyTotal) {
         event.preventDefault();
-        send("checkout-total");
+        if (window.parent && window.parent !== window) send("checkout-total");
+        else window.location.assign("/checkout?produto=acesso-total");
         return;
       }
 
       var buyTotalBtn = target.closest("button");
       if (step === "popup" && buyTotalBtn && /QUERO O ACESSO TOTAL/i.test(buyTotalBtn.textContent || "")) {
         event.preventDefault();
-        send("checkout-total");
+        if (window.parent && window.parent !== window) send("checkout-total");
+        else window.location.assign("/checkout?produto=acesso-total");
         return;
       }
 
@@ -76,6 +78,7 @@
           }
         });
         var produto = new URLSearchParams(location.search).get("produto") || "kit-inicial";
+        var ultimaEl = document.getElementById("checkout-ultima-hora");
         send("submit-checkout", {
           email: emailEl && "value" in emailEl ? String(emailEl.value || "") : "",
           name: nameEl && "value" in nameEl ? String(nameEl.value || "") : "",
@@ -83,6 +86,7 @@
           bumps: bumps,
           combo: comboEl instanceof HTMLInputElement && comboEl.checked,
           method: methodEl && "value" in methodEl ? String(methodEl.value || "card") : "card",
+          ultimaHora: Boolean(ultimaEl && "value" in ultimaEl && ultimaEl.value === "1"),
         });
         return;
       }
@@ -90,7 +94,8 @@
       var sampleCta = target.closest('[data-purpose="sample-cta"]');
       if (step === "popup" && sampleCta) {
         event.preventDefault();
-        send("popup-sample");
+        if (window.parent && window.parent !== window) send("popup-sample");
+        else window.location.assign("/qz");
         return;
       }
 
@@ -110,6 +115,15 @@
   document.addEventListener("mouseleave", function (event) {
     if (event.clientY <= 0) send("exit-intent");
   });
+
+  document.addEventListener("visibilitychange", function () {
+    if (step === "checkout" && document.visibilityState === "hidden") send("exit-intent");
+  });
+
+  if (step === "popup" && new URLSearchParams(location.search).get("obrigatorio") === "1") {
+    var fecharObrigatorio = document.querySelector("[data-purpose='modal-close-trigger']");
+    if (fecharObrigatorio instanceof HTMLElement) fecharObrigatorio.style.display = "none";
+  }
 
   function contentHeight() {
     if (!document.body) return 0;

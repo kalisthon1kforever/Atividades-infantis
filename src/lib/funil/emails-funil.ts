@@ -30,13 +30,14 @@ function sairLink(origin: string, email: string) {
 }
 
 const EXEMPLOS_EMAIL: Array<[arquivo: string, titulo: string]> = [
-  ["pareamento.jpg", "Pareamento Visual"],
-  ["alfabetizacao.jpg", "Alfabetização em Casa"],
-  ["cores.jpg", "Cores"],
-  ["formas.jpg", "Formas Geométricas"],
-  ["cartoes.jpg", "Cartões do Dia a Dia"],
-  ["monetario.jpg", "Sistema Monetário"],
-  ["colorir.jpg", "Desenhos de Colorir"],
+  ["/funil/capas/historias-para-dormir.jpg", "Histórias para Dormir"],
+  ["/funil/capas/letra-de-brincar.jpg", "Letra de Brincar"],
+  ["/funil/capas/matematica-visual.jpg", "Matemática Visual"],
+  ["/funil/capas/sistema-monetario.jpg", "Sistema Monetário"],
+  ["/funil/capas/rotina-visual.jpg", "Rotina Visual"],
+  ["/funil/capas/cartoes-do-dia.jpg", "Cartões do Dia a Dia"],
+  ["/funil/capas/desenhos-de-colorir.jpg", "Desenhos de Colorir"],
+  ["/funil/capas/artistas-da-fe.jpg", "Pequenos Artistas da Fé"],
 ];
 
 export function brindeEmailHtml(opts: {
@@ -55,7 +56,7 @@ export function brindeEmailHtml(opts: {
     ([arquivo, titulo]) => `
       <tr>
         <td style="padding:0 0 16px;">
-          <img src="${base}/email/${arquivo}" alt="${esc(titulo)}" width="504" style="width:100%;max-width:504px;height:auto;border:0;border-radius:16px;display:block;"/>
+          <img src="${base}${arquivo}" alt="${esc(titulo)}" width="504" style="width:100%;max-width:504px;height:auto;border:0;border-radius:16px;display:block;"/>
           <p style="margin:8px 2px 0;font-size:14px;line-height:1.3;font-weight:800;color:#14523a;">${esc(titulo)}</p>
         </td>
       </tr>`,
@@ -93,11 +94,11 @@ export function brindeEmailHtml(opts: {
 </td></tr>
 <tr><td style="padding:18px 28px 8px;color:#14306b;font-size:16px;line-height:1.55;">
   <h2 style="margin:0 0 8px;font-size:20px;line-height:1.3;">💚 Quer continuar?</h2>
-  <p style="margin:0 0 12px;">O <strong>Pequenos Passos</strong> reúne cadernos educativos organizados por temas, como Pareamento Visual, Alfabetização em Casa, Cores, Formas Geométricas, Rotina Visual e muito mais.</p>
-  <p style="margin:0 0 16px;">Você encontra atividades para imprimir e recursos de apoio à aprendizagem em casa, conforme o pacote escolhido.</p>
+  <p style="margin:0 0 12px;">O <strong>Acesso Total</strong> reúne Histórias para Dormir, Letra de Brincar, Matemática Visual, Sistema Monetário, Rotina Visual, Cartões do Dia a Dia, Desenhos de Colorir e Pequenos Artistas da Fé.</p>
+  <p style="margin:0 0 16px;">O <strong>Acesso Total por R$ 19,90</strong> reúne os materiais e a Área Família. Nesta oferta, o checkout ainda deixa escolher complementos antes de pagar.</p>
   <p style="margin:0 0 12px;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#0d9f6e;">Alguns cadernos da coleção</p>
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">${galeria}</table>
-  ${botao(opts.offerUrl, "CONHECER OS MATERIAIS DO PEQUENOS PASSOS", "#14306b")}
+  ${botao(opts.offerUrl, "QUERO O ACESSO TOTAL POR R$ 19,90", "#14306b")}
 </td></tr>
 <tr><td style="padding:22px 28px 28px;color:#14306b;font-size:16px;line-height:1.55;">
   <p style="margin:0 0 14px;">Um pequeno passo de cada vez. 💚</p>
@@ -189,14 +190,13 @@ export function sequenciaEmailHtml(opts: {
   }
   if (opts.step === 4) {
     return {
-      subject: "O kit completo, neste e-mail",
+      subject: "O Acesso Total por R$ 19,90",
       html: wrap(`
         <tr><td style="padding:28px;color:#14306b;font-size:16px;line-height:1.55;">
-          <h1 style="margin:0 0 12px;font-size:24px;">13 cadernos, um pagamento</h1>
-          Cada caderno sairia R$ 15 avulso — seriam R$ 195. O kit completo sai por R$ 37,90, pagamento único.
-          Com ele vem a Área Família: biblioteca, atividade do dia, favoritos e estrelas.
-          Garantia de 7 dias. Este é o e-mail em que a apresentação do kit se fecha.
-          <p style="margin:16px 0 0;"><a href="${esc(opts.offerUrl)}" style="display:inline-block;background:#0d9f6e;color:#fff;text-decoration:none;font-weight:800;padding:12px 18px;border-radius:999px;">Ver o kit completo</a></p>
+          <h1 style="margin:0 0 12px;font-size:24px;">Os 10 contos já são seus</h1>
+          Você recebeu o bônus e ainda pode entrar no Acesso Total por R$ 19,90 (de R$ 97,00): os cadernos num pagamento só, com a Área Família.
+          Garantia de 7 dias.
+          <p style="margin:16px 0 0;"><a href="${esc(opts.offerUrl)}" style="display:inline-block;background:#14306b;color:#fff;text-decoration:none;font-weight:800;padding:12px 18px;border-radius:999px;">QUERO O ACESSO TOTAL POR R$ 19,90</a></p>
           ${sair}
         </td></tr>
       `),
@@ -208,7 +208,7 @@ export function sequenciaEmailHtml(opts: {
       <tr><td style="padding:28px;color:#14306b;font-size:16px;line-height:1.55;">
         <h1 style="margin:0 0 12px;font-size:24px;">${esc(pilar.emoji)} ${esc(pilar.nome)} esta semana</h1>
         ${esc(pilar.cadernos)}. Se couber, imprima uma ficha. Se não couber, fica para a próxima.
-        <p style="margin:16px 0 0;"><a href="${esc(opts.offerUrl)}" style="color:#0d9f6e;font-weight:800;">Conhecer o kit completo</a></p>
+        <p style="margin:16px 0 0;"><a href="${esc(opts.offerUrl)}" style="color:#14306b;font-weight:800;">QUERO O ACESSO TOTAL POR R$ 19,90</a></p>
         ${sair}
       </td></tr>
     `),

@@ -1,128 +1,136 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { AVISO_COMPLEMENTAR, GARANTIA_DIAS, PRECO_KIT, reais, STORAGE_KEY } from "@/lib/funil/modelo";
+import { useEffect, useRef, useState } from "react";
 import { track } from "@/app/qz/track";
 
+type CheckoutMessage = {
+  source?: string;
+  action?: string;
+  email?: string;
+  name?: string;
+  product?: string;
+  bumps?: string[];
+  combo?: boolean;
+  method?: string;
+  ultimaHora?: boolean;
+};
+
 export default function CheckoutPage() {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [method, setMethod] = useState<"pix" | "card" | "boleto">("pix");
-  const [erro, setErro] = useState("");
-  const [enviando, setEnviando] = useState(false);
+  const [src, setSrc] = useState("/funil/checkout.html");
+  const [oferta19, setOferta19] = useState(false);
+  const produtoRef = useRef("kit-inicial");
+  const emailRef = useRef("");
+  const busyRef = useRef(false);
 
   useEffect(() => {
     track("quiz_checkout_view");
     const params = new URLSearchParams(window.location.search);
-    const fromQuery = params.get("email") || "";
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const salvo = raw ? (JSON.parse(raw) as { email?: string }) : {};
-      setEmail(fromQuery || salvo.email || "");
-    } catch {
-      setEmail(fromQuery);
-    }
-  }, []);
+    const produto = params.get("produto") === "acesso-total" ? "acesso-total" : "kit-inicial";
+    const email = params.get("email") || "";
+    produtoRef.current = produto;
+    emailRef.current = email;
+    const url = new URL("/funil/checkout.html", window.location.origin);
+    url.searchParams.set("produto", produto);
+    if (email) url.searchParams.set("email", email);
+    setSrc(`${url.pathname}${url.search}`);
 
-  async function pagar(event: FormEvent) {
-    event.preventDefault();
-    if (!nome.trim() || !email.includes("@")) {
-      setErro("Preencha nome e e-mail para seguir ao pagamento.");
-      return;
+    function abrirSaida() {
+      if (produtoRef.current !== "kit-inicial" || busyRef.current) return;
+      setOferta19(true);
     }
-    setEnviando(true);
-    setErro("");
-    track("quiz_checkout_submit");
-    try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim(),
-          name: nome.trim(),
-          product: "kit-inicial",
-          bumps: [],
-          combo: false,
-          method,
-        }),
-      });
-      const json = (await response.json()) as { initPoint?: string; message?: string };
-      if (!response.ok || !json.initPoint) {
-        setErro(json.message || "Não foi possível abrir o pagamento.");
-        setEnviando(false);
+
+    if (produto === "kit-inicial") {
+      history.pushState({ kit: 1 }, "", location.href);
+    }
+
+    function onPop() {
+      if (produtoRef.current !== "kit-inicial" || busyRef.current) return;
+      history.pushState({ kit: 1 }, "", location.href);
+      abrirSaida();
+    }
+
+    function onVis() {
+      if (document.visibilityState === "hidden") abrirSaida();
+    }
+
+    async function onMessage(event: MessageEvent<CheckoutMessage>) {
+      const data = event.data;
+      if (!data || data.source !== "pp-funil") return;
+      if (data.action === "exit-intent") {
+        abrirSaida();
         return;
       }
-      window.location.assign(json.initPoint);
-    } catch {
-      setErro("Sem conexão agora. Tente de novo em instantes.");
-      setEnviando(false);
+      if (data.action === "close-popup") {
+        setOferta19(false);
+        return;
+      }
+      if (data.action === "popup-sample") {
+        window.location.assign("/qz");
+        return;
+      }
+      if (data.action === "checkout-total") {
+        const destino = new URL("/checkout", window.location.origin);
+        destino.searchParams.set("produto", "acesso-total");
+        if (emailRef.current) destino.searchParams.set("email", emailRef.current);
+        window.location.assign(destino.toString());
+        return;
+      }
+      if (data.action !== "submit-checkout" || busyRef.current) return;
+      busyRef.current = true;
+      const frame = document.querySelector<HTMLIFrameElement>("iframe.qz-popup-frame");
+      frame?.contentWindow?.postMessage({ source: "pp-checkout", action: "busy" }, "*");
+      try {
+        const response = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: data.email,
+            name: data.name,
+            product: data.product === "acesso-total" ? "acesso-total" : produto,
+            bumps: data.bumps || [],
+            combo: Boolean(data.combo),
+            method: data.method || "card",
+            ultimaHora: data.ultimaHora === true && produto === "kit-inicial",
+          }),
+        });
+        const json = (await response.json()) as { initPoint?: string; message?: string };
+        if (!response.ok || !json.initPoint) {
+          busyRef.current = false;
+          frame?.contentWindow?.postMessage(
+            { source: "pp-checkout", action: "error", message: json.message || "Não foi possível abrir o pagamento." },
+            "*",
+          );
+          return;
+        }
+        track("quiz_checkout_submit", { product: produto });
+        window.location.assign(json.initPoint);
+      } catch {
+        busyRef.current = false;
+        frame?.contentWindow?.postMessage(
+          { source: "pp-checkout", action: "error", message: "Sem conexão agora. Tente de novo em instantes." },
+          "*",
+        );
+      }
     }
-  }
+
+    window.addEventListener("message", onMessage);
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("popstate", onPop);
+    };
+  }, []);
 
   return (
-    <main className="fn-root">
-      <header className="fn-top">
-        <p className="fn-brand">Pequenos Passos</p>
-      </header>
-      <section className="fn-card">
-        <h1>Seu pedido</h1>
-        <ul className="fn-order">
-          <li>
-            <span>Kit Completo — 13 cadernos</span>
-            <b>{reais(PRECO_KIT)}</b>
-          </li>
-          <li>
-            <span>Acesso à Área Família + app</span>
-            <b>incluso</b>
-          </li>
-        </ul>
-        <p className="fn-seals">Pagamento seguro · {GARANTIA_DIAS} dias de garantia · PIX, cartão ou boleto</p>
-        <form onSubmit={pagar}>
-          <label>
-            Nome
-            <input value={nome} onChange={(event) => setNome(event.target.value)} autoComplete="name" required />
-          </label>
-          <label>
-            E-mail
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              autoComplete="email"
-              required
-            />
-          </label>
-          <fieldset>
-            <legend>Como pagar</legend>
-            {(
-              [
-                ["pix", "PIX"],
-                ["card", "Cartão"],
-                ["boleto", "Boleto"],
-              ] as const
-            ).map(([id, label]) => (
-              <label key={id} className="fn-pay">
-                <input
-                  type="radio"
-                  name="method"
-                  checked={method === id}
-                  onChange={() => setMethod(id)}
-                />
-                {label}
-              </label>
-            ))}
-          </fieldset>
-          {erro ? <p className="fn-erro">{erro}</p> : null}
-          <p className="fn-guarantee">Garantia de {GARANTIA_DIAS} dias, incondicional</p>
-          <button className="fn-primary fn-block" type="submit" disabled={enviando}>
-            {enviando ? "Abrindo o pagamento…" : `Pagar ${reais(PRECO_KIT)}`}
-          </button>
-        </form>
-        <p className="fn-fine">
-          Login e senha provisória da Área Família chegam no e-mail depois da confirmação. Os PDFs seguem disponíveis para imprimir.
-        </p>
-        <p className="fn-fine">{AVISO_COMPLEMENTAR}</p>
-      </section>
-    </main>
+    <div className="qz-popup-layer">
+      <iframe className="qz-popup-frame" src={src} title="Checkout seguro Pequenos Passos" />
+      {oferta19 ? (
+        <div className="qz-popup-layer" style={{ zIndex: 90 }} role="dialog" aria-modal="true" aria-label="Acesso Total por R$ 19,90">
+          <iframe className="qz-popup-frame" src="/funil/popup.html" title="Acesso Total por R$ 19,90" />
+        </div>
+      ) : null}
+    </div>
   );
 }

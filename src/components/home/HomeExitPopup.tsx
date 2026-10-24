@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useExitIntent } from "@/app/qz/exit-intent";
 import { track } from "@/app/qz/track";
 
-export function HomeExitPopup() {
+export function HomeExitPopup({ email = "" }: { email?: string }) {
   const [open, setOpen] = useState(false);
+  const destino = email ? `/checkout?produto=acesso-total&email=${encodeURIComponent(email)}` : "/checkout?produto=acesso-total";
 
   useExitIntent(
     true,
@@ -27,16 +28,16 @@ export function HomeExitPopup() {
       }
       if (data.action === "popup-sample") {
         track("home_popup_sample");
-        window.location.assign("/qz?etapa=captura");
+        window.location.assign("/qz");
       }
       if (data.action === "checkout-total") {
         track("home_popup_paid");
-        window.location.assign("/qz?etapa=checkout-total");
+        window.location.assign(destino);
       }
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, [open]);
+  }, [open, destino]);
 
   if (!open) return null;
   return (

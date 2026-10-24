@@ -95,7 +95,7 @@
 <div class="flex items-center gap-3">
 <!-- Miniatura do Kit -->
 <div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-blue-50 border border-blue-100 p-0.5">
-<img alt="Capa do Kit Inicial Pequenos Passos" class="w-full h-full object-cover object-[24%_24%]" src="/funil/assets/stitch/96bc463d28d3.png"/>
+<img alt="Capa Histórias para Dormir" class="w-full h-full object-cover object-top" src="/funil/capas/historias-para-dormir.jpg"/>
 </div>
 <!-- Dados do Produto Principal -->
 <div class="flex-1 min-w-0">
@@ -239,6 +239,10 @@
 <span>Complementos</span>
 <span class="font-bold text-gray-700" id="summary-bumps-price">R$ 0,00</span>
 </div>
+<div id="summary-desconto" hidden class="flex justify-between items-center text-amber-800">
+<span>Desconto de última hora</span>
+<span class="font-black">− R$ 5,00</span>
+</div>
 </div>
 <div class="border-t border-emerald-200/80 mt-2.5 pt-2 flex justify-between items-center">
 <span class="text-[15px] font-black text-gray-900">Total</span>
@@ -246,6 +250,11 @@
 </div>
 </section>
 <!-- END: PurchaseSummary -->
+<section id="ultima-hora" hidden class="rounded-2xl border-2 border-amber-400 bg-amber-50 p-3" data-purpose="ultima-hora">
+<p class="text-[13px] font-black text-amber-950">Desconto de última hora</p>
+<p class="text-[12px] font-bold text-gray-700 leading-snug">R$ 5,00 a menos no kit, só nesta tela. Os complementos continuam opcionais. Dá para finalizar agora.</p>
+</section>
+<input id="checkout-ultima-hora" type="hidden" value="0"/>
 <!-- BEGIN: PaymentSection -->
 <!-- Métodos de Pagamento e Formulário de Dados -->
 <section class="space-y-3 pt-1" data-purpose="payment-form">
@@ -344,18 +353,46 @@
       const isTotal = new URLSearchParams(location.search).get("produto") === "acesso-total";
       const BASE_PRICE = isTotal ? 19.90 : 37.90;
       const COMBO_PRICE = 29.90;
+      const params = new URLSearchParams(location.search);
+      const emailQuery = params.get("email");
+      const emailInput = document.getElementById("checkout-email");
+      if (emailQuery && emailInput) emailInput.value = emailQuery;
+
       if (isTotal) {
         const title = document.getElementById("product-title");
         const price = document.getElementById("product-price");
         const summaryName = document.getElementById("summary-product-name");
         const summaryBase = document.getElementById("summary-base-price");
         const total = document.getElementById("summary-total-price");
+        const subtitle = document.querySelector("[data-purpose='base-product'] p");
+        const bullets = document.querySelectorAll("[data-purpose='base-product'] ul span");
+        const linhas = [
+          "10 contos, Letra de Brincar e Matemática Visual",
+          "Sistema Monetário, Rotina Visual e Cartões",
+          "Desenhos de Colorir e Artistas da Fé",
+        ];
         if (title) title.innerHTML = 'Pequenos Passos <span class="text-gray-400">—</span> Acesso Total';
         if (price) price.textContent = "R$ 19,90";
         if (summaryName) summaryName.textContent = "Acesso Total";
         if (summaryBase) summaryBase.textContent = "R$ 19,90";
         if (total) total.textContent = "R$ 19,90";
+        if (subtitle) subtitle.textContent = "Acesso Total por R$ 19,90";
+        bullets.forEach((item, index) => {
+          if (linhas[index]) item.textContent = linhas[index];
+        });
       }
+
+      window.addEventListener("message", (event) => {
+        const data = event.data || {};
+        if (data.source !== "pp-checkout") return;
+        const label = document.querySelector("#btn-submit span");
+        const note = document.querySelector("[data-purpose='security-header'] p");
+        if (data.action === "busy" && label) label.textContent = "ABRINDO O PAGAMENTO...";
+        if (data.action === "error") {
+          if (label) label.textContent = "FINALIZAR COMPRA";
+          if (note && data.message) note.textContent = data.message;
+        }
+      });
       document.querySelectorAll(".pay-tab").forEach((tab) => {
         tab.addEventListener("click", () => {
           document.querySelectorAll(".pay-tab").forEach((el) => {
@@ -378,6 +415,13 @@
         return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
       }
 
+      const DESCONTO_ULTIMA_HORA = 5;
+      let ultimaHora = false;
+
+      function precoBase() {
+        return ultimaHora ? BASE_PRICE - DESCONTO_ULTIMA_HORA : BASE_PRICE;
+      }
+
       function recalculateTotal() {
         let bumpsTotal = 0;
 
@@ -391,10 +435,38 @@
           });
         }
 
-        const grandTotal = BASE_PRICE + bumpsTotal;
+        const grandTotal = precoBase() + bumpsTotal;
+        const baseEl = document.getElementById("summary-base-price");
+        const priceEl = document.getElementById("product-price");
+        if (baseEl) baseEl.textContent = formatBRL(precoBase());
+        if (ultimaHora && priceEl) priceEl.textContent = formatBRL(precoBase());
 
         bumpsPriceEl.textContent = formatBRL(bumpsTotal);
         totalPriceEl.textContent = formatBRL(grandTotal);
+      }
+
+      function ativarUltimaHora() {
+        if (isTotal || ultimaHora) return;
+        ultimaHora = true;
+        const flag = document.getElementById("checkout-ultima-hora");
+        if (flag) flag.value = "1";
+        const banner = document.getElementById("ultima-hora");
+        if (banner) banner.hidden = false;
+        const linha = document.getElementById("summary-desconto");
+        if (linha) linha.hidden = false;
+        recalculateTotal();
+      }
+
+      if (!isTotal) {
+        const pagamento = document.querySelector("[data-purpose='payment-form']");
+        function pertoDoPagamento() {
+          if (!pagamento || ultimaHora) return;
+          const rect = pagamento.getBoundingClientRect();
+          if (rect.top <= window.innerHeight + 220) ativarUltimaHora();
+        }
+        window.addEventListener("scroll", pertoDoPagamento, { passive: true });
+        window.addEventListener("resize", pertoDoPagamento);
+        window.requestAnimationFrame(pertoDoPagamento);
       }
 
       // Se o combo for marcado, desmarca os itens individuais para não duplicar cobrança

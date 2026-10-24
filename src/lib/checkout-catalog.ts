@@ -47,6 +47,23 @@ export function orderTotal(lines: OrderLine[]) {
   return Math.round(lines.reduce((sum, line) => sum + line.unitPrice, 0) * 100) / 100;
 }
 
+/** R$ 5 a menos só no kit de R$ 37,90, quando o checkout direto revela o desconto perto do pagamento. */
+export const DESCONTO_ULTIMA_HORA = 5;
+
+export function pricedOrder(
+  product: CheckoutProduct,
+  bumpIds: string[],
+  combo: boolean,
+  ultimaHora: boolean,
+): OrderLine[] {
+  const lines = buildOrder(product, bumpIds, combo);
+  if (!ultimaHora || product !== "kit-inicial" || lines.length === 0) return lines;
+  const [first, ...rest] = lines;
+  const unitPrice = Math.round((first.unitPrice - DESCONTO_ULTIMA_HORA) * 100) / 100;
+  if (unitPrice <= 0) return lines;
+  return [{ ...first, title: `${first.title} com desconto de última hora`, unitPrice }, ...rest];
+}
+
 export function grantedProducts(product: CheckoutProduct, bumpIds: string[], combo: boolean): CatalogKey[] {
   const keys: CatalogKey[] = [product];
   if (combo) {

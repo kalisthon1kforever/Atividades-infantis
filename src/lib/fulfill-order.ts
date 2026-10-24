@@ -1,5 +1,5 @@
 import { deliverPurchase } from "./access-delivery";
-import { buildOrder, orderTotal, type CheckoutProduct } from "./checkout-catalog";
+import { orderTotal, pricedOrder, type CheckoutProduct } from "./checkout-catalog";
 import { openOrder, type MpPayment } from "./mercadopago";
 
 export async function fulfillApprovedPayment(payment: MpPayment, origin: string) {
@@ -10,7 +10,7 @@ export async function fulfillApprovedPayment(payment: MpPayment, origin: string)
   if (!order) return { ok: false as const, reason: "invalid_order" as const };
 
   const product: CheckoutProduct = order.product === "acesso-total" ? "acesso-total" : "kit-inicial";
-  const expected = orderTotal(buildOrder(product, order.bumps, order.combo));
+  const expected = orderTotal(pricedOrder(product, order.bumps, order.combo, order.ultimaHora === true));
   if (Math.abs(Number(payment.transaction_amount) - expected) > 0.009) {
     return { ok: false as const, reason: "amount_mismatch" as const };
   }

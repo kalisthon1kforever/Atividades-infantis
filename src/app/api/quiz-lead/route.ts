@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     subject: "Seus 10 contos para dormir estão prontos",
     html: brindeEmailHtml({
       pdfUrl,
-      offerUrl: `${origin}/oferta`,
+      offerUrl: `${origin}/acesso?email=${encodeURIComponent(email)}`,
       email,
       origin,
       name: name || childName,

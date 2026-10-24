@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/catalog-prices";
 import { KIT_CATEGORIES } from "@/app/qz/funil-data";
 import { HOME_FAQ, HOME_MODULES } from "@/data/home";
 import { ActivityMarquee } from "@/components/home/ActivityMarquee";
+import { FeedbackMarquee } from "@/components/home/FeedbackMarquee";
 import { AppShowcase } from "@/components/home/AppShowcase";
 import { CheckIcon, ShieldIcon } from "@/components/icons";
 
@@ -105,11 +106,11 @@ export default function Home() {
 
       <section className="hm-section" id="atividades">
         <div className="hm-wrap hm-head">
-          <span className="hm-kicker">Dentro do kit</span>
+          <span className="hm-kicker">Capa e atividade</span>
           <h2>
-            Atividades de verdade, <span className="hm-hl-green">separadas por módulo</span>
+            Abra o caderno e <span className="hm-hl-green">veja a página do lado</span>
           </h2>
-          <p>Cada cartão é uma ficha do catálogo, com o tempo e a idade sugeridos. Passe o mouse para pausar.</p>
+          <p>Cada cartão é a capa junto com uma atividade de verdade. Passe o mouse para pausar e olhar com calma.</p>
         </div>
         <ActivityMarquee />
       </section>
@@ -198,6 +199,17 @@ export default function Home() {
             ))}
           </ol>
         </div>
+      </section>
+
+      <section className="hm-section hm-section-soft" id="familias">
+        <div className="hm-wrap hm-head">
+          <span className="hm-kicker">Em casa</span>
+          <h2>
+            Famílias mostrando <span className="hm-hl-green">como foi a atividade</span>
+          </h2>
+          <p>Rotina, moedas, letras e emoções, do jeito que chegaram na conversa. Passe o mouse para pausar.</p>
+        </div>
+        <FeedbackMarquee />
       </section>
 
       <section className="hm-section hm-section-soft" id="oferta">

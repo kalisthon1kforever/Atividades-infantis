@@ -1,70 +1,36 @@
-import type { CSSProperties } from "react";
-import { HOME_MODULES, homeActivities, type HomeActivity, type HomeModule } from "@/data/home";
+const VITRINES = [
+  { src: "/home/vitrines/alfabetizacao.jpg", alt: "Capa de Alfabetização em casa ao lado da atividade da letra A" },
+  { src: "/home/vitrines/cores.jpg", alt: "Capa de Cores ao lado da atividade de ligar e pintar" },
+  { src: "/home/vitrines/pareamento.jpg", alt: "Capa de Pareamento visual ao lado da atividade de ligar os pares" },
+  { src: "/home/vitrines/dinheiro.jpg", alt: "Capa de Sistema Monetário ao lado da atividade das moedas" },
+  { src: "/home/vitrines/rotinas.jpg", alt: "Capa de Cartões do dia a dia ao lado da atividade da rotina" },
+  { src: "/home/vitrines/formas.jpg", alt: "Capa de Formas geométricas ao lado da atividade de ligar e pintar" },
+  { src: "/home/vitrines/formas-caderno.jpg", alt: "Capa de Formas geométricas ao lado da atividade de contar as formas" },
+  { src: "/home/vitrines/colorir.jpg", alt: "Capa de Desenhos de colorir ao lado da página do leão e do dinossauro" },
+  { src: "/home/vitrines/cores-workbook.jpg", alt: "Capa de Cores ao lado da atividade de identificar e pintar" },
+];
 
-function toneStyle(module: HomeModule): CSSProperties {
-  return { "--tone": module.tone, "--soft": module.soft } as CSSProperties;
-}
-
-function ModuleCard({ module }: { module: HomeModule }) {
+function Shot({ src, alt }: { src: string; alt: string }) {
   return (
-    <article className="hm-act hm-act-module" style={toneStyle(module)}>
-      <span className="hm-act-module-num">Módulo {module.number}</span>
-      <span className="hm-act-module-icon" aria-hidden="true">
-        {module.icon}
-      </span>
-      <h3>{module.title}</h3>
-      <p>{module.description}</p>
-    </article>
+    <figure className="hm-shot">
+      <img src={src} alt={alt} width={1400} height={700} />
+    </figure>
   );
 }
 
-function ActivityCard({ activity }: { activity: HomeActivity }) {
-  return (
-    <article className="hm-act" style={toneStyle(activity.module)}>
-      <div className="hm-act-sheet" aria-hidden="true">
-        <div className="hm-act-sheet-head">
-          <span />
-          <span />
-        </div>
-        <div className="hm-act-glyphs">
-          {activity.glyphs.map((glyph, index) => (
-            <span key={`${glyph}-${index}`}>{glyph}</span>
-          ))}
-        </div>
-        <div className="hm-act-sheet-lines">
-          <span />
-          <span />
-        </div>
-      </div>
-      <span className="hm-act-chip">
-        {activity.module.icon} {activity.module.title}
-      </span>
-      <h3>{activity.title}</h3>
-      <p>{activity.summary}</p>
-      <div className="hm-act-meta">
-        <span>⏱️ {activity.minutes} min</span>
-        <span>👧 {activity.ages}</span>
-      </div>
-    </article>
-  );
-}
-
-function Row({ modules, reverse }: { modules: HomeModule[]; reverse?: boolean }) {
-  const activities = homeActivities();
-  const cards = modules.flatMap((module) => {
-    const own = activities.filter((activity) => activity.module.key === module.key);
-    return [
-      <ModuleCard key={`m-${module.key}`} module={module} />,
-      ...own.map((activity) => <ActivityCard key={activity.id} activity={activity} />),
-    ];
-  });
-
+function Row({ items, reverse }: { items: typeof VITRINES; reverse?: boolean }) {
   return (
     <div className="hm-marquee">
-      <div className={reverse ? "hm-marquee-track hm-marquee-rev" : "hm-marquee-track"}>
-        <div className="hm-marquee-group">{cards}</div>
+      <div className={reverse ? "hm-marquee-track hm-marquee-rev hm-marquee-vitrine" : "hm-marquee-track hm-marquee-vitrine"}>
+        <div className="hm-marquee-group">
+          {items.map((item) => (
+            <Shot key={item.src} {...item} />
+          ))}
+        </div>
         <div className="hm-marquee-group" aria-hidden="true">
-          {cards}
+          {items.map((item) => (
+            <Shot key={`${item.src}-copia`} src={item.src} alt="" />
+          ))}
         </div>
       </div>
     </div>
@@ -72,10 +38,11 @@ function Row({ modules, reverse }: { modules: HomeModule[]; reverse?: boolean })
 }
 
 export function ActivityMarquee() {
+  const segunda = [...VITRINES.slice(4), ...VITRINES.slice(0, 4)];
   return (
-    <div className="hm-marquees">
-      <Row modules={HOME_MODULES.slice(0, 3)} />
-      <Row modules={HOME_MODULES.slice(3)} reverse />
+    <div className="hm-marquees" aria-label="Capas e atividades de exemplo">
+      <Row items={VITRINES} />
+      <Row items={segunda} reverse />
     </div>
   );
 }

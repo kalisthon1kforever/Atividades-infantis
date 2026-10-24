@@ -42,7 +42,7 @@ export async function enviarSequencia(origin: string) {
     const emails = new Set(meta.emailsSent ?? []);
     const converted = lead.converted === true;
     const pilar = pilarDeLead(lead);
-    const offerUrl = `${origin.replace(/\/$/, "")}/oferta`;
+    const offerUrl = `${origin.replace(/\/$/, "")}/acesso?email=${encodeURIComponent(lead.email)}`;
 
     const due: Array<2 | 3 | 4 | 5> = [];
     if (age >= 2 * DAY && !emails.has(2)) due.push(2);

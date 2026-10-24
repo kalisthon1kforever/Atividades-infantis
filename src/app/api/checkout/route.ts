@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildOrder, orderTotal, type CheckoutProduct, type PayMethod } from "@/lib/checkout-catalog";
+import { isBump, orderTotal, pricedOrder, type CheckoutProduct, type PayMethod } from "@/lib/checkout-catalog";
 import { createPreference, mercadoPagoReady, sealOrder } from "@/lib/mercadopago";
 
 function publicSite() {
@@ -20,11 +20,12 @@ export async function POST(request: Request) {
     .trim()
     .toLowerCase();
   const name = String(body.name || "").trim().slice(0, 80);
-  // Funil público: só o Kit Completo. Pacote Extra fica fora até o material existir.
-  const product: CheckoutProduct = "kit-inicial";
+  const product: CheckoutProduct = body.product === "acesso-total" ? "acesso-total" : "kit-inicial";
   const method: PayMethod = body.method === "pix" || body.method === "boleto" ? body.method : "card";
-  const bumps: string[] = [];
-  const combo = false;
+  const combo = body.combo === true;
+  const bumps = combo
+    ? []
+    : (Array.isArray(body.bumps) ? body.bumps : []).map((item) => String(item)).filter(isBump);
 
   if (!email.includes("@") || !name) {
     return NextResponse.json(
@@ -44,8 +45,17 @@ export async function POST(request: Request) {
     );
   }
 
-  const lines = buildOrder(product, bumps, combo);
-  const reference = sealOrder({ email, name, product, bumps: combo ? [] : bumps, combo });
+  const ultimaHora = product === "kit-inicial" && body.ultimaHora === true;
+  const order = {
+    email,
+    name,
+    product,
+    bumps: combo ? [] : bumps,
+    combo,
+    ...(ultimaHora ? { ultimaHora: true as const } : {}),
+  };
+  const lines = pricedOrder(product, order.bumps, combo, ultimaHora);
+  const reference = sealOrder(order);
   if (reference.length > 256) {
     return NextResponse.json(
       { ok: false, message: "Não foi possível montar o pedido. Use um e-mail mais curto." },
@@ -56,7 +66,7 @@ export async function POST(request: Request) {
   try {
     const initPoint = await createPreference({
       lines,
-      order: { email, name, product, bumps: combo ? [] : bumps, combo },
+      order,
       method,
       site: publicSite(),
     });

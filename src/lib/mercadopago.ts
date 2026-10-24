@@ -7,6 +7,7 @@ export type SignedOrder = {
   product: CheckoutProduct;
   bumps: string[];
   combo: boolean;
+  ultimaHora?: boolean;
 };
 
 function token() {

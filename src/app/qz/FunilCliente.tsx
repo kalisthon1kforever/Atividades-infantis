@@ -18,6 +18,7 @@ import {
   type Respostas,
 } from "@/lib/funil/modelo";
 import { CONTOS_BRINDE } from "@/lib/funil/contos";
+import { HomeExitPopup } from "@/components/home/HomeExitPopup";
 import { track } from "./track";
 
 type Step = QuizStep | "gate" | "resultado";
@@ -324,9 +325,17 @@ export function FunilCliente() {
           <a className="fn-primary fn-block" href={`/api/funil/brinde?t=${encodeURIComponent(token)}`}>
             Baixar os 10 contos para dormir
           </a>
+          <a
+            className="fn-primary fn-block"
+            href={`/acesso?email=${encodeURIComponent(email)}`}
+            onClick={() => track("quiz_popup_paid", { from: "resultado" })}
+          >
+            Quero o Acesso Total por R$ 19,90
+          </a>
           <a className="fn-skip" href="/oferta" onClick={() => track("quiz_offer_click", { from: "resultado" })}>
             Ver o kit completo
           </a>
+          <HomeExitPopup email={email} />
           <p className="fn-fine">{AVISO_COMPLEMENTAR}</p>
         </section>
       ) : null}
