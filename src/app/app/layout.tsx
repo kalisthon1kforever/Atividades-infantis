@@ -22,9 +22,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <span className="ent-brand-2">Passos</span>
         </Link>
         {user ? (
-          <span className="app-header-user">
-            Olá, <strong>{user.name || "família"}</strong>
-          </span>
+          <Link href="/app/conta" className="app-header-user" aria-label="Abrir conta">
+            <span className="app-header-avatar" aria-hidden="true">👤</span>
+            <span>
+              Olá, <strong>{user.name || "família"}</strong>
+            </span>
+          </Link>
         ) : null}
       </header>
       <main id="conteudo" className="app-main">

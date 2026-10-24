@@ -3,15 +3,19 @@
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { markDoneAction, toggleFavoriteAction } from "../../actions";
+import { categoryIcon } from "@/lib/catalog-shared";
+import type { Activity } from "@/lib/types";
 
 export function ActivityActions({
   activityId,
   doneToday,
   favorito,
+  nextActivity,
 }: {
   activityId: string;
   doneToday: boolean;
   favorito: boolean;
+  nextActivity?: Activity | null;
 }) {
   const [marked, setMarked] = useState(doneToday);
   const [celebrando, setCelebrando] = useState(false);
@@ -26,7 +30,7 @@ export function ActivityActions({
         setMarked(true);
         setCelebrando(true);
         setStateMessage(res.message ?? null);
-        window.setTimeout(() => setCelebrando(false), 5200);
+        window.setTimeout(() => setCelebrando(false), 6000);
       } else if (res.error) {
         setStateMessage(res.error);
       }
@@ -75,6 +79,33 @@ export function ActivityActions({
         </p>
       ) : null}
       {!celebrando && !marked && stateMessage ? <p className="app-note-msg">{stateMessage}</p> : null}
+
+      {marked ? (
+        <section className="app-card app-next">
+          <p className="app-kicker">E agora?</p>
+          {nextActivity ? (
+            <>
+              <p className="app-next-line">
+                Que tal a próxima? {categoryIcon(nextActivity.category)} <strong>{nextActivity.title}</strong>
+              </p>
+              <div className="app-btn-row">
+                <Link href={`/app/atividade/${nextActivity.id}`} className="btn btn-sm">
+                  Abrir próxima atividade
+                </Link>
+                <Link href="/app/biblioteca" className="btn btn-ghost btn-sm">
+                  Voltar para a biblioteca
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="app-btn-row">
+              <Link href="/app/biblioteca" className="btn btn-ghost btn-sm">
+                Voltar para a biblioteca
+              </Link>
+            </div>
+          )}
+        </section>
+      ) : null}
     </div>
   );
 }

@@ -1,10 +1,22 @@
 import Link from "next/link";
 import { getAreaUser, getEntitlements, getFavorites, getProgress, saoPauloDate } from "@/lib/area";
-import { fetchActivityById } from "@/lib/catalog";
+import { fetchVisibleActivities } from "@/lib/catalog";
 import { activityHelp, categoryIcon } from "@/lib/catalog-shared";
+import { areaDe } from "@/lib/catalog-areas";
+import type { Activity } from "@/lib/types";
 import { ActivityActions } from "./activity-actions";
 
 export const metadata = { title: "Atividade — Área da família" };
+
+function pickNext(items: Activity[], current: Activity): Activity | null {
+  const outros = items.filter((a) => a.id !== current.id);
+  if (outros.length === 0) return null;
+  const area = areaDe(current);
+  const mesmaArea = area ? outros.filter((a) => areaDe(a) === area) : [];
+  const pool = mesmaArea.length > 0 ? mesmaArea : outros;
+  const mesmaCategoria = pool.filter((a) => a.category === current.category);
+  return (mesmaCategoria.length > 0 ? mesmaCategoria : pool)[0] ?? null;
+}
 
 export default async function AtividadePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,7 +24,14 @@ export default async function AtividadePage({ params }: { params: Promise<{ id: 
   if (!user) return null;
 
   const products = await getEntitlements(user.id);
-  const activity = await fetchActivityById(decodeURIComponent(id), products.map((p) => p.product));
+  const productKeys = products.map((p) => p.product);
+  const [{ items }, progress, favos] = await Promise.all([
+    fetchVisibleActivities(productKeys),
+    getProgress(user.id),
+    getFavorites(user.id),
+  ]);
+
+  const activity = items.find((a) => a.id === decodeURIComponent(id)) ?? null;
   if (!activity) {
     return (
       <div className="app-pad">
@@ -29,10 +48,10 @@ export default async function AtividadePage({ params }: { params: Promise<{ id: 
   }
 
   const help = activityHelp(activity);
-  const [progress, favos] = await Promise.all([getProgress(user.id), getFavorites(user.id)]);
   const doneToday = progress.some((p) => p.activity_id === activity.id && p.log_date === saoPauloDate());
   const fav = favos.some((f) => f.activity_id === activity.id);
   const isProfessor = activity.audience === "professor";
+  const nextActivity = pickNext(items, activity);
 
   return (
     <div className="app-pad">
@@ -63,7 +82,7 @@ export default async function AtividadePage({ params }: { params: Promise<{ id: 
           </p>
         </div>
 
-        <ActivityActions activityId={activity.id} doneToday={doneToday} favorito={fav} />
+        <ActivityActions activityId={activity.id} doneToday={doneToday} favorito={fav} nextActivity={nextActivity} />
       </section>
     </div>
   );

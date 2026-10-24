@@ -34,10 +34,11 @@ function copyFor(result: Confirm) {
   }
   if (status === "approved") {
     return {
-      title: "Acesso liberado!",
-      body: result.emailSent === false
-        ? "Sua senha foi preparada, mas o e-mail ainda não saiu. Olhe o spam daqui a pouco. A senha não aparece nesta tela."
-        : "Sua senha foi enviada por e-mail. Entre com o e-mail da compra e a senha temporária.",
+      title: "Pagamento confirmado",
+      body:
+        result.emailSent === false
+          ? "O pedido está confirmado. A senha foi preparada, mas o e-mail ainda não saiu. Olhe o spam daqui a pouco. A senha não aparece nesta tela."
+          : "O pedido está confirmado. O e-mail traz o login, a senha provisória e a primeira atividade sugerida.",
     };
   }
   if (status === "pending" || status === "in_process" || status === "in_mediation") {
@@ -102,12 +103,29 @@ function RetornoInner() {
         <h1>{text.title}</h1>
         <p className="qz-capture-sub">{text.body}</p>
         {approved ? (
-          <a className="qz-capture-cta" href="/entrar" style={{ display: "inline-block", textAlign: "center", textDecoration: "none" }}>
-            Entrar agora
-          </a>
+          <>
+            <ol className="fn-list">
+              <li>
+                <b>1. Acesso à Área Família + app</b>
+                <span>Login e senha provisória chegam no e-mail que você usou na compra.</span>
+              </li>
+              <li>
+                <b>2. PDFs do kit</b>
+                <span>Dá para imprimir cada ficha. O papel não depende do app.</span>
+              </li>
+              <li>
+                <b>3. Garantia de 7 dias</b>
+                <span>Incondicional. Se não fizer sentido, o valor volta.</span>
+              </li>
+            </ol>
+            <a className="fn-primary fn-block" href="/entrar">
+              Entrar na Área Família
+            </a>
+            <p className="fn-fine">Material educativo complementar. Não substitui a escola nem acompanhamento profissional.</p>
+          </>
         ) : (
-          <a className="qz-capture-cta" href="/qz" style={{ display: "inline-block", textAlign: "center", textDecoration: "none" }}>
-            Voltar ao quiz
+          <a className="qz-capture-cta" href="/checkout" style={{ display: "inline-block", textAlign: "center", textDecoration: "none" }}>
+            Voltar ao pagamento
           </a>
         )}
       </div>

@@ -22,7 +22,7 @@ export const CATALOG: Record<CatalogKey, CatalogItem> = {
     label: "Amostra gratuita",
     checkoutTitle: "Amostra gratuita",
     price: 0,
-    note: "10 atividades de demonstração para testar hoje.",
+    note: "10 contos para dormir, um para cada noite.",
   },
   "kit-inicial": {
     label: "Kit Inicial",
@@ -78,6 +78,6 @@ export function formatPrice(value: number): string {
 export function priceLabel(key: string): string {
   const item = CATALOG[key as CatalogKey];
   if (!item) return key;
-  if (key === "acesso-total") return `${formatPrice(item.price)} (de R$ 97,00)`;
+  if (key === "acesso-total") return formatPrice(item.price);
   return formatPrice(item.price);
 }

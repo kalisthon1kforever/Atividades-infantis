@@ -14,10 +14,23 @@ export {
 
 export type { Activity };
 
-/** Carrega o catálogo via RLS com a sessão do usuário; fallback local se o banco não responder */
+export type CatalogSource = "db" | "fallback" | "error";
+
+/**
+ * Carrega o catálogo via RLS com a sessão do usuário.
+ *
+ * - `db`: dados reais vindos do PostgREST (a policy RLS já filtra por
+ *   `is_published` e `app_can_access(product_key)`). Um resultado vazio aqui é
+ *   legítimo — por exemplo, um usuário que ainda não tem o produto liberado.
+ * - `error`: a consulta falhou. Em produção NÃO há fallback para o seed (devolve
+ *   vazio) para não expor fichas fora da política de acesso. Em desenvolvimento/
+ *   teste o fallback local pode ser usado, respeitando `covers`.
+ * - `fallback`: seed local (CATALOG_SEED), restrito a ambiente de desenvolvimento
+ *   ou teste — nunca em produção.
+ */
 export async function fetchVisibleActivities(
   products: string[],
-): Promise<{ items: Activity[]; source: "db" | "fallback" }> {
+): Promise<{ items: Activity[]; source: CatalogSource }> {
   try {
     const { createSupabaseServer } = await import("@/lib/supabase/server");
     const supabase = await createSupabaseServer();
@@ -25,13 +38,28 @@ export async function fetchVisibleActivities(
       .from("activities")
       .select("id,title,summary,category,duration_min,age_min,age_max,format,bw,audience,product_key,tags,data,is_published")
       .order("category", { ascending: true });
-    if (error || !Array.isArray(data) || data.length === 0) {
-      return { items: fallbackActivities(products), source: "fallback" };
+
+    // Falha de consulta (erro ou formato inesperado): nunca concede acesso por fallback em produção.
+    if (error || !Array.isArray(data)) {
+      if (allowSeedFallback()) {
+        return { items: fallbackActivities(products), source: "fallback" };
+      }
+      return { items: [], source: "error" };
     }
+
+    // Resultado vazio é uma resposta válida (RLS filtrou tudo). Distinto da falha acima.
     return { items: data as Activity[], source: "db" };
   } catch {
-    return { items: fallbackActivities(products), source: "fallback" };
+    if (allowSeedFallback()) {
+      return { items: fallbackActivities(products), source: "fallback" };
+    }
+    return { items: [], source: "error" };
   }
+}
+
+/** Fallback para o seed local — apenas em desenvolvimento/teste (nunca em produção). */
+function allowSeedFallback(): boolean {
+  return process.env.NODE_ENV !== "production";
 }
 
 function fallbackActivities(products: string[]): Activity[] {

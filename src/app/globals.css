@@ -3054,8 +3054,26 @@ body:has(.qz-root) .skip-link {
   font-size: .88rem;
   font-weight: 700;
   text-align: right;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .35rem .6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
 }
+.app-header-user:hover { background: #fff; border-color: #fbe8cc; }
 .app-header-user strong { color: var(--navy); }
+.app-header-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--emerald-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  flex: 0 0 auto;
+}
 
 .app-main {
   width: min(960px, 100%);
@@ -3079,7 +3097,7 @@ body:has(.qz-root) .skip-link {
   padding: .4rem 0 .55rem;
   max-width: 960px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .app-nav a {
@@ -3183,6 +3201,35 @@ body:has(.qz-root) .skip-link {
 .app-cheer p { margin: 0; font-weight: 700; color: var(--navy); }
 .app-cheer { background: var(--emerald-soft); border-color: #bfe8d3; }
 
+/* resumo semanal (home) */
+.app-week { background: #fff; }
+.app-week-line {
+  margin: 0;
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.app-week-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.9rem;
+  color: var(--emerald-strong);
+  line-height: 1;
+}
+.app-week-sub { margin: .2rem 0 0; color: var(--text-soft); font-weight: 700; font-size: .9rem; }
+
+/* sugestão alternativa (home) */
+.app-alt-line { margin: .7rem 0 0; color: var(--text-soft); font-weight: 700; font-size: .9rem; }
+.app-alt-line a { color: var(--blue); font-weight: 800; text-decoration: none; }
+.app-alt-line a:hover { text-decoration: underline; }
+
+/* próxima atividade (após "fizemos juntos") */
+.app-next { background: #fff8eb; border: 1px dashed #f3dd9d; }
+.app-next-line { margin: 0 0 .6rem; color: var(--navy); font-weight: 700; font-size: .95rem; }
+
 /* biblioteca */
 .app-search {
   width: 100%;
@@ -3196,6 +3243,14 @@ body:has(.qz-root) .skip-link {
 }
 
 .app-filter-chips { display: grid; gap: .55rem; }
+.app-areas {
+  display: flex;
+  gap: .45rem;
+  overflow-x: auto;
+  padding-bottom: .35rem;
+  scrollbar-width: thin;
+}
+.app-areas .app-chip-btn { padding: .5rem .9rem; }
 .app-chip-scroll {
   display: flex;
   gap: .45rem;
@@ -4134,3 +4189,95 @@ mark { background: #ffe9a8; color: inherit; border-radius: 4px; padding: 0 2px; 
   .hm-marquee-track, .hm-float { animation: none; }
   .hm-marquee { overflow-x: auto; }
 }
+
+.fn-root {
+  min-height: 100dvh;
+  background: #fefaf2;
+  color: var(--navy);
+  padding: 1.25rem 1rem 3rem;
+}
+.fn-top { max-width: 440px; margin: 0 auto 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.fn-brand { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
+.fn-stars { letter-spacing: .15em; color: #e6dcc4; font-size: 1.25rem; }
+.fn-stars .is-on { color: #f0b429; }
+.fn-card, .fn-wait {
+  max-width: 440px;
+  margin: 0 auto 1rem;
+  background: #fff;
+  border: 1px solid #f1e6cc;
+  border-radius: 28px;
+  padding: 1.4rem 1.2rem 1.3rem;
+  box-shadow: 0 12px 30px rgba(20, 48, 107, .06);
+}
+.fn-card h1 { margin: .2rem 0 .8rem; font-family: var(--font-display); font-size: 1.7rem; line-height: 1.15; }
+.fn-card h2 { margin: .2rem 0 .4rem; font-size: 1.25rem; }
+.fn-card p { margin: 0 0 .8rem; font-weight: 700; line-height: 1.45; }
+.fn-kicker { margin: 0; color: var(--emerald-strong); font-size: .78rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+.fn-lead { color: var(--text-soft); }
+.fn-options { display: grid; gap: .6rem; }
+.fn-options button, .fn-back, .fn-primary, .fn-skip {
+  font: inherit;
+  cursor: pointer;
+}
+.fn-options button {
+  text-align: left;
+  padding: 1rem 1rem;
+  border-radius: 18px;
+  border: 2px solid #f1e6cc;
+  background: #fff;
+  color: var(--navy);
+  font-weight: 800;
+  min-height: 52px;
+}
+.fn-options button.is-on { border-color: var(--emerald); background: #eefbf5; }
+.fn-actions { display: flex; gap: .6rem; margin-top: 1rem; }
+.fn-back {
+  background: transparent;
+  border: 0;
+  color: var(--text-soft);
+  font-weight: 800;
+  padding: .8rem .4rem;
+}
+.fn-back:disabled { opacity: .4; cursor: default; }
+.fn-primary {
+  border: 0;
+  background: var(--emerald);
+  color: #fff;
+  font-weight: 900;
+  border-radius: 999px;
+  padding: .95rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+}
+.fn-primary:disabled { opacity: .45; cursor: default; }
+.fn-block { display: block; width: 100%; margin-top: .8rem; }
+.fn-skip { display: block; margin: .9rem 0 .2rem; text-align: center; color: var(--text-soft); font-weight: 800; font-size: .95rem; }
+.fn-fine { color: var(--text-soft); font-size: .82rem; font-weight: 700; }
+.fn-erro { color: #9b1c1c; }
+.fn-card label, .fn-card fieldset { display: grid; gap: .35rem; margin: .8rem 0; font-weight: 800; }
+.fn-card input {
+  width: 100%;
+  border: 2px solid #f1e6cc;
+  border-radius: 16px;
+  padding: .9rem 1rem;
+  font: inherit;
+  font-weight: 700;
+}
+.fn-card fieldset { border: 0; padding: 0; }
+.fn-card legend { font-weight: 800; margin-bottom: .4rem; }
+.fn-pay { display: flex; align-items: center; gap: .5rem; font-weight: 800; }
+.fn-reveal, .fn-celebra p { background: #fff8e1; border-radius: 16px; padding: .8rem 1rem; }
+.fn-medal { font-size: 2rem; margin: 0; }
+.fn-pilar { background: #f3fbf7; border-radius: 18px; padding: 1rem; margin-bottom: 1rem; }
+.fn-pilar p { margin: 0; }
+.fn-list, .fn-checks, .fn-pillars, .fn-order { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .55rem; }
+.fn-list li, .fn-checks li, .fn-pillars li, .fn-order li { display: grid; gap: .15rem; }
+.fn-list span, .fn-pillars span, .fn-order span { color: var(--text-soft); font-weight: 700; font-size: .92rem; }
+.fn-order li { grid-template-columns: 1fr auto; align-items: center; }
+.fn-guarantee { color: var(--emerald-strong); font-weight: 800; }
+.fn-seals { color: var(--text-soft); font-size: .9rem; }
+.fn-price-note { max-width: 440px; margin: 0 auto; text-align: center; color: var(--text-soft); font-weight: 800; font-size: .9rem; }
+.fn-price-note a { color: var(--navy); }
+.fn-offer { max-width: 720px; margin: 0 auto; }
+.fn-offer .fn-card, .fn-offer .fn-top { max-width: 640px; }
+

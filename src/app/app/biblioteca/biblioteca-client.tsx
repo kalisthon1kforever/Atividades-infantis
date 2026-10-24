@@ -4,13 +4,16 @@ import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import { toggleFavoriteAction } from "../actions";
 import { categoryIcon } from "@/lib/catalog-shared";
-import { productLabel } from "@/lib/products";
+import { AREAS, areaDe, type AreaId } from "@/lib/catalog-areas";
+import { PILARES } from "@/lib/funil/modelo";
 import type { Activity } from "@/lib/types";
 
 type Props = {
   activities: Activity[];
   favoritos: string[];
-  bloqueados: { key: string; note: string; priceLabel: string; hint: string }[];
+  titulo?: string;
+  subtitulo?: string;
+  initialCategoria?: string | null;
 };
 
 const TEMPO: { label: string; value: number | null }[] = [
@@ -20,9 +23,17 @@ const TEMPO: { label: string; value: number | null }[] = [
   { label: "15 min", value: 15 },
 ];
 
-export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }: Props) {
+export function BibliotecaClient({
+  activities,
+  favoritos: favoInit,
+  titulo = "Biblioteca",
+  subtitulo = "Escolha pela categoria, pelo tempo que vocês têm hoje ou pela idade do pequeno. O coração manda 🧡",
+  initialCategoria = null,
+}: Props) {
   const [busca, setBusca] = useState("");
-  const [categoria, setCategoria] = useState<string | null>(null);
+  const [pilar, setPilar] = useState<string | null>(null);
+  const [categoria, setCategoria] = useState<string | null>(initialCategoria);
+  const [area, setArea] = useState<AreaId | null>(null);
   const [tempo, setTempo] = useState<number | null>(null);
   const [idade, setIdade] = useState<number | null>(null);
   const [formato, setFormato] = useState<"todos" | "imprimir" | "tela">("todos");
@@ -45,9 +56,30 @@ export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }
     [activities],
   );
 
+  function escolherArea(id: AreaId | null) {
+    setArea(id);
+    setCategoria(null);
+    setPilar(null);
+  }
+
+  function escolherCategoria(c: string | null) {
+    setCategoria(c);
+    setArea(null);
+  }
+
+  function escolherPilar(id: string | null) {
+    setPilar(id);
+    setArea(null);
+  }
+
   const lista = useMemo(() => {
     const q = busca.trim().toLowerCase();
     return activities.filter((a) => {
+      if (area && areaDe(a) !== area) return false;
+      if (pilar) {
+        const cats = PILARES.find((item) => item.id === pilar)?.categorias;
+        if (cats && !cats.includes(a.category)) return false;
+      }
       if (categoria && a.category !== categoria) return false;
       if (tempo && a.duration_min !== tempo) return false;
       if (idade !== null && !(a.age_min <= idade && idade <= a.age_max)) return false;
@@ -62,13 +94,15 @@ export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }
       }
       return true;
     });
-  }, [activities, busca, categoria, tempo, idade, formato, soPreto, publico, soFavoritos, favoritos]);
+  }, [activities, busca, pilar, categoria, area, tempo, idade, formato, soPreto, publico, soFavoritos, favoritos]);
 
-  const temFiltro = Boolean(busca || categoria || tempo || soPreto || soFavoritos || (idade !== null) || formato !== "todos" || publico !== "familia");
+  const temFiltro = Boolean(busca || pilar || categoria || area || tempo || soPreto || soFavoritos || (idade !== null) || formato !== "todos" || publico !== "familia");
 
   function limpar() {
     setBusca("");
+    setPilar(null);
     setCategoria(null);
+    setArea(null);
     setTempo(null);
     setIdade(null);
     setFormato("todos");
@@ -92,11 +126,8 @@ export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }
   return (
     <div className="app-pad">
       <section className="app-welcome">
-        <h1>Biblioteca</h1>
-        <p className="app-welcome-sub">
-          Escolha pela categoria, pelo tempo que vocês têm hoje ou pela idade do pequeno. O coração
-          manda 🧡
-        </p>
+        <h1>{titulo}</h1>
+        <p className="app-welcome-sub">{subtitulo}</p>
       </section>
 
       <input
@@ -108,13 +139,45 @@ export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }
         aria-label="Buscar atividades"
       />
 
+      <div className="app-areas" role="list" aria-label="Áreas de descoberta">
+        <button type="button" className={`app-chip-btn ${!area ? "is-on" : ""}`} onClick={() => escolherArea(null)}>
+          Tudo
+        </button>
+        {AREAS.map((item) => (
+          <button
+            type="button"
+            key={item.id}
+            className={`app-chip-btn ${area === item.id ? "is-on" : ""}`}
+            onClick={() => escolherArea(item.id === area ? null : item.id)}
+            title={item.descricao}
+          >
+            {item.emoji} {item.nome}
+          </button>
+        ))}
+      </div>
+
       <div className="app-filter-chips">
+        <div className="app-chip-scroll" role="list" aria-label="Pilares">
+          <button type="button" className={`app-chip-btn ${!pilar ? "is-on" : ""}`} onClick={() => escolherPilar(null)}>
+            Todos os pilares
+          </button>
+          {PILARES.map((item) => (
+            <button
+              type="button"
+              key={item.id}
+              className={`app-chip-btn ${pilar === item.id ? "is-on" : ""}`}
+              onClick={() => escolherPilar(item.id === pilar ? null : item.id)}
+            >
+              {item.emoji} {item.nome}
+            </button>
+          ))}
+        </div>
         <div className="app-chip-scroll" role="list" aria-label="Categorias">
-          <button type="button" className={`app-chip-btn ${!categoria ? "is-on" : ""}`} onClick={() => setCategoria(null)}>
+          <button type="button" className={`app-chip-btn ${!categoria ? "is-on" : ""}`} onClick={() => escolherCategoria(null)}>
             Tudo
           </button>
           {categorias.map((c) => (
-            <button type="button" key={c} className={`app-chip-btn ${categoria === c ? "is-on" : ""}`} onClick={() => setCategoria(c === categoria ? null : c)}>
+            <button type="button" key={c} className={`app-chip-btn ${categoria === c ? "is-on" : ""}`} onClick={() => escolherCategoria(c === categoria ? null : c)}>
               {categoryIcon(c)} {c}
             </button>
           ))}
@@ -127,7 +190,7 @@ export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }
           </select>
           <select value={idade ?? ""} onChange={(e) => setIdade(e.target.value ? Number(e.target.value) : null)} aria-label="Idade">
             <option value="">Qualquer idade</option>
-            {[3, 4, 5, 6, 7, 8].map((i) => (
+            {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
               <option key={i} value={i}>{i} anos</option>
             ))}
           </select>
@@ -188,28 +251,6 @@ export function BibliotecaClient({ activities, favoritos: favoInit, bloqueados }
           ))}
         </section>
       )}
-
-      {bloqueados.length > 0 ? (
-        <>
-          <h2 className="app-more-title">Mais para o cantinho de vocês</h2>
-          <section className="app-cards">
-            {bloqueados.map((b) => (
-              <article key={b.key} className="app-act-card app-locked">
-                <span className="app-act-ico">🔒</span>
-                <h3>{productLabel(b.key)}</h3>
-                <p>{b.note}</p>
-                <p className="app-locked-price">
-                  <b>{b.priceLabel}</b>
-                  <Link href="/oferta?src=app" className="btn btn-sm">
-                    Quero já
-                  </Link>
-                </p>
-                {b.hint ? <p className="app-locked-hint">{b.hint}</p> : null}
-              </article>
-            ))}
-          </section>
-        </>
-      ) : null}
 
       <button type="button" className="btn btn-ghost app-back-top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
         Voltar para o topo ↑

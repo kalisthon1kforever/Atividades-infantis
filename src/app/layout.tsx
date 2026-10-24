@@ -4,11 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Pequenos Passos — Atividades para aprender junto com seu filho",
   description:
-    "Atividades prontas para imprimir ou fazer no app, separadas por módulo: atenção, letras, números, coordenação, emoções e rotina. Faça o quiz grátis e receba 10 atividades.",
+    "Atividades prontas para imprimir ou fazer no app, separadas por módulo: atenção, letras, números, coordenação, emoções e rotina. Faça o quiz grátis e receba 10 contos para dormir.",
   openGraph: {
     title: "Pequenos Passos — Atividades para aprender junto com seu filho",
     description:
-      "15 minutos por dia aprendendo junto, sem preparar nada do zero. Quiz grátis de 1 minuto e 10 atividades de presente.",
+      "15 minutos por dia aprendendo junto, sem preparar nada do zero. Quiz grátis de 1 minuto e 10 contos para dormir de presente.",
     images: ["/brand/hero-familia.jpg"],
     locale: "pt_BR",
     type: "website",

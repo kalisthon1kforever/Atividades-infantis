@@ -1,6 +1,7 @@
 import { serviceFetch } from "@/lib/supabase/service";
 import { productLabel } from "@/lib/products";
 import { formatBr, fetchAllRows } from "@/lib/admin-data";
+import { dentroDe48h } from "@/lib/funil/retencao";
 
 export const metadata = { title: "Painel — Admin" };
 
@@ -22,6 +23,12 @@ export default async function AdminPainelPage() {
     (e) => String(e.product ?? "") !== "amostra",
   );
   const convertidos = leadsRows.filter((l) => l.converted === true).length;
+  const entraram48 = leadsRows.filter((l) => {
+    if (l.converted !== true) return false;
+    const meta = (l.answers as { meta?: { boughtAt?: string; appFirstAt?: string } } | undefined)?.meta;
+    const compra = meta?.boughtAt || (typeof l.updated_at === "string" ? l.updated_at : "");
+    return Boolean(compra && meta?.appFirstAt && dentroDe48h(compra, meta.appFirstAt));
+  }).length;
 
   const seven = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const ativos7d = profRows.filter((p) => {
@@ -45,6 +52,7 @@ export default async function AdminPainelPage() {
     { label: "Leads do funil", value: leadsRows.length, hint: `${convertidos} viraram compra` },
     { label: "Compras registradas", value: compras.length, hint: compras.length ? compras.map((c) => productLabel(String(c.product ?? ""))).slice(0, 3).join(", ") : "pagamento real continua off" },
     { label: "Contas ativas (7 dias)", value: ativos7d.length, hint: `${profRows.length} perfis no total` },
+    { label: "Área Família em 48h", value: convertidos ? `${entraram48}/${convertidos}` : "—", hint: "compras que entraram na área nas primeiras 48h" },
     { label: "Momentos feitos", value: progRows.length, hint: "linhas de “fizemos juntos”" },
   ];
 

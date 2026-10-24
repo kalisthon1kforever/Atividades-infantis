@@ -3,6 +3,7 @@ import {
   computeAchievements,
   computeStreak,
   distinctDoneIds,
+  distinctMomentDays,
   getAreaUser,
   getChildren,
   getEntitlements,
@@ -30,6 +31,7 @@ export default async function ConquistasPage() {
   const doneIds = distinctDoneIds(progress);
   const starCount = progress.length;
   const streak = computeStreak(progress);
+  const momentDays = distinctMomentDays(progress);
   const { list } = computeAchievements(progress, items, 0, trailDone);
 
   const children = await getChildren(user.id);
@@ -49,13 +51,17 @@ export default async function ConquistasPage() {
       <section className="app-welcome">
         <h1>Conquistas</h1>
         <p className="app-welcome-sub">
-          As recompensas são da criança — selinhos, estrelas e um certificado de quem aprendeu
-          junto com quem cuida. 💛
+          O que fica de verdade são os dias em que vocês estiveram juntos. As recompensas são da
+          criança — selinhos, estrelas e um certificado de quem aprendeu junto com quem cuida. 💛
         </p>
       </section>
 
       <section className="app-chips">
         <div className="app-chip app-chip-star">
+          <span className="app-chip-ico">📅</span>
+          <div><b>{momentDays}</b><small>dias com momentos juntos</small></div>
+        </div>
+        <div className="app-chip">
           <span className="app-chip-ico">⭐</span>
           <div><b>{starCount}</b><small>estrelas juntas</small></div>
         </div>
@@ -106,7 +112,9 @@ export default async function ConquistasPage() {
         </p>
       ) : null}
       <p className="app-note-msg">
-        {childName ? `Sem ranking com outras famílias — a disputa é só com o dia de ontem, ${childName} inclusa.` : "Sem ranking público, sem moeda, sem loja: nada aqui aperta a família."}
+        {childName
+          ? `Sem ranking com outras famílias — o que conta são os dias de vocês juntos. Se um dia não der, nada se perde. ${childName} segue colecionando momentos, não cobranças.`
+          : "Sem ranking público, sem moeda, sem loja: nada aqui aperta a família."}
       </p>
     </div>
   );

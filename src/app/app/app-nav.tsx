@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 
 const ITEMS = [
   { href: "/app", label: "Início", icon: "🏠" },
-  { href: "/app/biblioteca", label: "Biblioteca", icon: "📚" },
-  { href: "/app/trilha-30-dias", label: "Trilha", icon: "🗓️" },
+  { href: "/app/biblioteca", label: "Atividades", icon: "📚" },
+  { href: "/app/rotina", label: "Minha rotina", icon: "🕐" },
   { href: "/app/conquistas", label: "Conquistas", icon: "⭐" },
-  { href: "/app/conta", label: "Conta", icon: "👤" },
 ];
 
 export function AppNav() {

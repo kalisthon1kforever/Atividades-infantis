@@ -20,7 +20,7 @@ export function AmostraGratis({ name, email, emailSent, showContinue, onContinue
   function sendToEmail() {
     if (!email) return;
     const subject = "Sua demonstração gratuita — Pequenos Passos";
-    const body = `Olá ${name || ""}!\n\nAqui está a sua demonstração gratuita com 10 atividades para imprimir e testar hoje:\n${sampleUrl}\n\nCom carinho,\nPequenos Passos`;
+    const body = `Olá ${name || ""}!\n\nAqui estão os 10 contos para dormir, um para cada noite:\n${sampleUrl}\n\nCom carinho,\nPequenos Passos`;
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
@@ -28,10 +28,10 @@ export function AmostraGratis({ name, email, emailSent, showContinue, onContinue
     <div className="qz-amostra">
       <div className="qz-amostra-hero">
         <p className="qz-amostra-kicker">Demonstração gratuita</p>
-        <h1>{hello}aqui estão 10 atividades para testar hoje 💛</h1>
+        <h1>{hello}aqui estão 10 contos para dormir 💛</h1>
         <p>
-          Que vocês aproveitem muito cada minuto com o seu pequeno. Imprima, sente
-          junto e viva essas 10 atividades hoje — sem preparação.
+          Um para cada noite. Escolham a história pelo dia que a criança viveu,
+          leiam juntos e deixem a próxima para amanhã.
         </p>
         {email && emailSent ? (
           <p>Enviamos uma mensagem cheia de ânimo para {email}.</p>

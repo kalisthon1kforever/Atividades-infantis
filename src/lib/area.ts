@@ -142,6 +142,38 @@ export async function getTrail(userId: string): Promise<TrailRow[]> {
   }
 }
 
+export async function marcarCompraNoLead(email: string) {
+  const lead = await getLeadByEmail(email);
+  if (!lead?.id) return lead;
+  const answers = { ...(lead.answers as Record<string, unknown>) };
+  const meta = { ...((answers.meta as Record<string, unknown> | undefined) ?? {}) };
+  if (typeof meta.boughtAt !== "string") meta.boughtAt = new Date().toISOString();
+  answers.meta = meta;
+  await serviceFetch(`/rest/v1/leads?id=eq.${lead.id}`, {
+    method: "PATCH",
+    headers: { Prefer: "return=minimal" },
+    body: { answers },
+  });
+  return { ...lead, answers };
+}
+
+/** Primeira entrada na Área Família. O relógio das 48h começa aqui, uma vez. */
+export async function marcarPrimeiroAcesso(email: string): Promise<{ primeiro: boolean }> {
+  const lead = await getLeadByEmail(email);
+  if (!lead?.id) return { primeiro: false };
+  const answers = { ...(lead.answers as Record<string, unknown>) };
+  const meta = { ...((answers.meta as Record<string, unknown> | undefined) ?? {}) };
+  if (typeof meta.appFirstAt === "string") return { primeiro: false };
+  meta.appFirstAt = new Date().toISOString();
+  answers.meta = meta;
+  const saved = await serviceFetch(`/rest/v1/leads?id=eq.${lead.id}`, {
+    method: "PATCH",
+    headers: { Prefer: "return=minimal" },
+    body: { answers },
+  });
+  return { primeiro: saved.ok };
+}
+
 /** Lead do quiz pelo e-mail — leitura administrativa, para personalizar a abertura */
 export async function getLeadByEmail(email: string): Promise<LeadRow | null> {
   try {
@@ -188,6 +220,47 @@ export function computeStreak(logs: ProgressRow[]): number {
 
 export function distinctDoneIds(logs: ProgressRow[]): Set<string> {
   return new Set(logs.map((r) => r.activity_id));
+}
+
+/** Quantos dias distintos tiveram ao menos um “fizemos juntos” (todos os tempos). */
+export function distinctMomentDays(logs: ProgressRow[]): number {
+  return new Set(logs.map((r) => r.log_date)).size;
+}
+
+const WEEKDAY_INDEX: Record<string, number> = {
+  Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6,
+};
+
+/** Dia da semana em São Paulo (0 = domingo … 6 = sábado). */
+export function saoPauloWeekday(): number {
+  const fmt = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Sao_Paulo",
+    weekday: "short",
+  });
+  return WEEKDAY_INDEX[fmt.format(new Date())] ?? 0;
+}
+
+export type WeekSummary = {
+  /** dias distintos com momentos registrados na semana atual (SP) */
+  distinctDays: number;
+  /** total de atividades registradas na semana atual (SP) */
+  count: number;
+  /** início da semana (segunda-feira, yyyy-mm-dd, SP) */
+  weekStart: string;
+};
+
+/** Resumo semanal real, lido de `activity_progress`, no fuso de São Paulo. */
+export function computeWeekSummary(logs: ProgressRow[]): WeekSummary {
+  const today = saoPauloDate();
+  const daysSinceMonday = (saoPauloWeekday() + 6) % 7;
+  const weekStart = addDays(today, -daysSinceMonday);
+  const nextMonday = addDays(weekStart, 7);
+  const inWeek = logs.filter((r) => r.log_date >= weekStart && r.log_date < nextMonday);
+  return {
+    distinctDays: new Set(inWeek.map((r) => r.log_date)).size,
+    count: inWeek.length,
+    weekStart,
+  };
 }
 
 // ---------- conquistas ----------

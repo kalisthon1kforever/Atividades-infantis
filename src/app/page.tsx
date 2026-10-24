@@ -7,7 +7,6 @@ import { KIT_CATEGORIES } from "@/app/qz/funil-data";
 import { HOME_FAQ, HOME_MODULES } from "@/data/home";
 import { ActivityMarquee } from "@/components/home/ActivityMarquee";
 import { AppShowcase } from "@/components/home/AppShowcase";
-import { HomeExitPopup } from "@/components/home/HomeExitPopup";
 import { CheckIcon, ShieldIcon } from "@/components/icons";
 
 const QUIZ_URL = "/qz";
@@ -21,8 +20,8 @@ const PAINS = [
 
 const STEPS = [
   { n: 1, icon: "🧩", title: "Responda o quiz", text: "Seis perguntas rápidas sobre a idade e a rotina do seu filho. Leva 1 minuto." },
-  { n: 2, icon: "🎯", title: "Receba o kit ideal", text: "O resultado mostra o módulo certo para começar e libera 10 atividades grátis." },
-  { n: 3, icon: "💌", title: "Comece hoje", text: "Comprou, o acesso chega no e-mail. Imprima ou faça pelo app, no seu ritmo." },
+  { n: 2, icon: "🎯", title: "Receba o PDF", text: "O e-mail libera 10 contos para dormir, um para cada noite. Sem cadastro, a compra do kit continua aberta." },
+  { n: 3, icon: "💌", title: "Quem compra entra no app", text: "O e-mail traz login, senha provisória e a primeira atividade. Imprimir continua disponível." },
 ];
 
 const kitPrice = CATALOG["kit-inicial"].price;
@@ -32,7 +31,7 @@ export default function Home() {
     <main id="conteudo" className="hm">
       <div className="hm-strip">
         <span>✨ Quiz gratuito de 1 minuto</span>
-        <span>🎁 10 atividades grátis no resultado</span>
+        <span>🎁 10 contos para dormir grátis</span>
         <span>🛡️ 7 dias de garantia</span>
       </div>
 
@@ -77,7 +76,7 @@ export default function Home() {
                 Descobrir o kit ideal do meu filho
               </Link>
               <Link href={QUIZ_URL} className="hm-btn hm-btn-ghost">
-                Quero 10 atividades grátis
+                Quero os 10 contos grátis
               </Link>
             </div>
             <ul className="hm-trust">
@@ -205,8 +204,8 @@ export default function Home() {
         <div className="hm-wrap">
           <div className="hm-offer">
             <div className="hm-offer-info">
-              <span className="hm-kicker">Kit Inicial</span>
-              <h2>Pequenos Passos — Kit Inicial</h2>
+              <span className="hm-kicker">Kit Completo</span>
+              <h2>Pequenos Passos — Kit Completo</h2>
               <p>Atividades educativas para imprimir e usar em casa, organizadas para facilitar a escolha do dia.</p>
               <ul className="hm-checks">
                 {KIT_CATEGORIES.map((item) => (
@@ -227,13 +226,13 @@ export default function Home() {
             </div>
             <div className="hm-price-card">
               <span className="hm-price-tag">Oferta especial</span>
-              <p className="hm-price-old">De R$ 97,00</p>
+              <p className="hm-price-old">De R$ 195,00</p>
               <p className="hm-price">{formatPrice(kitPrice)}</p>
               <p className="hm-price-note">Pagamento único · PIX, cartão ou boleto</p>
               <Link href={QUIZ_URL} className="hm-btn hm-btn-lg hm-btn-block">
                 Fazer o quiz e garantir meu kit
               </Link>
-              <p className="hm-price-hint">O quiz mostra por onde começar e libera 10 atividades grátis antes de você decidir.</p>
+              <p className="hm-price-hint">Os 10 contos grátis chegam em PDF. O app abre para quem compra o kit.</p>
               <div className="hm-guarantee">
                 <ShieldIcon />
                 <p>
@@ -265,7 +264,7 @@ export default function Home() {
       <section className="hm-final">
         <div className="hm-wrap hm-final-inner">
           <h2>O próximo momento juntos pode começar hoje.</h2>
-          <p>Responda o quiz, receba 10 atividades grátis e veja qual módulo combina com o seu filho.</p>
+          <p>Responda o quiz, receba 10 contos para dormir e veja qual módulo combina com o seu filho.</p>
           <Link href={QUIZ_URL} className="hm-btn hm-btn-lg hm-btn-light">
             Começar o quiz grátis
           </Link>
@@ -281,7 +280,6 @@ export default function Home() {
           </p>
         </div>
       </footer>
-      <HomeExitPopup />
     </main>
   );
 }

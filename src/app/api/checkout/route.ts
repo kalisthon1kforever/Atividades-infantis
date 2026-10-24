@@ -20,10 +20,11 @@ export async function POST(request: Request) {
     .trim()
     .toLowerCase();
   const name = String(body.name || "").trim().slice(0, 80);
-  const product: CheckoutProduct = body.product === "acesso-total" ? "acesso-total" : "kit-inicial";
+  // Funil público: só o Kit Completo. Pacote Extra fica fora até o material existir.
+  const product: CheckoutProduct = "kit-inicial";
   const method: PayMethod = body.method === "pix" || body.method === "boleto" ? body.method : "card";
-  const bumps = Array.isArray(body.bumps) ? body.bumps.map((item) => String(item)) : [];
-  const combo = Boolean(body.combo);
+  const bumps: string[] = [];
+  const combo = false;
 
   if (!email.includes("@") || !name) {
     return NextResponse.json(

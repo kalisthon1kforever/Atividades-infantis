@@ -61,7 +61,7 @@ export function sampleEmailHtml(opts: { name: string; sampleUrl: string; offerUr
       <td style="padding:24px 28px 8px;color:#14306b;font-size:16px;line-height:1.6;font-weight:700;">
         ${hello}<br/><br/>
         Que bom que você deu esse passo. Cada família que escolhe sentar um pouquinho e aprender junto enche o nosso coração de ânimo.<br/><br/>
-        Aqui está a sua <strong>demonstração gratuita</strong>: 10 atividades para imprimir e viver hoje, de mão dada com o seu pequeno. Que vocês aproveitem muito cada minuto — a risada, a descoberta, o “olha, eu consegui!”.<br/><br/>
+        Aqui está a sua <strong>demonstração gratuita</strong>: 10 contos para dormir, um para cada noite, de mão dada com o seu pequeno. Que vocês aproveitem a história de hoje e deixem a próxima para amanhã.<br/><br/>
         Desejamos, de verdade, que esse tempinho vire o momento mais gostoso do dia de vocês.
       </td>
     </tr>
@@ -74,23 +74,18 @@ export function sampleEmailHtml(opts: { name: string; sampleUrl: string; offerUr
     </tr>
     <tr>
       <td style="padding:8px 28px 6px;color:#14306b;font-size:16px;line-height:1.5;font-weight:800;">
-        Se o coração pedir mais, o Acesso Total fica por R$ 19,90
+        O kit completo fica por R$ 37,90
       </td>
     </tr>
     <tr>
       <td style="padding:0 28px 8px;color:#55688f;font-size:14px;font-weight:700;">
-        De R$ 97,00 por R$ 19,90 (79% off) — tudo incluso:
-      </td>
-    </tr>
-    <tr>
-      <td style="padding:4px 28px 16px;">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">${checks(ACESSO_TOTAL_ITEMS)}</table>
+        13 cadernos e a Área Família. Pagamento único. Garantia de 7 dias.
       </td>
     </tr>
     <tr>
       <td align="center" style="padding:0 28px 12px;">
         <a href="${offerUrl}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;font-weight:800;padding:14px 22px;border-radius:999px;">
-          Quero o Acesso Total por R$ 19,90
+          Ver o kit completo
         </a>
       </td>
     </tr>

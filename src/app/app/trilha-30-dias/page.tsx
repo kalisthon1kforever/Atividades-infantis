@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { computeStreak, distinctDoneIds, getAreaUser, getEntitlements, getProgress, getTrail } from "@/lib/area";
+import { computeStreak, distinctDoneIds, getAreaUser, getEntitlements, getLeadByEmail, getProgress, getTrail } from "@/lib/area";
 import { fetchVisibleActivities } from "@/lib/catalog";
-import { productPrice, trailEnabled } from "@/lib/products";
+import { trailEnabled } from "@/lib/products";
 import { categoryIcon } from "@/lib/catalog-shared";
+import { pilarDe, sugerirPrimeira, type MetaLead } from "@/lib/funil/modelo";
 import { pickTrailActivity } from "@/lib/trail";
 import { CompleteTrailDayButton } from "./complete-trail-day-button";
 
@@ -17,24 +18,42 @@ export default async function TrilhaPage() {
   const unlocked = trailEnabled(productKeys);
 
   if (!unlocked) {
+    const [progress, lead, catalogo] = await Promise.all([
+      getProgress(user.id),
+      getLeadByEmail(user.email),
+      fetchVisibleActivities(productKeys),
+    ]);
+    const done = distinctDoneIds(progress);
+    const meta = ((lead?.answers as { meta?: MetaLead } | undefined)?.meta ?? {}) as MetaLead;
+    const abertas = catalogo.items.filter((item) => !done.has(item.id));
+    const hoje = sugerirPrimeira(abertas.length ? abertas : catalogo.items, meta.pillar, meta.age) ?? catalogo.items[0] ?? null;
+    const pilar = meta.pillar ? pilarDe(meta.pillar).nome : null;
     return (
       <div className="app-pad">
-        <section className="app-card app-locked-card">
-          <p className="app-kicker">🔒 Momento do guia completo</p>
-          <h1>Trilha de 30 dias</h1>
+        <section className="app-welcome">
+          <h1>Trilha do dia</h1>
           <p className="app-welcome-sub">
-            Um passo por dia: abriu o app, sentou junto, fechou o dia. A trilha organiza a sequência
-            para vocês, sem pensar no “o que fazer hoje?”.
+            A atividade de hoje já está na frente{pilar ? <>, no pilar <strong>{pilar}</strong></> : null}. Uma ficha basta.
+            Se preferir papel, abra e imprima.
           </p>
-          <p className="app-locked-hint">
-            A trilha abre com o <b>Acesso Total</b> ({productPrice("acesso-total")}), com o bump{" "}
-            <b>Guia de 30 dias</b> ({productPrice("guia-30-dias")}) ou com o{" "}
-            <b>Combo dos 4 bumps</b> ({productPrice("combo")}).
-          </p>
-          <Link href="/oferta?src=app" className="btn">
-            Quero o Guia de 30 dias
-          </Link>
         </section>
+        {hoje ? (
+          <section className="app-card app-suggest">
+            <p className="app-kicker">Hoje</p>
+            <h2>
+              {categoryIcon(hoje.category)} {hoje.title}
+            </h2>
+            <p className="app-meta-line">
+              <span>{hoje.duration_min} min</span>
+              <span>{hoje.category}</span>
+            </p>
+            <Link href={`/app/atividade/${hoje.id}`} className="btn">
+              Abrir a atividade de hoje
+            </Link>
+          </section>
+        ) : (
+          <p className="app-welcome-sub">Assim que as fichas do kit estiverem nesta conta, a de hoje aparece aqui.</p>
+        )}
       </div>
     );
   }
